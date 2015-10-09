@@ -1,0 +1,37 @@
+apply plugin: 'application'
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+version = "0.0.1"
+mainClassName = ''
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Jeu du Menhir',
+                   'Implementation-Version': version,
+                   'Application-Name': "Jeu du Menhir - Braga & Bresolin",
+                   'Main-Class': mainClassName
+    }
+}
+
+task copyLicense {
+    outputs.file new File("$buildDir/LICENSE")
+        doLast {
+            copy {
+                from "LICENSE"
+                into "$buildDir"
+            }
+        }
+}
+
+applicationDistribution.from(copyLicense) {
+    into ""
+}
