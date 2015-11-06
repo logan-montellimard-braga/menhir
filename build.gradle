@@ -11,7 +11,7 @@ dependencies {
 }
 
 version = "0.0.1"
-mainClassName = ''
+mainClassName = 'fr.bragabresolin.menhir.JeuMenhir'
 
 jar {
     manifest {
