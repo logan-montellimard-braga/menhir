@@ -12,7 +12,7 @@ public abstract class Joueur {
 
 	/**
 	 * Représente l'âge du joueur.
-	 * Doit être plus grand que 8. 
+	 * Doit être plus grand que 7.
 	 */
 	private int age;
 	
@@ -286,7 +286,10 @@ public abstract class Joueur {
 	 *            The age to set.
 	 * 
 	 */
-	public void setAge(int age) {
-		this.age = age;
+	public void setAge(int age) throws IllegalArgumentException {
+		if (age >= 8)
+			this.age = age;
+		else
+			throw new IllegalArgumentException("Le jeu est disponible à partir de 8 ans.");
 	}
 }
