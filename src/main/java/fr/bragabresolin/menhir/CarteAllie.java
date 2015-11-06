@@ -2,7 +2,7 @@ package fr.bragabresolin.menhir;
 
 import java.util.EnumMap;
 
-public class CarteAllie extends menhirUmlClass.Carte {
+public class CarteAllie extends Carte {
 
 	private EnumMap<Saison, Integer> matriceForces;
 	/*

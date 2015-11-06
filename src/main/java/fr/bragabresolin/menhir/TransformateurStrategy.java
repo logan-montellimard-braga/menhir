@@ -1,6 +1,6 @@
 package fr.bragabresolin.menhir;
 
-public class TransformateurStrategy implements menhirUmlClass.ComportementStrategy {
+public class TransformateurStrategy implements ComportementStrategy {
 	public CarteIngredient choisirCarteIngredient(
 			Joueur[] contexte, CarteIngredient[] main) { return null; }
 

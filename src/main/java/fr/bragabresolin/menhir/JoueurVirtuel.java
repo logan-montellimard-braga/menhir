@@ -1,6 +1,6 @@
 package fr.bragabresolin.menhir;
 
-public class JoueurVirtuel extends menhirUmlClass.Joueur {
+public class JoueurVirtuel extends Joueur {
 
 	/*
 	 * (non-javadoc)

@@ -1,6 +1,6 @@
 package fr.bragabresolin.menhir;
 
-public class VoleurStrategy implements menhirUmlClass.ComportementStrategy {
+public class VoleurStrategy implements ComportementStrategy {
 	public CarteAllie choisirCarteAllie(
 			Joueur[] contexte, CarteAllie[] main) { return null; }
 
