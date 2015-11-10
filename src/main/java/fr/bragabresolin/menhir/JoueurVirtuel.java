@@ -30,7 +30,7 @@ public class JoueurVirtuel extends Joueur {
 		this.comportementStrategy = comportementStrategy;
 			}
 
-	public void jouer(Joueur[] contexte) {
+	public void jouer(Joueur[] contexte, Saison saisonActuelle) {
 
 	}
 

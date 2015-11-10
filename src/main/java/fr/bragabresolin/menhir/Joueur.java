@@ -89,11 +89,13 @@ public abstract class Joueur {
 	 * Augmente les menhirs de la carte champ du joueur.
 	 * 
 	 * @param n
+	 * @return Le nombre de menhir réellement augmentés.
 	 */
-	public void augmenterMehnirs(int n) {
-		if (n <= 0) return;
-		
-		this.nombreMenhirs += n;
+	public int augmenterMehnirs(int n) {
+		if (n <= 0) return 0;
+		int augmentation = Math.min(this.nombreGraines, n);
+		this.nombreMenhirs += augmentation;
+		return augmentation;
 	}
 	
 	/**
@@ -134,7 +136,7 @@ public abstract class Joueur {
 
 	public void piocherCartes(Tas<Carte> tas, int nombreCartes) {}
 
-	public abstract void jouer(Joueur[] contexte);
+	public abstract void jouer(Joueur[] contexte, Saison saisonActuelle);
 
 	protected abstract CarteAllie choisirJouerAllie();
 
