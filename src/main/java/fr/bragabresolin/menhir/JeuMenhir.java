@@ -4,17 +4,24 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class JeuMenhir {
-	/*
-	 * (non-javadoc)
+	
+	/**
+	 * Permet de savoir quel type de partie on doit jouer : avancée ou classique.
 	 */
 	private boolean estPartieAvancee;
-
+	
+	/**
+	 * Représente le tas de cartes alliées dans lequel le joueur doit piocher.
+	 */
 	private Tas<CarteAllie> tasCartesAllies = null;
-
+	
+	/**
+	 * Représente le tas de cartes ingrédients dans lequel le joueur doit piocher.
+	 */
 	private Tas<CarteIngredient> tasCartesIngredients = null;
 
 	/**
-	 *
+	 *Représente l'ensemble des joueur de la partie.
 	 */
 	private Collection<Joueur> joueurs;
 
@@ -24,7 +31,6 @@ public class JeuMenhir {
 	 * @return Returns the joueurs.
 	 * 
 	 */
-
 	public Collection<Joueur> getJoueurs() {
 		return joueurs;
 	}
@@ -186,27 +192,44 @@ public class JeuMenhir {
 	public boolean removeJoueur(Joueur joueur) {
 		return this.joueurs.remove(joueur);
 	}
-
+	
+	/**
+	 * crée les joureur virtuels et le joueur physique pour la partie.
+	 * @see demanderNombreJoueurs
+	 */
 	private void genererJoueurs() {
 
 	}
-
+	
 	private void genererTas() {
 
 	}
-
+	
+	/**
+	 * Permet de connaitre le nombre de joueurs virtuels pour la partie.
+	 * @return le nombre de joueur virtuel que le joueur physique à choisi.
+	 */
 	private int demanderNombreJoueurs() {
 
 		return 0;
 
 	}
-
-	private boolean demanderModeJeu() {
+	
+	/**
+	 * Permet de connaitre le type de partie que le joueur souhaite jouer.
+	 * @see estPartieAvancee
+	 * @return true si la partie est une partie avancée.
+	 */
+	private boolean demanderSiPartieAvancee() {
 
 		return false;
 
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	private int demanderAge() {
 
 		return 0;
