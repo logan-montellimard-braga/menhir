@@ -33,9 +33,10 @@ public class CarteAllie extends Carte {
 		int forceEffet = this.matriceForces.get(saisonActuelle);
 		switch (this.action){
 		case CHIEN:
+			this.origine.nombreGrainesProteges = forceEffet;
 			
 		case TAUPE:
-			
+			this.cible.diminuerMenhirs(forceEffet);
 		}
 	}
 
@@ -45,7 +46,6 @@ public class CarteAllie extends Carte {
 	 * @return Returns the action.
 	 * 
 	 */
-
 	public ActionAllie getAction() {
 		return action;
 	}

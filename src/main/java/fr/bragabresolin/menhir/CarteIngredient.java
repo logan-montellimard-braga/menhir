@@ -52,7 +52,7 @@ public class CarteIngredient extends Carte {
 	 */
 	public void executer(Saison saisonActuelle) {
 		int forceEffet = this.matriceForces.get(saisonActuelle).get(this.action);
-		Joueur joueurOrigine = this.getOrigine();
+		Joueur joueurOrigine = this.origine;
 		
 		switch (this.action) {
 		case GEANT:
@@ -63,7 +63,7 @@ public class CarteIngredient extends Carte {
 			joueurOrigine.diminuerGraines(grainesTransformees);
 			
 		case FARFADET:
-			int grainesVolees = this.getCible().subirVolGraines(forceEffet);
+			int grainesVolees = this.cible.subirVolGraines(forceEffet);
 			joueurOrigine.augmenterGraines(grainesVolees);
 		}
 
