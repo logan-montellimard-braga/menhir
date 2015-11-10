@@ -9,7 +9,11 @@ public class CarteAllie extends Carte {
 	 * (non-javadoc)
 	 */
 	private ActionAllie action;
-	public void executer() {}
+	
+	/**
+	 * @param saisonActuelle La saison en cours pour l'effet de la carte.
+	 */
+	public void executer(Saison saisonActuelle) {}
 
 	/**
 	 * Getter of the property <tt>action</tt>

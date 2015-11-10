@@ -4,22 +4,27 @@ import java.util.EnumMap;
 
 public abstract class Carte {
 
-	/*
-	 * (non-javadoc)
+	/**
+	 * Defini le joueur qui lance la carte.
 	 */
 	private Joueur origine;
 
-	/*
-	 * (non-javadoc)
+	/**
+	 * Defini le joueur sur qui la carte agit négativement (optionnel).
 	 */
 	private Joueur cible;
 
-	/*
-	 * (non-javadoc)
+	/**
+	 * Spécifie si la carte à déjà été jouée pour ne pas la proposer à nouveau 
+	 * au tour suivant (symbolise la défausse du joueur). 
 	 */
 	private boolean dejaJouee;
 
-	public abstract void executer();
+	/**
+	 * Réalise l'action de la carte.
+	 * @param saisonActuelle La saison en cours pour l'effet de la carte.
+	 */
+	public abstract void executer(Saison saisonActuelle);
 
 	/**
 	 * Getter of the property <tt>origine</tt>
