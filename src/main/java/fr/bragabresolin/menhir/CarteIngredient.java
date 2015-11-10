@@ -3,7 +3,10 @@ package fr.bragabresolin.menhir;
 import java.util.EnumMap;
 
 public class CarteIngredient extends Carte {
-
+	
+	/**
+	 * Représente les forces des actions de la carte en fonction de la saison. 
+	 */
 	private EnumMap<Saison, EnumMap<ActionIngredient, Integer>> matriceForces;
 
 	/**
