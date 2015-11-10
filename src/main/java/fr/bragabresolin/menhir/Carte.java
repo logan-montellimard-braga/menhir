@@ -7,18 +7,18 @@ public abstract class Carte {
 	/**
 	 * Defini le joueur qui lance la carte.
 	 */
-	private Joueur origine;
+	protected Joueur origine;
 
 	/**
 	 * Defini le joueur sur qui la carte agit négativement (optionnel).
 	 */
-	private Joueur cible;
+	protected Joueur cible;
 
 	/**
 	 * Spécifie si la carte à déjà été jouée pour ne pas la proposer à nouveau 
 	 * au tour suivant (symbolise la défausse du joueur). 
 	 */
-	private boolean dejaJouee;
+	protected boolean dejaJouee;
 
 	/**
 	 * Réalise l'action de la carte.

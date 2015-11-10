@@ -14,36 +14,36 @@ public abstract class Joueur {
 	 * Représente l'âge du joueur.
 	 * Doit être plus grand que 7.
 	 */
-	private int age;
+	protected int age;
 	
 	/**
 	 * Représente le nombre de points présents sur la carte point.
 	 * Ce sont les points calculés à la fin de chaque manche, ils ne peuvent pas¨
 	 * être enlevés par un autre joueur. 
 	 */
-	private int points;
+	protected int points;
 	
 	/**
 	 * Représente le nombre de graines sur la carte champ.
 	 */
-	private int nombreGraines;
+	protected int nombreGraines;
 	
 	/**
 	 * Représente le nombre de menhirs adultes sur la carte champ.
 	 */
-	private int nombreMenhirs;
+	protected int nombreMenhirs;
 	
 	/**
 	 * Représente le nombre de graines protégées par une carte chien active.
 	 * Si aucune carte chien n'est active, ce champ est à 0.
 	 */
-	private int nombreGrainesProteges;
+	protected int nombreGrainesProteges;
 
 	/**
 	 * Représente la main du joueur. Cette main contient à la fois des cartes
 	 * ingrédients et alliés.
 	 */
-	private Collection<Carte> carte;
+	protected Collection<Carte> carte;
 	
 	
 	/**
