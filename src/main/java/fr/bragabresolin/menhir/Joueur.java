@@ -294,4 +294,26 @@ public abstract class Joueur {
 		else
 			throw new IllegalArgumentException("Le jeu est disponible à partir de 8 ans.");
 	}
+
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		String cartesStr = this.carte.size() > 1 ? "cartes" : "carte";
+		String pointsStr = this.points > 1 ? "points" : "point";
+		String grainesStr = this.nombreGraines > 1 ? "graines" : "graine";
+		String menhirsStr = this.nombreMenhirs > 1 ? "menhirs" : "menhir";
+
+		builder.append("(" + this.age + " ans, " + this.carte.size() + " " + cartesStr + ")")
+			   .append("\n  > ")
+			   .append(this.points + " " + pointsStr)
+			   .append(", ")
+			   .append(this.nombreGraines + " " + grainesStr);
+
+		if (this.nombreGrainesProteges > 0)
+			builder.append(" (" + this.nombreGrainesProteges + " guardées)");
+
+		builder.append(", ")
+			   .append(this.nombreMenhirs + " " + menhirsStr);
+
+		return builder.toString();
+	}
 }

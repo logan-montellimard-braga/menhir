@@ -69,6 +69,10 @@ public class CarteIngredient extends Carte {
 
 	}
 
+	public void setMatrice(EnumMap<Saison, EnumMap<ActionIngredient, Integer>> matrice) {
+		this.matriceForces = matrice;
+	}
+
 	/**
 	 * Getter of the property <tt>action</tt>
 	 * 
@@ -91,4 +95,36 @@ public class CarteIngredient extends Carte {
 		this.action = action;
 	}
 
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+
+		int offset = 0;
+		for (Saison s : Saison.values())
+			if (s.toString().length() > offset)
+				offset = s.toString().length();
+
+		builder.append(super.toString());
+
+		builder.append(" " + this.nomCarte + " (ingrédient)")
+			   .append("\n");
+
+		String header = String.format("%" + offset + "s    ", "");
+		for (ActionIngredient ag : ActionIngredient.values())
+			header += String.format("%s  ", ag);
+		builder.append(header)
+			   .append("\n");
+
+		for (Saison saison : matriceForces.keySet()) {
+			builder.append("  " + saison);
+			builder.append(String.format("%" + (offset + 2 - saison.toString().length()) + "s", ""));
+			int i = 0;
+			for (ActionIngredient act : matriceForces.get(saison).keySet()) {
+				builder.append(String.format("%" + (i + act.toString().length()) + "s", matriceForces.get(saison).get(act)));
+				i = (i * 2 + 2) % 4;
+			}
+			builder.append("\n");
+		}
+
+		return builder.toString();
+	}
 }

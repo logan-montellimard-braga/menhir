@@ -38,4 +38,8 @@ public class JoueurVirtuel extends Joueur {
 		return null;
 	}
 
+	public String toString() {
+		String str = super.toString();
+		return "Joueur Virtuel <" + this.comportementStrategy.toString() +"> " + str;
+	}
 }

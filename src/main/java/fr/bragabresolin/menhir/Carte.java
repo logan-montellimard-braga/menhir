@@ -92,4 +92,12 @@ public abstract class Carte {
 		this.dejaJouee = dejaJouee;
 	}
 
+	public String toString() {
+		String str = "";
+		if (this.dejaJouee)
+			str += " (défausse) ";
+		str += "Carte";
+
+		return str;
+	}
 }

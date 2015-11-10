@@ -2,6 +2,10 @@ package fr.bragabresolin.menhir;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.EnumMap;
+
+import fr.bragabresolin.menhir.ActionIngredient;
+import fr.bragabresolin.menhir.Saison;
 
 public class JeuMenhir {
 	
@@ -245,7 +249,55 @@ public class JeuMenhir {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello wrld");
+		CarteIngredient c = new CarteIngredient();
+		c.setNomCarte("Poussière de fée");
+
+		EnumMap<Saison, EnumMap<ActionIngredient, Integer>> m = new EnumMap<Saison, EnumMap<ActionIngredient, Integer>>(Saison.class);
+
+		EnumMap<ActionIngredient, Integer> mp = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
+		mp.put(ActionIngredient.GEANT, 2);
+		mp.put(ActionIngredient.FARFADET, 3);
+		mp.put(ActionIngredient.ENGRAIS, 1);
+
+		EnumMap<ActionIngredient, Integer> me = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
+		me.put(ActionIngredient.GEANT, 0);
+		me.put(ActionIngredient.FARFADET, 2);
+		me.put(ActionIngredient.ENGRAIS, 3);
+
+		EnumMap<ActionIngredient, Integer> ma = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
+		ma.put(ActionIngredient.GEANT, 1);
+		ma.put(ActionIngredient.FARFADET, 4);
+		ma.put(ActionIngredient.ENGRAIS, 0);
+
+		EnumMap<ActionIngredient, Integer> mh = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
+		mh.put(ActionIngredient.GEANT, 3);
+		mh.put(ActionIngredient.FARFADET, 1);
+		mh.put(ActionIngredient.ENGRAIS, 1);
+
+		m.put(Saison.PRINTEMPS, mp);
+		m.put(Saison.ETE, me);
+		m.put(Saison.AUTOMNE, ma);
+		m.put(Saison.HIVER, mh);
+		c.setMatrice(m);
+		System.out.println(c);
+
+		CarteAllie c2 = new CarteAllie(ActionAllie.CHIEN);
+		EnumMap<Saison, Integer> m2 = new EnumMap<Saison, Integer>(Saison.class);
+		m2.put(Saison.PRINTEMPS, 2);
+		m2.put(Saison.ETE, 3);
+		m2.put(Saison.AUTOMNE, 1);
+		m2.put(Saison.HIVER, 0);
+		c2.setMatrice(m2);
+		System.out.println(c2);
+
+		JoueurPhysique j = new JoueurPhysique();
+		System.out.println(j);
+
+		System.out.println("");
+
+		JoueurVirtuel j2 = new JoueurVirtuel();
+		j2.setComportementStrategy(new VoleurStrategy());
+		System.out.println(j2);
 	}
 
 	/**

@@ -11,4 +11,7 @@ public class Tas<E> extends ArrayDeque<E> {
 
 	}
 
+	public String toString() {
+		return "Tas de " + this.size() + " cartes";
+	}
 }

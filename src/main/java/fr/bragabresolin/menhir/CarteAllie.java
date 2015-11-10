@@ -40,6 +40,10 @@ public class CarteAllie extends Carte {
 		}
 	}
 
+	public void setMatrice(EnumMap<Saison, Integer> m) {
+		this.matriceForces = m;
+	}
+
 	/**
 	 * Getter of the property <tt>action</tt>
 	 * 
@@ -50,4 +54,26 @@ public class CarteAllie extends Carte {
 		return action;
 	}
 
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+
+		int offset = 0;
+		for (Saison s : Saison.values())
+			if (s.toString().length() > offset)
+				offset = s.toString().length();
+
+		builder.append(super.toString());
+
+		builder.append(" " + this.action + " (allié)")
+			   .append("\n");
+
+		for (Saison saison : this.matriceForces.keySet()) {
+			builder.append("  " + saison)
+				   .append(String.format("%" + (offset + 2 - saison.toString().length()) + "s", ""))
+				   .append(String.format("%5d", this.matriceForces.get(saison)))
+				   .append("\n");
+		}
+
+		return builder.toString();
+	}
 }

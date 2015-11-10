@@ -9,4 +9,9 @@ public class JoueurPhysique extends Joueur {
 	protected CarteAllie choisirJouerAllie() {
 		return null;
 	}
+
+	public String toString() {
+		String str = super.toString();
+		return "Joueur Physique " + str;
+	}
 }

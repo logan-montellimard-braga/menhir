@@ -6,4 +6,10 @@ public class StockeurStrategy implements ComportementStrategy {
 
 	public CarteAllie choisirCarteAllie(
 			Joueur[] contexte, CarteAllie[] main) { return null; }
+
+	public String toString() {
+		// Représentation visuelle : cette stratégie est associée à un joueur
+		// économe.
+		return "économe";
+	}
 }
