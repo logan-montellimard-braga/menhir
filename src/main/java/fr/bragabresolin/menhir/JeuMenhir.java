@@ -24,13 +24,14 @@ public class JeuMenhir {
 	private Tas<CarteIngredient> tasCartesIngredients = null;
 
 	/**
-	 *Représente l'ensemble des joueur de la partie.
+	 * Représente l'ensemble des joueur de la partie.
 	 */
-	private Collection<Joueur> joueurs;
+	private List<Joueur> joueurs;
 
 	public JeuMenhir() {
 		this.tasCartesAllies = new Tas<CarteAllie>();
 		this.tasCartesIngredients = new Tas<CarteIngredient>();
+		List<Joueur> joueurs = new ArrayList<Joueur>();
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class JeuMenhir {
 		int ageJoueur = this.demanderAge();
 		int nombreJoueurs = this.demanderNombreJoueurs();
 
-		List<Joueur> joueurs = new ArrayList<Joueur>();
+		ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
 		joueurs.add(new JoueurPhysique(nomJoueur, ageJoueur));
 		for (int i = 0; i < nombreJoueurs; i++) {
 			int age = 12 + (int) (Math.random() * ((85 - 12) + 1));
@@ -139,6 +140,16 @@ public class JeuMenhir {
 		this.genererTas();
 
 		System.out.println("\nOK, on peut démarrer !");
+	}
+
+	private void recupererCartes(Joueur joueur) {
+		List<Carte> cartes = joueur.rendreCartes();
+		for (Carte carte : cartes) {
+			if (carte instanceof CarteIngredient)
+				this.tasCartesIngredients.push((CarteIngredient) carte);
+			else if (carte instanceof CarteAllie)
+				this.tasCartesAllies.push((CarteAllie) carte);
+		}
 	}
 
 	/**

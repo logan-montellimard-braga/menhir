@@ -1,8 +1,7 @@
 package fr.bragabresolin.menhir;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
+
 /**
  * 
  * @author simon
@@ -49,7 +48,7 @@ public abstract class Joueur {
 	 * Représente la main du joueur. Cette main contient à la fois des cartes
 	 * ingrédients et alliés.
 	 */
-	protected Collection<Carte> cartes;
+	protected List<Carte> cartes;
 	
 	
 	/**
@@ -148,6 +147,13 @@ public abstract class Joueur {
 		for (int i = 0; i < nombreCartes; i++) {
 			this.cartes.add(tas.poll());
 		}
+	}
+
+	public List<Carte> rendreCartes() {
+		List<Carte> copie = new ArrayList<Carte>(this.cartes);
+		Collections.copy(copie, this.cartes);
+		this.cartes.clear();
+		return copie;
 	}
 
 	public abstract void jouer(Joueur[] contexte, Saison saisonActuelle);
