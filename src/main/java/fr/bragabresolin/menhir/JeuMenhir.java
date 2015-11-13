@@ -139,9 +139,6 @@ public class JeuMenhir {
 		this.genererTas();
 
 		System.out.println("\nOK, on peut démarrer !");
-		for (Joueur j : this.joueurs) System.out.println(j);
-		// System.out.println(this.tasCartesIngredients);
-		// System.out.println(this.tasCartesAllies);
 	}
 
 	/**

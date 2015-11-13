@@ -144,7 +144,11 @@ public abstract class Joueur {
 
 	}
 
-	public void piocherCartes(Tas<Carte> tas, int nombreCartes) {}
+	public void piocherCartes(Tas<? extends Carte> tas, int nombreCartes) {
+		for (int i = 0; i < nombreCartes; i++) {
+			this.cartes.add(tas.poll());
+		}
+	}
 
 	public abstract void jouer(Joueur[] contexte, Saison saisonActuelle);
 
