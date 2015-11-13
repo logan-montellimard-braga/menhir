@@ -20,6 +20,11 @@ public class CarteIngredient extends Carte {
 	 */
 	private ActionIngredient action;
 
+	public CarteIngredient(String nomCarte) {
+		this.nomCarte = nomCarte;
+		this.matriceForces = new EnumMap<Saison, EnumMap<ActionIngredient, Integer>>(Saison.class);
+	}
+
 	/**
 	 * Getter of the property <tt>nomCarte</tt>
 	 * 
