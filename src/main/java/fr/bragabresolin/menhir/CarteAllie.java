@@ -37,6 +37,7 @@ public class CarteAllie extends Carte {
 		case TAUPE:
 			this.cible.diminuerMenhirs(forceEffet);
 		}
+		this.dejaJouee = true;
 	}
 
 	public void setMatrice(EnumMap<Saison, Integer> m) {

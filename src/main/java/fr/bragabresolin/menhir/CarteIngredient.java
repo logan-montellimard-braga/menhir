@@ -71,7 +71,7 @@ public class CarteIngredient extends Carte {
 			int grainesVolees = this.cible.subirVolGraines(forceEffet);
 			joueurOrigine.augmenterGraines(grainesVolees);
 		}
-
+		this.dejaJouee = true;
 	}
 
 	public void setMatrice(EnumMap<Saison, EnumMap<ActionIngredient, Integer>> matrice) {
