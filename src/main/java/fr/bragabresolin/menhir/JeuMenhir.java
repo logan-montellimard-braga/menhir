@@ -1,8 +1,7 @@
 package fr.bragabresolin.menhir;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.EnumMap;
+import java.util.*;
+import java.io.*;
 
 import fr.bragabresolin.menhir.ActionIngredient;
 import fr.bragabresolin.menhir.Saison;
@@ -28,6 +27,11 @@ public class JeuMenhir {
 	 *Représente l'ensemble des joueur de la partie.
 	 */
 	private Collection<Joueur> joueurs;
+
+	public JeuMenhir() {
+		this.tasCartesAllies = new Tas<CarteAllie>();
+		this.tasCartesIngredients = new Tas<CarteIngredient>();
+	}
 
 	/**
 	 * Getter of the property <tt>joueurs</tt>
@@ -198,11 +202,22 @@ public class JeuMenhir {
 	}
 	
 	/**
-	 * crée les joureur virtuels et le joueur physique pour la partie.
+	 * Crée les joueurs de la partie.
 	 * @see demanderNombreJoueurs
 	 */
 	private void genererJoueurs() {
+		int ageJoueur = this.demanderAge();
+		int nombreJoueurs = this.demanderNombreJoueurs();
 
+		List<Joueur> joueurs = new ArrayList<Joueur>();
+		joueurs.add(new JoueurPhysique(ageJoueur));
+		for (int i = 0; i < nombreJoueurs; i++) {
+			int age = 12 + (int) (Math.random() * ((85 - 12) + 1));
+			joueurs.add(new JoueurVirtuel(age));
+		}
+		Collections.sort(joueurs, new AgeComparator());
+
+		this.joueurs = joueurs;
 	}
 	
 	private void genererTas() {
@@ -214,9 +229,18 @@ public class JeuMenhir {
 	 * @return le nombre de joueur virtuel que le joueur physique à choisi.
 	 */
 	private int demanderNombreJoueurs() {
-
-		return 0;
-
+		int nombre = 0;
+		Scanner reader = new Scanner(System.in);
+		while (nombre < 1 || nombre > 5) {
+			this.afficherPrompt("Avec combien de joueurs virtuels souhaitez-vous jouer ? [1-5]");
+			try {
+				nombre = reader.nextInt();
+			} catch (Exception e) {
+				System.out.println("Veuillez saisir un nombre valide.");
+				reader.nextLine();
+			}
+		}
+		return nombre;
 	}
 	
 	/**
@@ -225,9 +249,15 @@ public class JeuMenhir {
 	 * @return true si la partie est une partie avancée.
 	 */
 	private boolean demanderSiPartieAvancee() {
-
-		return false;
-
+		String input = "";
+		Scanner reader = new Scanner(System.in);
+		while (!input.equals("o") && !input.equals("n") && !input.equals("y")) {
+			this.afficherPrompt("Voulez-vous jouer en mode partie avancée ? [o/n]");
+			input = reader.next();
+			input = input.toLowerCase();
+		}
+		if (input.equals("y") || input.equals("o")) return true;
+		else return false;
 	}
 	
 	/**
@@ -235,69 +265,98 @@ public class JeuMenhir {
 	 * @return
 	 */
 	private int demanderAge() {
+		int age = 0;
+		Scanner reader = new Scanner(System.in);
+		while (age < 1) {
+			this.afficherPrompt("Quel âge avez-vous ?");
+			try {
+				age = reader.nextInt();
+			} catch (Exception e) {
+				System.out.println("Veuillez saisir un nombre valide.");
+				reader.nextLine();
+			}
+		}
+		if (age < 8) {
+			System.out.println("Le jeu est accessible à partir de 8 ans !");
+			System.exit(0);
+		}
+		return age;
+	}
 
-		return 0;
-
+	private void afficherPrompt(String prompt) {
+		System.out.println("");
+		System.out.println(prompt);
+		System.out.print(">> ");
 	}
 
 	public void lancerPartie() {
+		this.genererJoueurs();
+		this.estPartieAvancee = this.demanderSiPartieAvancee();
+		this.genererCartes();
 
+		System.out.println("\nOK, on peut démarrer !");
+		System.out.println(this.tasCartesIngredients);
+		System.out.println(this.tasCartesAllies);
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		CarteIngredient c = new CarteIngredient();
-		c.setNomCarte("Poussière de fée");
+		System.out.println("*** Jeu du Menhir ***".toUpperCase());
+		System.out.println("Braga & Bresolin, A2015");
 
-		EnumMap<Saison, EnumMap<ActionIngredient, Integer>> m = new EnumMap<Saison, EnumMap<ActionIngredient, Integer>>(Saison.class);
+		JeuMenhir jm = new JeuMenhir();
+		jm.lancerPartie();
+	}
 
-		EnumMap<ActionIngredient, Integer> mp = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
-		mp.put(ActionIngredient.GEANT, 2);
-		mp.put(ActionIngredient.FARFADET, 3);
-		mp.put(ActionIngredient.ENGRAIS, 1);
+	private void genererCartes() {
+		this.genererCartesIngredient("cartes/ingredient.txt");
+		this.tasCartesIngredients.melanger();
 
-		EnumMap<ActionIngredient, Integer> me = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
-		me.put(ActionIngredient.GEANT, 0);
-		me.put(ActionIngredient.FARFADET, 2);
-		me.put(ActionIngredient.ENGRAIS, 3);
+		if (this.estPartieAvancee) {
+			this.genererCartesAllie("cartes/chien.txt", ActionAllie.CHIEN);
+			this.genererCartesAllie("cartes/taupe.txt", ActionAllie.TAUPE);
+			this.tasCartesAllies.melanger();
+		}
+	}
 
-		EnumMap<ActionIngredient, Integer> ma = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
-		ma.put(ActionIngredient.GEANT, 1);
-		ma.put(ActionIngredient.FARFADET, 4);
-		ma.put(ActionIngredient.ENGRAIS, 0);
+	private void genererCartesAllie(String fichierCartes, ActionAllie action) {
+		String chaineCarte = this.lireRessource(fichierCartes);
+		String[] cartes = chaineCarte.split("\n");
+		for (String carteS : cartes) {
+			String[] matrice = carteS.split(" ");
+			EnumMap<Saison, Integer> mat = new EnumMap<Saison, Integer>(Saison.class);
+			for (Saison s : Saison.values())
+				mat.put(s, Integer.parseInt(matrice[s.ordinal()]));
 
-		EnumMap<ActionIngredient, Integer> mh = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
-		mh.put(ActionIngredient.GEANT, 3);
-		mh.put(ActionIngredient.FARFADET, 1);
-		mh.put(ActionIngredient.ENGRAIS, 1);
+			CarteAllie carte = new CarteAllie(action);
+			carte.setMatrice(mat);
+			this.tasCartesAllies.add(carte);
+		}
+	}
 
-		m.put(Saison.PRINTEMPS, mp);
-		m.put(Saison.ETE, me);
-		m.put(Saison.AUTOMNE, ma);
-		m.put(Saison.HIVER, mh);
-		c.setMatrice(m);
-		System.out.println(c);
+	private void genererCartesIngredient(String fichierCartes) {
+		String chaineCarte = this.lireRessource(fichierCartes);
+		String[] cartes = chaineCarte.split("\n");
+		for (String carteS : cartes) {
+			String[] parties = carteS.split("@");
+			String nomCarte = parties[1];
+			String[] matrice = parties[0].split(" ");
 
-		CarteAllie c2 = new CarteAllie(ActionAllie.CHIEN);
-		EnumMap<Saison, Integer> m2 = new EnumMap<Saison, Integer>(Saison.class);
-		m2.put(Saison.PRINTEMPS, 2);
-		m2.put(Saison.ETE, 3);
-		m2.put(Saison.AUTOMNE, 1);
-		m2.put(Saison.HIVER, 0);
-		c2.setMatrice(m2);
-		System.out.println(c2);
+			EnumMap<Saison, EnumMap<ActionIngredient, Integer>> mat = new EnumMap<Saison, EnumMap<ActionIngredient, Integer>>(Saison.class);
+			for (Saison s : Saison.values()) {
+				EnumMap<ActionIngredient, Integer> effetMat = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
+				for (ActionIngredient ai : ActionIngredient.values()) {
+					effetMat.put(ai, Integer.parseInt(matrice[s.ordinal() * 3 + ai.ordinal()]));
+				}
+				mat.put(s, effetMat);
+			}
 
-		JoueurPhysique j = new JoueurPhysique();
-		System.out.println(j);
-
-		System.out.println("");
-
-		JoueurVirtuel j2 = new JoueurVirtuel();
-		j2.setComportementStrategy(new VoleurStrategy());
-		System.out.println(j2);
+			CarteIngredient carte = new CarteIngredient(nomCarte);
+			carte.setMatrice(mat);
+			this.tasCartesIngredients.add(carte);
+		}
 	}
 
 	/**
@@ -311,4 +370,55 @@ public class JeuMenhir {
 		return tasCartesIngredients;
 	}
 
+	private String lireRessource(String fileName) {
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		InputStream is = classloader.getResourceAsStream(fileName);
+
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+
+		String line;
+		try {
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null)
+				sb.append(line + "\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return sb.toString();
+	}
+
+
+	class AgeComparator implements Comparator<Joueur> {
+		public int compare(Joueur a, Joueur b) {
+			return a.getAge() < b.getAge() ? -1 : a.getAge() == b.getAge() ? 0 : 1;
+		}
+	}
+
+
+	class ScoreComparator implements Comparator<Joueur> {
+		public int compare(Joueur a, Joueur b) {
+			int scoreA = a.getPoints();
+			int scoreB = b.getPoints();
+
+			if (scoreA < scoreB) {
+				return -1;
+			} else if (scoreA > scoreB) {
+				return 1;
+			} else {
+				int grainesA = a.getNombreGraines();
+				int grainesB = b.getNombreGraines();
+				return grainesA < grainesB ? -1 : grainesA == grainesB ? 0 : 1;
+			}
+		}
+	}
 }
