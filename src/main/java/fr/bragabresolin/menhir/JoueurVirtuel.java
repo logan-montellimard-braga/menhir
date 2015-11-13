@@ -34,8 +34,9 @@ public class JoueurVirtuel extends Joueur {
 		}
 	}
 
-	public JoueurVirtuel(int age) {
+	public JoueurVirtuel(String nom, int age) {
 		this();
+		this.nom = nom;
 		this.age = age;
 	}
 
@@ -61,6 +62,6 @@ public class JoueurVirtuel extends Joueur {
 
 	public String toString() {
 		String str = super.toString();
-		return "Joueur Virtuel <" + this.comportementStrategy.toString() +"> " + str;
+		return this.nom + " Joueur Virtuel <" + this.comportementStrategy.toString() +"> " + str;
 	}
 }

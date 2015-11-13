@@ -6,8 +6,8 @@ public class JoueurPhysique extends Joueur {
 		super();
 	}
 
-	public JoueurPhysique(int age) {
-		super(age);
+	public JoueurPhysique(String nom, int age) {
+		super(nom, age);
 	}
 	
 	public void jouer(Joueur[] contexte, Saison saisonActuelle) {
@@ -20,6 +20,6 @@ public class JoueurPhysique extends Joueur {
 
 	public String toString() {
 		String str = super.toString();
-		return "Joueur Physique " + str;
+		return this.nom + " " + str;
 	}
 }
