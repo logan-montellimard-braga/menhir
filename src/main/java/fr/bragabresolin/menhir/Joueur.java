@@ -57,6 +57,15 @@ public abstract class Joueur {
 		this.carte = new ArrayList<Carte>();
 	}
 
+	public Joueur(int age) {
+		this.age = age;
+		this.nombreGraines = 0;
+		this.nombreMenhirs = 0;
+		this.nombreGrainesProteges = 0;
+		this.points = 0;
+		this.carte = new ArrayList<Carte>();
+	}
+
 	/**
 	 * Augmente les graines du joueur de sa carte champ.
 	 * 
@@ -279,6 +288,22 @@ public abstract class Joueur {
 
 	public int getAge() {
 		return age;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+	public int getNombreGraines() {
+		return nombreGraines;
+	}
+
+	public void setNombreGraines(int nombreGraines) {
+		this.nombreGraines = nombreGraines;
 	}
 
 	/**

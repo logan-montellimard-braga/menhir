@@ -18,6 +18,27 @@ public class JoueurVirtuel extends Joueur {
 		return comportementStrategy;
 	}
 
+	public JoueurVirtuel() {
+		super();
+		int n = 1 + (int) (Math.random() * ((3 - 1) + 1));
+		switch (n) {
+			case 1:
+				this.comportementStrategy = new TransformateurStrategy();
+				break;
+			case 2:
+				this.comportementStrategy = new VoleurStrategy();
+				break;
+			case 3:
+				this.comportementStrategy = new StockeurStrategy();
+				break;
+		}
+	}
+
+	public JoueurVirtuel(int age) {
+		this();
+		this.age = age;
+	}
+
 	/**
 	 * Setter of the property <tt>comportementStrategy</tt>
 	 * 
