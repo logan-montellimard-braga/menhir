@@ -7,7 +7,12 @@ import fr.bragabresolin.menhir.ActionIngredient;
 import fr.bragabresolin.menhir.Saison;
 
 public class JeuMenhir {
-	
+
+	private static final String HEADER = "\n"
+									   + "****** JEU DU MENHIR ******\n"
+									   + "* Braga & Bresolin, A2015 *\n"
+								   	   + "***************************";
+
 	/**
 	 * Permet de savoir quel type de partie on doit jouer : avancée ou classique.
 	 */
@@ -140,6 +145,7 @@ public class JeuMenhir {
 		this.genererTas();
 
 		System.out.println("\nOK, on peut démarrer !");
+		System.out.println("  > " + this.joueurs.size() + " joueurs, partie " + (this.estPartieAvancee ? "avancée" : "rapide") + ".");
 	}
 
 	private void recupererCartes(Joueur joueur) {
@@ -156,8 +162,14 @@ public class JeuMenhir {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("*** Jeu du Menhir ***".toUpperCase());
-		System.out.println("Braga & Bresolin, A2015");
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				System.out.println("\n\nFermeture du jeu...");
+				System.out.println("À la prochaine !\n");
+			}
+		});
+
+		System.out.println(HEADER);
 
 		JeuMenhir jm = new JeuMenhir();
 		jm.lancerPartie();
