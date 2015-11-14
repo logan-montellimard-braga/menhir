@@ -213,7 +213,7 @@ public class JeuMenhir {
 			for (Saison s : Saison.values()) {
 				EnumMap<ActionIngredient, Integer> effetMat = new EnumMap<ActionIngredient, Integer>(ActionIngredient.class);
 				for (ActionIngredient ai : ActionIngredient.values()) {
-					effetMat.put(ai, Integer.parseInt(matrice[s.ordinal() * 3 + ai.ordinal()]));
+					effetMat.put(ai, Integer.parseInt(matrice[s.ordinal() * ActionIngredient.values().length + ai.ordinal()]));
 				}
 				mat.put(s, effetMat);
 			}
