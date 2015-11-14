@@ -168,7 +168,7 @@ public abstract class Joueur {
 		return copie;
 	}
 
-	public abstract void jouer(Joueur[] contexte, Saison saisonActuelle);
+	public abstract void jouer(ArrayList<Joueur> contexte, Saison saisonActuelle);
 
 	protected abstract CarteAllie choisirJouerAllie();
 

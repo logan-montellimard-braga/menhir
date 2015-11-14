@@ -1,5 +1,7 @@
 package fr.bragabresolin.menhir;
 
+import java.util.*;
+
 public class JoueurVirtuel extends Joueur {
 
 	/*
@@ -52,7 +54,7 @@ public class JoueurVirtuel extends Joueur {
 		this.comportementStrategy = comportementStrategy;
 			}
 
-	public void jouer(Joueur[] contexte, Saison saisonActuelle) {
+	public void jouer(ArrayList<Joueur> contexte, Saison saisonActuelle) {
 
 	}
 

@@ -26,7 +26,7 @@ public class JeuMenhir {
 	/**
 	 * Représente l'ensemble des joueur de la partie.
 	 */
-	private List<Joueur> joueurs;
+	private ArrayList<Joueur> joueurs;
 
 	public JeuMenhir() {
 		this.tasCartesAllies = new Tas<CarteAllie>();
@@ -86,9 +86,7 @@ public class JeuMenhir {
 			for (Saison saison : Saison.values()) {
 				// Un tour se joue pour chaque joueur
 				for (Joueur j : this.joueurs) {
-					Joueur[] arr = new Joueur[this.joueurs.size()];
-					arr = this.joueurs.toArray(arr);
-					j.jouer(arr, saison);
+					j.jouer(this.joueurs, saison);
 				}
 			}
 			// On shift l'ordre des joueurs pour la manche suivante
