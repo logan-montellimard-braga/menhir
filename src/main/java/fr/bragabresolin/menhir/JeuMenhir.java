@@ -8,11 +8,6 @@ import fr.bragabresolin.menhir.Saison;
 
 public class JeuMenhir {
 
-	private static final String HEADER = "\n"
-									   + "****** JEU DU MENHIR ******\n"
-									   + "* Braga & Bresolin, A2015 *\n"
-								   	   + "***************************";
-
 	/**
 	 * Permet de savoir quel type de partie on doit jouer : avancée ou classique.
 	 */
@@ -44,9 +39,9 @@ public class JeuMenhir {
 	 * @see demanderNombreJoueurs
 	 */
 	private void genererJoueurs() {
-		String nomJoueur = this.demanderNomJoueur();
-		int ageJoueur = this.demanderAge();
-		int nombreJoueurs = this.demanderNombreJoueurs();
+		String nomJoueur = CLIUtils.demanderString("Quel est votre nom ?");
+		int ageJoueur = CLIUtils.demanderNombre("Quel âge avez-vous ?", 8, 150);
+		int nombreJoueurs = CLIUtils.demanderNombre("Avez combien de joueurs virtuels souhaitez-vous jouer ?", 1, 5);
 
 		ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
 		joueurs.add(new JoueurPhysique(nomJoueur, ageJoueur));
@@ -64,92 +59,53 @@ public class JeuMenhir {
 		this.joueurs = joueurs;
 	}
 	
-	private String demanderNomJoueur() {
-		String input = "";
-		Scanner reader = new Scanner(System.in);
-		while (input.equals("")) {
-			this.afficherPrompt("Quel est votre nom ?");
-			input = reader.next();
-		}
-		return input;
-	}
-	
-	/**
-	 * Permet de connaitre le nombre de joueurs virtuels pour la partie.
-	 * @return le nombre de joueur virtuel que le joueur physique à choisi.
-	 */
-	private int demanderNombreJoueurs() {
-		int nombre = 0;
-		Scanner reader = new Scanner(System.in);
-		while (nombre < 1 || nombre > 5) {
-			this.afficherPrompt("Avec combien de joueurs virtuels souhaitez-vous jouer ? [1-5]");
-			try {
-				nombre = reader.nextInt();
-			} catch (Exception e) {
-				System.out.println("Veuillez saisir un nombre valide.");
-				reader.nextLine();
-			}
-		}
-		return nombre;
-	}
-	
-	/**
-	 * Permet de connaitre le type de partie que le joueur souhaite jouer.
-	 * @see estPartieAvancee
-	 * @return true si la partie est une partie avancée.
-	 */
-	private boolean demanderSiPartieAvancee() {
-		String input = "";
-		Scanner reader = new Scanner(System.in);
-		while (!input.equals("o") && !input.equals("n") && !input.equals("y")) {
-			this.afficherPrompt("Voulez-vous jouer en mode partie avancée ? [o/n]");
-			input = reader.next();
-			input = input.toLowerCase();
-		}
-		if (input.equals("y") || input.equals("o")) return true;
-		else return false;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	private int demanderAge() {
-		int age = 0;
-		Scanner reader = new Scanner(System.in);
-		while (age < 1) {
-			this.afficherPrompt("Quel âge avez-vous ?");
-			try {
-				age = reader.nextInt();
-			} catch (Exception e) {
-				System.out.println("Veuillez saisir un nombre valide.");
-				reader.nextLine();
-			}
-		}
-		if (age < 8) {
-			System.out.println("Le jeu est accessible à partir de 8 ans !");
-			System.exit(0);
-		}
-		return age;
-	}
-
-	private void afficherPrompt(String prompt) {
-		System.out.println("");
-		System.out.println(prompt);
-		System.out.print(">> ");
-	}
-
 	public void lancerPartie() {
 		this.genererJoueurs();
-		this.estPartieAvancee = this.demanderSiPartieAvancee();
+		this.estPartieAvancee = CLIUtils.demanderBool("Voulez-vous jouer en mode partie avancée ?");
 		this.genererTas();
 
-		System.out.println("\nOK, on peut démarrer !");
-		System.out.println("  > " + this.joueurs.size() + " joueurs, partie " + (this.estPartieAvancee ? "avancée" : "rapide") + ".");
+		CLIUtils.infoBox("Ok, on peut démarrer !" + "\n"
+				+ "> "+ this.joueurs.size() + " joueurs, partie "
+				+ (this.estPartieAvancee ? "avancée" : "rapide") + ".");
+
+		int nombreManches = this.estPartieAvancee ? this.joueurs.size() : 1;
+		for (int i = 0; i < nombreManches ; i++) {
+
+			// Chaque joueur pioche 4 cartes ingrédient
+			for (Joueur j : this.joueurs) {
+				j.piocherCartes(this.tasCartesIngredients, 4);
+				if (this.estPartieAvancee) {
+					if (j.veutPiocherCarteAllie())
+						j.piocherCartes(this.tasCartesAllies, 1);
+					else
+						j.augmenterGraines(2);
+				}
+			}
+
+			// Pour chaque saison, on a un tour
+			for (Saison saison : Saison.values()) {
+				// Un tour se joue pour chaque joueur
+				for (Joueur j : this.joueurs) {
+					Joueur[] arr = new Joueur[this.joueurs.size()];
+					arr = this.joueurs.toArray(arr);
+					j.jouer(arr, saison);
+				}
+			}
+			// On shift l'ordre des joueurs pour la manche suivante
+			Joueur shiftJoueur = this.joueurs.remove(this.joueurs.size() - 1);
+			this.joueurs.add(0, shiftJoueur);
+
+			// Chaque joueur sauve ses points, vide son Champ, et rend ses 
+			// cartes
+			for (Joueur j : this.joueurs) {
+				j.sauverPoints();
+				j.reinitialiserChamp();
+				this.recupererCartes(j.rendreCartes());
+			}
+		}
 	}
 
-	private void recupererCartes(Joueur joueur) {
-		List<Carte> cartes = joueur.rendreCartes();
+	private void recupererCartes(List<Carte> cartes) {
 		for (Carte carte : cartes) {
 			if (carte instanceof CarteIngredient)
 				this.tasCartesIngredients.push((CarteIngredient) carte);
@@ -169,7 +125,7 @@ public class JeuMenhir {
 			}
 		});
 
-		System.out.println(HEADER);
+		CLIUtils.afficherHeader();
 
 		JeuMenhir jm = new JeuMenhir();
 		jm.lancerPartie();

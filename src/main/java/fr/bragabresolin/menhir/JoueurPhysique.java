@@ -18,6 +18,10 @@ public class JoueurPhysique extends Joueur {
 		return null;
 	}
 
+	public boolean veutPiocherCarteAllie() {
+		return CLIUtils.demanderBool("Voulez-vous piocher une carte allié ?");
+	}
+
 	public String toString() {
 		String str = super.toString();
 		return this.nom + " " + str;

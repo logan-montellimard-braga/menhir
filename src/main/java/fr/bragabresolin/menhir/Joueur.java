@@ -143,6 +143,18 @@ public abstract class Joueur {
 
 	}
 
+	public void sauverPoints() {
+		this.points += this.nombreMenhirs;
+	}
+
+	public void reinitialiserChamp() {
+		this.nombreGraines = 0;
+		this.nombreMenhirs = 0;
+		this.nombreGrainesProteges = 0;
+	}
+
+	public abstract boolean veutPiocherCarteAllie();
+
 	public void piocherCartes(Tas<? extends Carte> tas, int nombreCartes) {
 		for (int i = 0; i < nombreCartes; i++) {
 			this.cartes.add(tas.poll());

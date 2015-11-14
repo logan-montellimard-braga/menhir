@@ -60,6 +60,11 @@ public class JoueurVirtuel extends Joueur {
 		return null;
 	}
 
+	public boolean veutPiocherCarteAllie() {
+		if (Math.random() > 0.5) return true;
+		return false;
+	}
+
 	public String toString() {
 		String str = super.toString();
 		return this.nom + " Joueur Virtuel <" + this.comportementStrategy.toString() +"> " + str;
