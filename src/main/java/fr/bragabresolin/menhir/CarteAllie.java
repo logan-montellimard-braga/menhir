@@ -34,9 +34,11 @@ public class CarteAllie extends Carte {
 		switch (this.action){
 		case CHIEN:
 			this.origine.nombreGrainesProteges = forceEffet;
+			break;
 			
 		case TAUPE:
 			this.cible.diminuerMenhirs(forceEffet);
+			break;
 		}
 		this.dejaJouee = true;
 	}

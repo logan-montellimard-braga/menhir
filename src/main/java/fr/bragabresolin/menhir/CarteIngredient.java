@@ -62,14 +62,18 @@ public class CarteIngredient extends Carte {
 		switch (this.action) {
 		case GEANT:
 			joueurOrigine.augmenterGraines(forceEffet);
+			break;
 			
 		case ENGRAIS:
 			int grainesTransformees = joueurOrigine.augmenterMehnirs(forceEffet);
 			joueurOrigine.diminuerGraines(grainesTransformees);
+			break;
 			
 		case FARFADET:
 			int grainesVolees = this.cible.subirVolGraines(forceEffet);
 			joueurOrigine.augmenterGraines(grainesVolees);
+			System.out.println("Le joueur " + this.origine.getNom() + " vole " + grainesVolees + " graines au joueur " + this.cible.getNom());
+			break;
 		}
 		this.dejaJouee = true;
 	}
