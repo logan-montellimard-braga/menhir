@@ -100,4 +100,40 @@ public abstract class Carte {
 
 		return str;
 	}
+
+	public String toString(int tailleMin, String carte) {
+		String[] lignes = carte.split("\n");
+		for (int i = 0; i < lignes.length; i++)
+			if (lignes[i].length() > tailleMin) tailleMin = lignes[i].length();
+		tailleMin += 2;
+
+		for (int i = 0; i < lignes.length; i++)
+			lignes[i] = "| " + lignes[i]
+				+ String.format("%" + (tailleMin - lignes[i].length()) + "s", "")
+				+ "|";
+
+		StringBuilder sb = new StringBuilder();
+		for (String s : lignes) sb.append(s + "\n");
+
+		StringBuilder separatorTop = new StringBuilder();
+		StringBuilder separatorBot = new StringBuilder();
+		StringBuilder separatorMid = new StringBuilder();
+		separatorTop.append("┌");
+		separatorBot.append("└");
+		separatorMid.append("┝");
+		for (int i = 0; i < tailleMin; i++) {
+			separatorTop.append("─");
+			separatorMid.append("━");
+			separatorBot.append("─");
+		}
+		separatorTop.append("─┐");
+		separatorBot.append("─┘");
+		separatorMid.append("━┥");
+
+		sb.insert(0, separatorTop.toString() + "\n");
+		sb.insert(2 * separatorTop.toString().length() + 1, "\n" + separatorMid.toString());
+		sb.append(separatorBot.toString());
+
+		return sb.toString();
+	}
 }

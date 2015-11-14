@@ -1,6 +1,7 @@
 package fr.bragabresolin.menhir;
 
 import java.util.EnumMap;
+import java.util.Arrays;
 
 public class CarteAllie extends Carte {
 	
@@ -74,6 +75,7 @@ public class CarteAllie extends Carte {
 				   .append("\n");
 		}
 
-		return builder.toString();
+		String resultat = builder.toString();
+		return super.toString(30, resultat);
 	}
 }

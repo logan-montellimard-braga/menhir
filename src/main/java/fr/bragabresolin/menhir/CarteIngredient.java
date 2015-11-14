@@ -130,6 +130,7 @@ public class CarteIngredient extends Carte {
 			builder.append("\n");
 		}
 
-		return builder.toString();
+		String resultat = builder.toString();
+		return super.toString(35, resultat);
 	}
 }
