@@ -69,7 +69,7 @@ public class CarteAllie extends Carte {
 			   .append("\n");
 
 		for (Saison saison : this.matriceForces.keySet()) {
-			builder.append("  " + saison)
+			builder.append(saison)
 				   .append(String.format("%" + (offset + 2 - saison.toString().length()) + "s", ""))
 				   .append(String.format("%5d", this.matriceForces.get(saison)))
 				   .append("\n");

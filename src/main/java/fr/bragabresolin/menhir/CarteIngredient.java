@@ -120,8 +120,8 @@ public class CarteIngredient extends Carte {
 			   .append("\n");
 
 		for (Saison saison : matriceForces.keySet()) {
-			builder.append("  " + saison);
-			builder.append(String.format("%" + (offset + 2 - saison.toString().length()) + "s", ""));
+			builder.append(saison);
+			builder.append(String.format("%" + (offset + 4 - saison.toString().length()) + "s", ""));
 			int i = 0;
 			for (ActionIngredient act : matriceForces.get(saison).keySet()) {
 				builder.append(String.format("%" + (i + act.toString().length()) + "s", matriceForces.get(saison).get(act)));
@@ -131,6 +131,6 @@ public class CarteIngredient extends Carte {
 		}
 
 		String resultat = builder.toString();
-		return super.toString(35, resultat);
+		return super.toString(40, resultat);
 	}
 }

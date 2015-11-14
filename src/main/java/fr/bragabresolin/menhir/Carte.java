@@ -108,9 +108,9 @@ public abstract class Carte {
 		tailleMin += 2;
 
 		for (int i = 0; i < lignes.length; i++)
-			lignes[i] = "| " + lignes[i]
+			lignes[i] = "│ " + lignes[i]
 				+ String.format("%" + (tailleMin - lignes[i].length()) + "s", "")
-				+ "|";
+				+ "│";
 
 		StringBuilder sb = new StringBuilder();
 		for (String s : lignes) sb.append(s + "\n");
