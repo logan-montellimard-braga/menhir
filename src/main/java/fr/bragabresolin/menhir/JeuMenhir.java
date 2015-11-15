@@ -72,14 +72,14 @@ public class JeuMenhir {
 		for (int i = 0; i < nombreManches ; i++) {
 
 			// Chaque joueur pioche 4 cartes ingrédient
+			// ou 2 graines
 			for (Joueur j : this.joueurs) {
 				j.piocherCartes(this.tasCartesIngredients, 4);
 				if (this.estPartieAvancee) {
 					if (j.veutPiocherCarteAllie())
 						j.piocherCartes(this.tasCartesAllies, 1);
-					else
-						j.augmenterGraines(2);
-				}
+					else j.augmenterGraines(2);
+				} else j.augmenterGraines(2);
 			}
 
 			// Pour chaque saison, on a un tour
