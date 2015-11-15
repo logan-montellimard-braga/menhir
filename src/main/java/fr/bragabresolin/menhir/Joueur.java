@@ -168,9 +168,9 @@ public abstract class Joueur {
 		return copie;
 	}
 
-	public abstract void jouer(ArrayList<Joueur> contexte, Saison saisonActuelle);
+	public abstract void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle);
 
-	protected abstract CarteAllie choisirJouerAllie();
+	protected abstract CarteAllie choisirJouerAllie(ArrayList<Joueur> contexte);
 
 	/**
 	 * Getter of the property <tt>carte</tt>

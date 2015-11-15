@@ -49,22 +49,42 @@ public class JoueurVirtuel extends Joueur {
 	 *            The comportementStrategy to set.
 	 * 
 	 */
-	public void setComportementStrategy(
-			ComportementStrategy comportementStrategy) {
+	public void setComportementStrategy(ComportementStrategy comportementStrategy) {
 		this.comportementStrategy = comportementStrategy;
-			}
-
-	public void jouer(ArrayList<Joueur> contexte, Saison saisonActuelle) {
-
 	}
 
-	protected CarteAllie choisirJouerAllie() {
-		return null;
+	public void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle) {
+		ArrayList<CarteIngredient> cartesIng = new ArrayList<CarteIngredient>();
+		for (Carte carte : this.cartes)
+			if (!carte.getDejaJouee() && carte instanceof CarteIngredient)
+				cartesIng.add((CarteIngredient) carte);
+		CarteIngredient carteChoisie = this.comportementStrategy.choisirCarteIngredient(contexte, cartesIng);
+		carteChoisie.executer(saisonActuelle);
+
+		if (partieAvancee) {
+			CarteAllie carteAllie = this.choisirJouerAllie(contexte);
+			if (carteAllie != null) carteAllie.executer(saisonActuelle);
+		}
+	}
+
+	protected CarteAllie choisirJouerAllie(ArrayList<Joueur> contexte) {
+		ArrayList<CarteAllie> cartesAllie = new ArrayList<CarteAllie>();
+		for (Carte carte : this.cartes)
+			if (!carte.getDejaJouee() && carte instanceof CarteAllie)
+				cartesAllie.add((CarteAllie) carte);
+
+		if (cartesAllie.size() == 0) return null;
+
+		return this.comportementStrategy.choisirCarteAllie(contexte, cartesAllie);
 	}
 
 	public boolean veutPiocherCarteAllie() {
-		if (Math.random() > 0.5) return true;
-		return false;
+		// Pour l'instant, le choix de piocher 1 carte allié ou 2 graines est 
+		// aléatoire.
+		// A l'avenir, on pourra éventuellement déléguer cette décision au 
+		// ComportementStrategy du joueur virtuel pour des comportements plus 
+		// réfléchis.
+		return (Math.random() > 0.5);
 	}
 
 	public String toString() {

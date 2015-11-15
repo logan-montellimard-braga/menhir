@@ -86,7 +86,12 @@ public class JeuMenhir {
 			for (Saison saison : Saison.values()) {
 				// Un tour se joue pour chaque joueur
 				for (Joueur j : this.joueurs) {
-					j.jouer(this.joueurs, saison);
+					j.jouer(this.joueurs, this.estPartieAvancee, saison);
+					// A la fin d'un tour de joueur, on demande aux autres
+					// s'ils veulent effectuer une action particulière
+					// exemple : jouer une carte taupe (jouable n'importe quand)
+					for (Joueur autreJoueur : this.joueurs)
+						if (j != autreJoueur) autreJoueur.jouerDansTourAdverse();
 				}
 			}
 			// On shift l'ordre des joueurs pour la manche suivante

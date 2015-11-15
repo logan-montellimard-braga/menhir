@@ -12,7 +12,7 @@ public class JoueurPhysique extends Joueur {
 		super(nom, age);
 	}
 	
-	public void jouer(ArrayList<Joueur> contexte, Saison saisonActuelle) {
+	public void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle) {
 		System.out.println("Voici vos cartes en main :");
 
 		List<CarteIngredient> cartesIng = new ArrayList<CarteIngredient>();
@@ -39,7 +39,6 @@ public class JoueurPhysique extends Joueur {
 
 		carteChoisie.setOrigine(this);
 		carteChoisie.setAction(action);
-		carteChoisie.setDejaJouee(true);
 
 		if (action == ActionIngredient.FARFADET) {
 			System.out.println("\n\nVoici les joueurs de cette partie :\n");
@@ -58,11 +57,47 @@ public class JoueurPhysique extends Joueur {
 
 		carteChoisie.executer(saisonActuelle);
 
-		// Si partie avancée, demander si jouer carte allié
-		// si oui, la jouer
+		if (partieAvancee) {
+			CarteAllie carteAllie = this.choisirJouerAllie(contexte);
+			if (carteAllie != null) carteAllie.executer(saisonActuelle);
+		}
 	}
 
-	protected CarteAllie choisirJouerAllie() {
+	protected CarteAllie choisirJouerAllie(ArrayList<Joueur> contexte) {
+		List<CarteAllie> cartesAllie = new ArrayList<CarteAllie>();
+		for (Carte carte : this.cartes)
+			if (!carte.getDejaJouee() && carte instanceof CarteAllie)
+				cartesAllie.add((CarteAllie) carte);
+
+		if (cartesAllie.size() == 0) return null;
+
+		System.out.println("Voici vos cartes allié en main :");
+		for (Carte carte : cartesAllie)
+			System.out.println((cartesAllie.indexOf(carte) + 1) + ")\n" + carte + "\n");
+		boolean veutJouer = CLIUtils.demanderBool("Voulez-vous jouer une carte allié ?");
+		if (veutJouer) {
+			int choix = CLIUtils.demanderNombre("Quelle carte voulez-vous jouer ?",
+					1, cartesAllie.size());
+			CarteAllie carteChoisie = cartesAllie.get(choix - 1);
+			carteChoisie.setOrigine(this);
+
+			if (carteChoisie.getAction() == ActionAllie.TAUPE) {
+				System.out.println("\n\nVoici les joueurs de cette partie :\n");
+				for (int i = 0; i < contexte.size(); i++)
+					System.out.println((i + 1) + ") " + contexte.get(i) + "\n");
+
+				int numSelf = contexte.indexOf(this);
+				int numJoueur = numSelf + 1;
+				while (numSelf == (numJoueur - 1)) {
+					numJoueur = CLIUtils.demanderNombre("Quel joueur voulez-vous cibler (pas vous-même !) ?", 1, contexte.size());
+				}
+				Joueur cible = contexte.get(numJoueur - 1);
+				System.out.println("Vous avez ciblé le joueur " + cible.getNom() + ".");
+				carteChoisie.setCible(cible);
+			}
+
+			return carteChoisie;
+		}
 		return null;
 	}
 
