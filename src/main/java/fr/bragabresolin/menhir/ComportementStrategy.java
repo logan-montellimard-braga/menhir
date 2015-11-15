@@ -1,11 +1,13 @@
 package fr.bragabresolin.menhir;
 
+import java.util.*;
+
 public interface ComportementStrategy {
 
-	public abstract CarteAllie choisirCarteAllie(Joueur[] contexte,
-			CarteAllie[] main);
+	public abstract CarteAllie choisirCarteAllie(ArrayList<Joueur> contexte,
+			ArrayList<CarteAllie> cartes);
 
 	public abstract CarteIngredient choisirCarteIngredient(
-			Joueur[] contexte, CarteIngredient[] main);
+			ArrayList<Joueur> contexte, ArrayList<CarteIngredient> cartes);
 
 }

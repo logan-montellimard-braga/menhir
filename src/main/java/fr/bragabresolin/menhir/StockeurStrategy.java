@@ -1,11 +1,17 @@
 package fr.bragabresolin.menhir;
 
+import java.util.*;
+
 public class StockeurStrategy implements ComportementStrategy {
 	public CarteIngredient choisirCarteIngredient(
-			Joueur[] contexte, CarteIngredient[] main) { return null; }
+			ArrayList<Joueur> contexte, ArrayList<CarteIngredient> cartes) {
+		return null;
+	}
 
 	public CarteAllie choisirCarteAllie(
-			Joueur[] contexte, CarteAllie[] main) { return null; }
+			ArrayList<Joueur> contexte, ArrayList<CarteAllie> cartes) {
+		return null;
+	}
 
 	public String toString() {
 		// Représentation visuelle : cette stratégie est associée à un joueur
