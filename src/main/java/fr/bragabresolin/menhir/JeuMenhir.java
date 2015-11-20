@@ -70,6 +70,7 @@ public class JeuMenhir {
 
 		int nombreManches = this.estPartieAvancee ? this.joueurs.size() : 1;
 		for (int i = 0; i < nombreManches ; i++) {
+			CLIUtils.infoBox("Manche n°" + (i + 1) + "/" + nombreManches + ".");
 
 			// Chaque joueur pioche 4 cartes ingrédient
 			// ou 2 graines
@@ -96,12 +97,13 @@ public class JeuMenhir {
 
 			// Pour chaque saison, on a un tour
 			for (Saison saison : Saison.values()) {
+				CLIUtils.infoBox("Tour : " + saison);
 				// Un tour se joue pour chaque joueur
 				for (Joueur j : this.joueurs) {
 					if (j instanceof JoueurVirtuel) {
 						System.out.println(j.getNom() + " réfléchit...");
 						try {
-							Thread.sleep(500 + (int) (Math.random() * ((1500 - 500) + 1)));
+							Thread.sleep(1000 + (int) (Math.random() * ((2500 - 1000) + 1)));
 						} catch (InterruptedException e) { }
 					}
 					j.jouer(this.joueurs, this.estPartieAvancee, saison);
@@ -122,12 +124,16 @@ public class JeuMenhir {
 				j.sauverPoints();
 				j.reinitialiserChamp();
 				this.recupererCartes(j.rendreCartes());
+				this.tasCartesIngredients.melanger();
+				if (this.estPartieAvancee)
+					this.tasCartesAllies.melanger();
 			}
 		}
 	}
 
 	private void recupererCartes(List<Carte> cartes) {
 		for (Carte carte : cartes) {
+			carte.setDejaJouee(false);
 			if (carte instanceof CarteIngredient)
 				this.tasCartesIngredients.push((CarteIngredient) carte);
 			else if (carte instanceof CarteAllie)
