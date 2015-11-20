@@ -75,17 +75,35 @@ public class JeuMenhir {
 			// ou 2 graines
 			for (Joueur j : this.joueurs) {
 				j.piocherCartes(this.tasCartesIngredients, 4);
+				System.out.println(j.getNom() + " pioche 4 cartes ingrédient.");
 				if (this.estPartieAvancee) {
-					if (j.veutPiocherCarteAllie())
+					if (j.veutPiocherCarteAllie()) {
 						j.piocherCartes(this.tasCartesAllies, 1);
-					else j.augmenterGraines(2);
-				} else j.augmenterGraines(2);
+						System.out.println(j.getNom() + " pioche 1 carte allié.");
+					}
+					else {
+						j.augmenterGraines(2);
+						System.out.println(j.getNom() + " prends 2 graines.");
+					}
+				} else {
+					j.augmenterGraines(2);
+					System.out.println(j.getNom() + " prends 2 graines.");
+				}
 			}
+			System.out.println("\nVoici l'état des joueurs :");
+			for (Joueur j : this.joueurs) System.out.println(j);
+			System.out.println("");
 
 			// Pour chaque saison, on a un tour
 			for (Saison saison : Saison.values()) {
 				// Un tour se joue pour chaque joueur
 				for (Joueur j : this.joueurs) {
+					if (j instanceof JoueurVirtuel) {
+						System.out.println(j.getNom() + " réfléchit...");
+						try {
+							Thread.sleep(500 + (int) (Math.random() * ((1500 - 500) + 1)));
+						} catch (InterruptedException e) { }
+					}
 					j.jouer(this.joueurs, this.estPartieAvancee, saison);
 					// A la fin d'un tour de joueur, on demande aux autres
 					// s'ils veulent effectuer une action particulière
