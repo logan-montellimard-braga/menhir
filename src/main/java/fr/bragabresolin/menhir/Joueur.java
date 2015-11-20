@@ -241,20 +241,24 @@ public abstract class Joueur {
 	}
 
 	public String toString() {
+		int nbCartes = 0;
+		for (Carte carte : this.cartes)
+			if (!carte.getDejaJouee()) nbCartes++;
 		StringBuilder builder = new StringBuilder();
-		String cartesStr = this.cartes.size() > 1 ? "cartes" : "carte";
+		String cartesStr = nbCartes > 1 ? "cartes" : "carte";
 		String pointsStr = this.points > 1 ? "points" : "point";
 		String grainesStr = this.nombreGraines > 1 ? "graines" : "graine";
 		String menhirsStr = this.nombreMenhirs > 1 ? "menhirs" : "menhir";
+		String guardStr = this.nombreGrainesProteges > 1 ? " guardées" : "guardée";
 
-		builder.append("(" + this.age + " ans, " + this.cartes.size() + " " + cartesStr + ")")
+		builder.append("(" + this.age + " ans, " + nbCartes + " " + cartesStr + ")")
 			   .append("\n  > ")
 			   .append(this.points + " " + pointsStr)
 			   .append(", ")
 			   .append(this.nombreGraines + " " + grainesStr);
 
 		if (this.nombreGrainesProteges > 0)
-			builder.append(" (" + this.nombreGrainesProteges + " guardées)");
+			builder.append(" (" + this.nombreGrainesProteges + guardStr + ")");
 
 		builder.append(", ")
 			   .append(this.nombreMenhirs + " " + menhirsStr);
