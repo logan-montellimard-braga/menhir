@@ -210,6 +210,10 @@ public abstract class Joueur {
 		this.nombreGraines = nombreGraines;
 	}
 
+	public int getNombreMenhirs() {
+		return this.nombreMenhirs;
+	}
+
 	public String getNom() {
 		return nom;
 	}
