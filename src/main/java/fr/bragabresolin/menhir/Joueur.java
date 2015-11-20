@@ -210,6 +210,10 @@ public abstract class Joueur {
 		this.nombreGraines = nombreGraines;
 	}
 
+	public boolean estProtege() {
+		return this.nombreGrainesProteges > 0;
+	}
+
 	public int getNombreMenhirs() {
 		return this.nombreMenhirs;
 	}
