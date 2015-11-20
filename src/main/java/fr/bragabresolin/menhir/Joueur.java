@@ -170,7 +170,7 @@ public abstract class Joueur {
 
 	public abstract void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle);
 
-	protected abstract CarteAllie choisirJouerAllie(ArrayList<Joueur> contexte);
+	protected abstract CarteAllie choisirJouerAllie(Saison saisonActuelle, ArrayList<Joueur> contexte);
 
 	/**
 	 * Getter of the property <tt>carte</tt>

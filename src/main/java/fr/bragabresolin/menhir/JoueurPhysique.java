@@ -58,12 +58,12 @@ public class JoueurPhysique extends Joueur {
 		carteChoisie.executer(saisonActuelle);
 
 		if (partieAvancee) {
-			CarteAllie carteAllie = this.choisirJouerAllie(contexte);
+			CarteAllie carteAllie = this.choisirJouerAllie(saisonActuelle, contexte);
 			if (carteAllie != null) carteAllie.executer(saisonActuelle);
 		}
 	}
 
-	protected CarteAllie choisirJouerAllie(ArrayList<Joueur> contexte) {
+	protected CarteAllie choisirJouerAllie(Saison saisonActuelle, ArrayList<Joueur> contexte) {
 		List<CarteAllie> cartesAllie = new ArrayList<CarteAllie>();
 		for (Carte carte : this.cartes)
 			if (!carte.getDejaJouee() && carte instanceof CarteAllie)

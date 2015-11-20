@@ -58,16 +58,16 @@ public class JoueurVirtuel extends Joueur {
 		for (Carte carte : this.cartes)
 			if (!carte.getDejaJouee() && carte instanceof CarteIngredient)
 				cartesIng.add((CarteIngredient) carte);
-		CarteIngredient carteChoisie = this.comportementStrategy.choisirCarteIngredient(contexte, cartesIng);
+		CarteIngredient carteChoisie = this.comportementStrategy.choisirCarteIngredient(this, saisonActuelle, contexte, cartesIng);
 		carteChoisie.executer(saisonActuelle);
 
 		if (partieAvancee) {
-			CarteAllie carteAllie = this.choisirJouerAllie(contexte);
+			CarteAllie carteAllie = this.choisirJouerAllie(saisonActuelle, contexte);
 			if (carteAllie != null) carteAllie.executer(saisonActuelle);
 		}
 	}
 
-	protected CarteAllie choisirJouerAllie(ArrayList<Joueur> contexte) {
+	protected CarteAllie choisirJouerAllie(Saison saisonActuelle, ArrayList<Joueur> contexte) {
 		ArrayList<CarteAllie> cartesAllie = new ArrayList<CarteAllie>();
 		for (Carte carte : this.cartes)
 			if (!carte.getDejaJouee() && carte instanceof CarteAllie)
@@ -75,7 +75,7 @@ public class JoueurVirtuel extends Joueur {
 
 		if (cartesAllie.size() == 0) return null;
 
-		return this.comportementStrategy.choisirCarteAllie(contexte, cartesAllie);
+		return this.comportementStrategy.choisirCarteAllie(this, saisonActuelle, contexte, cartesAllie);
 	}
 
 	public boolean veutPiocherCarteAllie() {

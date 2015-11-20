@@ -4,12 +4,12 @@ import java.util.*;
 
 public class TransformateurStrategy implements ComportementStrategy {
 
-	public CarteIngredient choisirCarteIngredient(
+	public CarteIngredient choisirCarteIngredient(Joueur joueur, Saison saisonActuelle,
 			ArrayList<Joueur> contexte, ArrayList<CarteIngredient> cartes) {
 		return null;
 	}
 
-	public CarteAllie choisirCarteAllie(
+	public CarteAllie choisirCarteAllie(Joueur joueur, Saison saisonActuelle,
 			ArrayList<Joueur> contexte, ArrayList<CarteAllie> cartes) {
 		return null;
 	}
