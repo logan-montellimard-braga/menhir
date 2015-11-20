@@ -58,9 +58,10 @@ public class StockeurStrategy implements ComportementStrategy {
 					Joueur meilleurJoueur = new JoueurVirtuel("", 8);
 					for (Joueur j : contexte)
 						if (j != joueur)
-							if (j.getNombreMenhirs() > meilleurJoueur.getNombreMenhirs())
+							if (j.getNombreMenhirs() >= meilleurJoueur.getNombreMenhirs())
 								meilleurJoueur = j;
 					if (carte.getMatrice().get(saisonActuelle) > 1 && meilleurJoueur.getNombreMenhirs() >= carte.getMatrice().get(saisonActuelle)) {
+						carte.setOrigine(joueur);
 						carte.setCible(meilleurJoueur);
 						return carte;
 					}
