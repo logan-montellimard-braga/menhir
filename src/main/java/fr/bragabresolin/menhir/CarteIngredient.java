@@ -82,6 +82,10 @@ public class CarteIngredient extends Carte {
 		this.matriceForces = matrice;
 	}
 
+	public EnumMap<Saison, EnumMap<ActionIngredient, Integer>> getMatrice() {
+		return this.matriceForces;
+	}
+
 	/**
 	 * Getter of the property <tt>action</tt>
 	 * 

@@ -47,6 +47,10 @@ public class CarteAllie extends Carte {
 		this.matriceForces = m;
 	}
 
+	public EnumMap<Saison, Integer> getMatrice() {
+		return this.matriceForces;
+	}
+
 	/**
 	 * Getter of the property <tt>action</tt>
 	 * 
