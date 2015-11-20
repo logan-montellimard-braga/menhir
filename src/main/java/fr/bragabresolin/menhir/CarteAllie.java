@@ -34,10 +34,12 @@ public class CarteAllie extends Carte {
 		switch (this.action){
 		case CHIEN:
 			this.origine.nombreGrainesProteges = forceEffet;
+			System.out.println(this.origine.getNom() + " appelle un chien protégeant " + forceEffet + " graines.");
 			break;
 			
 		case TAUPE:
-			this.cible.diminuerMenhirs(forceEffet);
+			int nombreMenhirsEnleves = this.cible.diminuerMenhirs(forceEffet);
+			System.out.println(this.origine.getNom() + " lance une taupe qui détruit " + nombreMenhirsEnleves + " menhirs au joueur " + this.cible.getNom() + ".");
 			break;
 		}
 		this.dejaJouee = true;
