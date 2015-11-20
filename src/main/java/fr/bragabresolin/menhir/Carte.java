@@ -120,15 +120,15 @@ public abstract class Carte {
 		StringBuilder separatorMid = new StringBuilder();
 		separatorTop.append("┌");
 		separatorBot.append("└");
-		separatorMid.append("┝");
+		separatorMid.append("├");
 		for (int i = 0; i < tailleMin; i++) {
 			separatorTop.append("─");
-			separatorMid.append("━");
+			separatorMid.append("─");
 			separatorBot.append("─");
 		}
 		separatorTop.append("─┐");
 		separatorBot.append("─┘");
-		separatorMid.append("━┥");
+		separatorMid.append("─┤");
 
 		sb.insert(0, separatorTop.toString() + "\n");
 		sb.insert(2 * separatorTop.toString().length() + 1, "\n" + separatorMid.toString());

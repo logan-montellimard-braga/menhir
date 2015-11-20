@@ -6,7 +6,7 @@ import java.io.*;
 public class CLIUtils {
 
 	private static final String SIGNE_PROMPT = ">> ";
-	private static final String SEPARATEUR = "┕━━━━━━━━━━━━━━━━━━━━━━━━━┙";
+	private static final String SEPARATEUR = "└─────────────────────────┘";
 	private static final String HEADER = "┌───── JEU DU MENHIR ─────┐\n"
 									   + "│ Braga & Bresolin, A2015 │\n"
 									   + SEPARATEUR;
