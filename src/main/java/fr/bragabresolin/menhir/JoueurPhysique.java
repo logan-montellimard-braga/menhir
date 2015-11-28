@@ -81,7 +81,7 @@ public class JoueurPhysique extends Joueur {
 			CarteAllie carteChoisie = cartesAllie.get(choix - 1);
 			carteChoisie.setOrigine(this);
 
-			if (carteChoisie.getAction() == ActionAllie.TAUPE) {
+			if (carteChoisie instanceof CarteAllieTaupe) {
 				System.out.println("\n\nVoici les joueurs de cette partie :\n");
 				for (int i = 0; i < contexte.size(); i++)
 					System.out.println((i + 1) + ") " + contexte.get(i) + "\n");

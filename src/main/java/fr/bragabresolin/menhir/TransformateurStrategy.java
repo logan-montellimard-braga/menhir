@@ -45,7 +45,7 @@ public class TransformateurStrategy implements ComportementStrategy {
 		// on a rarement besoin de les protéger avec un chien.
 		// On donne donc la priorité aux taupes géantes.
 		for (CarteAllie carte : cartes) {
-			if (carte.getAction() == ActionAllie.CHIEN) {
+			if (carte instanceof CarteAllieChien) {
 				if (carte.getMatrice().get(saisonActuelle) > 2
 						&& carte.getMatrice().get(saisonActuelle) <= joueur.getNombreGraines()) {
 					carte.setOrigine(joueur);

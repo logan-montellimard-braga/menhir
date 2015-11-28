@@ -52,7 +52,7 @@ public class VoleurStrategy implements ComportementStrategy {
 
 		// Comportement agressif : on joue tout, tout de suite !
 		for (CarteAllie carte : cartes) {
-			if (carte.getAction() == ActionAllie.TAUPE) {
+			if (carte instanceof CarteAllieTaupe) {
 				Joueur meilleurJoueur = new JoueurVirtuel("", 8);
 				for (Joueur j : contexte)
 					if (j != joueur)

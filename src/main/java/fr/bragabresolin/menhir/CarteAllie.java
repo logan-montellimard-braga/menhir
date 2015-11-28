@@ -3,45 +3,18 @@ package fr.bragabresolin.menhir;
 import java.util.EnumMap;
 import java.util.Arrays;
 
-public class CarteAllie extends Carte {
+public abstract class CarteAllie extends Carte {
 	
-	/**
-	 * 
-	 * @param action
-	 */
-	public CarteAllie(ActionAllie action) {
-		super();
-		this.action = action;
-	}
-
 	/**
 	 * Représente la force de l'action de la carte en fonction de la saison. 
 	 */
-	private EnumMap<Saison, Integer> matriceForces;
+	protected EnumMap<Saison, Integer> matriceForces;
 	
 	/**
-	 * Defini l'action de la carte (taupe ou chien). Ce champs est spécifié à 
-	 * la création et n'est pas modifiable par la suite.
-	 */
-	private ActionAllie action;
-	
-	/**
-	 * Réalise l'action de la carte selon son attribut action.
+	 * Réalise l'action de la carte;
 	 * @param saisonActuelle La saison en cours pour l'effet de la carte.
 	 */
 	public void executer(Saison saisonActuelle) {
-		int forceEffet = this.matriceForces.get(saisonActuelle);
-		switch (this.action){
-		case CHIEN:
-			this.origine.nombreGrainesProteges = forceEffet;
-			System.out.println(this.origine.getNom() + " appelle un chien protégeant " + forceEffet + " graines.");
-			break;
-			
-		case TAUPE:
-			int nombreMenhirsEnleves = this.cible.diminuerMenhirs(forceEffet);
-			System.out.println(this.origine.getNom() + " lance une taupe qui détruit " + nombreMenhirsEnleves + " menhirs au joueur " + this.cible.getNom() + ".");
-			break;
-		}
 		this.dejaJouee = true;
 	}
 
@@ -51,16 +24,6 @@ public class CarteAllie extends Carte {
 
 	public EnumMap<Saison, Integer> getMatrice() {
 		return this.matriceForces;
-	}
-
-	/**
-	 * Getter of the property <tt>action</tt>
-	 * 
-	 * @return Returns the action.
-	 * 
-	 */
-	public ActionAllie getAction() {
-		return action;
 	}
 
 	public String toString() {
@@ -73,7 +36,7 @@ public class CarteAllie extends Carte {
 
 		builder.append(super.toString());
 
-		builder.append(" " + this.action + " (allié)")
+		builder.append(" {{_}} (allié)")
 			   .append("\n");
 
 		for (Saison saison : this.matriceForces.keySet()) {

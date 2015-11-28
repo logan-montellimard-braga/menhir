@@ -42,7 +42,7 @@ public class StockeurStrategy implements ComportementStrategy {
 		if (joueur.getNombreGraines() >= SEUIL_GRAINES / 2) {
 			// si carte chien, on la joue
 			for (CarteAllie carte : cartes)
-				if (carte.getAction() == ActionAllie.CHIEN) {
+				if (carte instanceof CarteAllieChien) {
 					carte.setOrigine(joueur);
 					return carte;
 				}
@@ -52,7 +52,7 @@ public class StockeurStrategy implements ComportementStrategy {
 			// tout de suite)
 			// On s'assure également que le joueur a assez de menhirs à détruire
 			for (CarteAllie carte : cartes)
-				if (carte.getAction() == ActionAllie.TAUPE) {
+				if (carte instanceof CarteAllieTaupe) {
 					carte.setOrigine(joueur);
 
 					Joueur meilleurJoueur = new JoueurVirtuel("", 8);

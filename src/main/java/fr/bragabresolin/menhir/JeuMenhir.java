@@ -163,13 +163,13 @@ public class JeuMenhir {
 		this.tasCartesIngredients.melanger();
 
 		if (this.estPartieAvancee) {
-			this.genererCartesAllie("cartes/chien.txt", ActionAllie.CHIEN);
-			this.genererCartesAllie("cartes/taupe.txt", ActionAllie.TAUPE);
+			this.genererCartesAllie("cartes/chien.txt", CarteAllieChien.class);
+			this.genererCartesAllie("cartes/taupe.txt", CarteAllieTaupe.class);
 			this.tasCartesAllies.melanger();
 		}
 	}
 
-	private void genererCartesAllie(String fichierCartes, ActionAllie action) {
+	private void genererCartesAllie(String fichierCartes, Class<? extends CarteAllie> type) {
 		String chaineCarte = this.lireRessource(fichierCartes);
 		String[] cartes = chaineCarte.split("\n");
 		for (String carteS : cartes) {
@@ -178,9 +178,13 @@ public class JeuMenhir {
 			for (Saison s : Saison.values())
 				mat.put(s, Integer.parseInt(matrice[s.ordinal()]));
 
-			CarteAllie carte = new CarteAllie(action);
-			carte.setMatrice(mat);
-			this.tasCartesAllies.ajouterCarte(carte);
+			try {
+				CarteAllie carte = (CarteAllie) type.newInstance();
+				carte.setMatrice(mat);
+				this.tasCartesAllies.ajouterCarte(carte);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
