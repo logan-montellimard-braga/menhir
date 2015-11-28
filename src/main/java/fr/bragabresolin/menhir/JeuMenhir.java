@@ -135,9 +135,9 @@ public class JeuMenhir {
 		for (Carte carte : cartes) {
 			carte.setDejaJouee(false);
 			if (carte instanceof CarteIngredient)
-				this.tasCartesIngredients.push((CarteIngredient) carte);
+				this.tasCartesIngredients.ajouterCarte((CarteIngredient) carte);
 			else if (carte instanceof CarteAllie)
-				this.tasCartesAllies.push((CarteAllie) carte);
+				this.tasCartesAllies.ajouterCarte((CarteAllie) carte);
 		}
 	}
 
@@ -180,7 +180,7 @@ public class JeuMenhir {
 
 			CarteAllie carte = new CarteAllie(action);
 			carte.setMatrice(mat);
-			this.tasCartesAllies.add(carte);
+			this.tasCartesAllies.ajouterCarte(carte);
 		}
 	}
 
@@ -203,7 +203,7 @@ public class JeuMenhir {
 
 			CarteIngredient carte = new CarteIngredient(nomCarte);
 			carte.setMatrice(mat);
-			this.tasCartesIngredients.add(carte);
+			this.tasCartesIngredients.ajouterCarte(carte);
 		}
 	}
 
