@@ -153,6 +153,14 @@ public abstract class Joueur {
 		this.nombreGrainesProteges = 0;
 	}
 
+	public void setNombreGrainesProteges(int n) {
+		this.nombreGrainesProteges = n;
+	}
+
+	public int getNombreGrainesProteges() {
+		return this.nombreGrainesProteges;
+	}
+
 	public abstract boolean veutPiocherCarteAllie();
 
 	public void piocherCartes(Tas<? extends Carte> tas, int nombreCartes) {
