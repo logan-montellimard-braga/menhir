@@ -11,7 +11,7 @@ dependencies {
 }
 
 version = "0.0.1"
-mainClassName = 'fr.bragabresolin.menhir.JeuMenhir'
+mainClassName = 'fr.bragabresolin.menhir.InterfaceLigneCommande'
 
 jar {
     manifest {

@@ -33,22 +33,29 @@ public class JeuMenhir {
 		this.tasCartesIngredients = new Tas<CarteIngredient>();
 	}
 
+	public JeuMenhir(int nombreJoueurs, String nomJoueur, int ageJoueur, boolean modeAvance) {
+		this.estPartieAvancee = modeAvance;
+		this.tasCartesAllies = new Tas<CarteAllie>();
+		this.tasCartesIngredients = new Tas<CarteIngredient>();
+		this.genererJoueurs(nomJoueur, ageJoueur, nombreJoueurs);
+		this.genererTas();
+	}
+
 	/**
 	 * Crée les joueurs de la partie.
-	 * @see demanderNombreJoueurs
 	 */
-	private void genererJoueurs() {
-		String nomJoueur = CLIUtils.demanderString("Quel est votre nom ?");
-		int ageJoueur = CLIUtils.demanderNombre("Quel âge avez-vous ?", 8, 150);
-		int nombreJoueurs = CLIUtils.demanderNombre("Avez combien de joueurs virtuels souhaitez-vous jouer ?", 1, 5);
-
+	private void genererJoueurs(String nomJoueur, int ageJoueur, int nombreJoueurs) {
 		ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
-		joueurs.add(new JoueurPhysique(nomJoueur, ageJoueur));
+		joueurs.add(new JoueurPhysiqueLigneCommande(nomJoueur, ageJoueur));
 		for (int i = 0; i < nombreJoueurs; i++) {
 			int age = 12 + (int) (Math.random() * ((85 - 12) + 1));
 			joueurs.add(new JoueurVirtuel("", age));
 		}
-		Collections.sort(joueurs, new AgeComparator());
+		Collections.sort(joueurs, new Comparator<Joueur>() {
+			public int compare(Joueur a, Joueur b) {
+				return a.getAge() < b.getAge() ? -1 : a.getAge() == b.getAge() ? 0 : 1;
+			}
+		});
 		for (int i = 0, j = 1; i < joueurs.size(); i++)
 			if (joueurs.get(i) instanceof JoueurVirtuel) {
 				joueurs.get(i).setNom("J" + j);
@@ -59,14 +66,6 @@ public class JeuMenhir {
 	}
 	
 	public void lancerPartie() {
-		this.genererJoueurs();
-		this.estPartieAvancee = CLIUtils.demanderBool("Voulez-vous jouer en mode partie avancée ?");
-		this.genererTas();
-
-		CLIUtils.infoBox("Ok, on peut démarrer !" + "\n"
-				+ "> "+ this.joueurs.size() + " joueurs, partie "
-				+ (this.estPartieAvancee ? "avancée" : "rapide") + ".");
-
 		Manche manche = null;
 		if (this.estPartieAvancee) {
 			int nombreManches = this.joueurs.size();
@@ -83,24 +82,6 @@ public class JeuMenhir {
 			manche.jouer();
 		}
 		manche.classerJoueurs();
-		System.out.println(this.joueurs);
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			public void run() {
-				System.out.println("\n\nFermeture du jeu...");
-				System.out.println("À la prochaine !\n");
-			}
-		});
-
-		CLIUtils.afficherHeader();
-
-		JeuMenhir jm = new JeuMenhir();
-		jm.lancerPartie();
 	}
 
 	private void genererTas() {
@@ -183,10 +164,7 @@ public class JeuMenhir {
 		return sb.toString();
 	}
 
-
-	class AgeComparator implements Comparator<Joueur> {
-		public int compare(Joueur a, Joueur b) {
-			return a.getAge() < b.getAge() ? -1 : a.getAge() == b.getAge() ? 0 : 1;
-		}
+	public ArrayList<Joueur> getJoueurs() {
+		return this.joueurs;
 	}
 }
