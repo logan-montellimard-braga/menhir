@@ -34,7 +34,7 @@ public class MancheAvancee extends Manche {
 				Iterator<Joueur> autresJoueurs = this.joueurs.iterator();
 				while (autresJoueurs.hasNext()) {
 					Joueur autreJoueur = autresJoueurs.next();
-					if (joueur != autreJoueur) autreJoueur.jouerDansTourAdverse();
+					if (joueur != autreJoueur) autreJoueur.jouerDansTourAdverse(this.joueurs, this.saisonEnCours);
 				}
 			}
 		}

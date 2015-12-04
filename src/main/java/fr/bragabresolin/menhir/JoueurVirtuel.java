@@ -90,6 +90,11 @@ public class JoueurVirtuel extends Joueur {
 		return (Math.random() > 0.5);
 	}
 
+	public void jouerDansTourAdverse(ArrayList<Joueur> contexte, Saison saisonActuelle) {
+		// Pour l'instant, les joueurs virtuels ne jouent jamais leur taupe
+		// pendant le tour des autres.
+	}
+
 	public String toString() {
 		String str = super.toString();
 		return this.nom + " Joueur Virtuel <" + this.comportementStrategy.toString() +"> " + str;

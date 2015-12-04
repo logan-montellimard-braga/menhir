@@ -141,9 +141,7 @@ public abstract class Joueur extends Observable {
 		return effet;
 	}
 
-	public void jouerDansTourAdverse() {
-
-	}
+	public abstract void jouerDansTourAdverse(ArrayList<Joueur> contexte, Saison saisonActuelle);
 
 	public void sauverPoints() {
 		this.points += this.nombreMenhirs;

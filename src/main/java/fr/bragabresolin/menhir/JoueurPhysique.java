@@ -27,6 +27,9 @@ public class JoueurPhysique extends Joueur {
 		return true;
 	}
 
+	public void jouerDansTourAdverse(ArrayList<Joueur> contexte, Saison saisonActuelle) {
+	}
+
 	public String toString() {
 		String str = super.toString();
 		return this.nom + " " + str;
