@@ -5,7 +5,8 @@ public class CarteAllieChien extends CarteAllie {
 	public void executer(Saison saisonActuelle) {
 		int forceEffet = this.matriceForces.get(saisonActuelle);
 		this.origine.setNombreGrainesProteges(forceEffet);
-		System.out.println(this.origine.getNom() + " appelle un chien protégeant " + forceEffet + " graines.");
+		this.setChanged();
+		this.notifyObservers(this.origine.getNom() + " appelle un chien protégeant " + forceEffet + " graines.");
 
 		super.executer(saisonActuelle);
 	}

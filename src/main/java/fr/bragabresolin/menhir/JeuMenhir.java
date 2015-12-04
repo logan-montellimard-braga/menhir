@@ -28,17 +28,23 @@ public class JeuMenhir {
 	 */
 	private ArrayList<Joueur> joueurs;
 
-	public JeuMenhir() {
-		this.tasCartesAllies = new Tas<CarteAllie>();
-		this.tasCartesIngredients = new Tas<CarteIngredient>();
-	}
-
 	public JeuMenhir(int nombreJoueurs, String nomJoueur, int ageJoueur, boolean modeAvance) {
 		this.estPartieAvancee = modeAvance;
 		this.tasCartesAllies = new Tas<CarteAllie>();
 		this.tasCartesIngredients = new Tas<CarteIngredient>();
 		this.genererJoueurs(nomJoueur, ageJoueur, nombreJoueurs);
 		this.genererTas();
+	}
+
+	public void registerObserver(Observer o) {
+		Iterator<CarteIngredient> iti = this.tasCartesIngredients.iterator();
+		while (iti.hasNext()) iti.next().addObserver(o);
+
+		Iterator<CarteAllie> ita = this.tasCartesAllies.iterator();
+		while (ita.hasNext()) ita.next().addObserver(o);
+
+		Iterator<Joueur> itj = this.joueurs.iterator();
+		while (itj.hasNext()) itj.next().addObserver(o);
 	}
 
 	/**
@@ -70,8 +76,11 @@ public class JeuMenhir {
 		if (this.estPartieAvancee) {
 			int nombreManches = this.joueurs.size();
 			for (int i = 0; i < nombreManches; i++) {
+				this.tasCartesIngredients.melanger();
+				this.tasCartesAllies.melanger();
 				manche = new MancheAvancee(this.tasCartesIngredients,
 						this.tasCartesAllies, this.joueurs);
+
 				manche.jouer();
 				if (i != nombreManches - 1) {
 					manche.nettoyer();

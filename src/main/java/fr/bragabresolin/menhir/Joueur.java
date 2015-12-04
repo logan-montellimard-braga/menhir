@@ -7,7 +7,7 @@ import java.util.*;
  * @author simon
  *
  */
-public abstract class Joueur {
+public abstract class Joueur extends Observable {
 
 	/**
 	 * Représente le nom du joueur.
@@ -137,6 +137,7 @@ public abstract class Joueur {
 	 */
 	public int subirVolGraines(int n) {
 		return this.diminuerGraines(n - this.nombreGrainesProteges);
+		this.nombreGrainesProteges = 0;
 	}
 
 	public void jouerDansTourAdverse() {
@@ -164,6 +165,14 @@ public abstract class Joueur {
 	public abstract boolean veutPiocherCarteAllie();
 
 	public void piocherCartes(Tas<? extends Carte> tas, int nombreCartes) {
+		String type;
+		if (tas.peek() instanceof CarteIngredient)
+			type = "ingrédient";
+		else
+			type = "allié";
+		this.setChanged();
+		this.notifyObservers(this.nom + " pioche " + nombreCartes + " carte(s) " + type);
+
 		for (int i = 0; i < nombreCartes; i++) {
 			this.cartes.add(tas.donnerCarte());
 		}
@@ -173,23 +182,14 @@ public abstract class Joueur {
 		List<Carte> copie = new ArrayList<Carte>(this.cartes);
 		Collections.copy(copie, this.cartes);
 		this.cartes.clear();
+		this.setChanged();
+		this.notifyObservers(this.nom + " rend ses cartes.");
 		return copie;
 	}
 
 	public abstract void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle);
 
 	protected abstract CarteAllie choisirJouerAllie(Saison saisonActuelle, ArrayList<Joueur> contexte);
-
-	/**
-	 * Getter of the property <tt>carte</tt>
-	 * 
-	 * @return Returns the carte.
-	 * 
-	 */
-
-	public Collection<Carte> getCarte() {
-		return cartes;
-	}
 
 	/**
 	 * Getter of the property <tt>age</tt>

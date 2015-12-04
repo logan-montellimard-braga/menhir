@@ -3,16 +3,16 @@ package fr.bragabresolin.menhir;
 import java.util.*;
 import java.io.*;
 
-public class InterfaceLigneCommande {
+public class InterfaceLigneCommande implements Observer {
 
 	private JeuMenhir jeu;
 	private static InterfaceLigneCommande instance;
 
 	private static final String SIGNE_PROMPT = ">> ";
 	private static final String SEPARATEUR = "└─────────────────────────┘";
-	private static final String HEADER = "┌───── JEU DU MENHIR ─────┐\n"
-									   + "│ Braga & Bresolin, A2015 │\n"
-									   + SEPARATEUR;
+	private static final String HEADER     = "┌───── JEU DU MENHIR ─────┐\n"
+									       + "│ Braga & Bresolin, A2015 │\n"
+									       + SEPARATEUR;
 
 	private Scanner reader;
 
@@ -33,6 +33,10 @@ public class InterfaceLigneCommande {
 		input = this.reader.next();
 
 		return input;
+	}
+
+	public void update(Observable o, Object message) {
+		this.infoBox("--> " + message);
 	}
 
 	public int demanderNombre(String prompt, int min, int max) {
@@ -99,6 +103,7 @@ public class InterfaceLigneCommande {
 		boolean avancee = this.demanderBool("Voulez-vous jouer en mode partie avancée ?");
 
 		this.jeu = new JeuMenhir(nombreJoueurs, nomJoueur, ageJoueur, avancee);
+		this.jeu.registerObserver(this);
 		this.infoBox("Ok, on peut démarrer !" + "\n"
 				+ "> "+ (nombreJoueurs + 1) + " joueurs, partie "
 				+ (avancee ? "avancée" : "rapide") + ".");

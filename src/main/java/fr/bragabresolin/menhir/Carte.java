@@ -1,8 +1,9 @@
 package fr.bragabresolin.menhir;
 
 import java.util.EnumMap;
+import java.util.Observable;
 
-public abstract class Carte {
+public abstract class Carte extends Observable {
 
 	/**
 	 * Defini le joueur qui lance la carte.

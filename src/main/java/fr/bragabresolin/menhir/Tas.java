@@ -19,8 +19,16 @@ public class Tas<E extends Carte> {
 		return this.cartes.poll();
 	}
 
+	public E peek() {
+		return this.cartes.getFirst();
+	}
+
 	public void ajouterCarte(E carte) {
 		this.cartes.push(carte);
+	}
+
+	public Iterator<E> iterator() {
+		return this.cartes.iterator();
 	}
 
 	public String toString() {

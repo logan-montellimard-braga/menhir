@@ -54,6 +54,9 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	public void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle) {
+		this.setChanged();
+		this.notifyObservers(this.nom + " joue... ");
+
 		ArrayList<CarteIngredient> cartesIng = new ArrayList<CarteIngredient>();
 		for (Carte carte : this.cartes)
 			if (!carte.getDejaJouee() && carte instanceof CarteIngredient)

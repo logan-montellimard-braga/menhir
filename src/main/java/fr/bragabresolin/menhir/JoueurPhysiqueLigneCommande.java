@@ -14,6 +14,7 @@ public class JoueurPhysiqueLigneCommande extends JoueurPhysique {
 	
 	public void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle) {
 		InterfaceLigneCommande display = InterfaceLigneCommande.getInstance();
+		System.out.println("Rappel : " + saisonActuelle.toString().toUpperCase());
 		System.out.println("Voici vos cartes en main :");
 
 		List<CarteIngredient> cartesIng = new ArrayList<CarteIngredient>();
