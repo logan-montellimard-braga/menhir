@@ -136,8 +136,9 @@ public abstract class Joueur extends Observable {
 	 * @return Le nombre de graines effectivement enlevées.
 	 */
 	public int subirVolGraines(int n) {
-		return this.diminuerGraines(n - this.nombreGrainesProteges);
+		int effet = this.diminuerGraines(n - this.nombreGrainesProteges);
 		this.nombreGrainesProteges = 0;
+		return effet;
 	}
 
 	public void jouerDansTourAdverse() {
