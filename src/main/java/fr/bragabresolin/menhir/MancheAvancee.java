@@ -4,12 +4,12 @@ import java.util.*;
 
 public class MancheAvancee extends Manche {
 	protected Tas<CarteAllie> tasCartesAllies;
-	protected final boolean estRapide = false;
 
 	public MancheAvancee(Tas<CarteIngredient> tasIngredients,
 			Tas<CarteAllie> tasAllies, ArrayList<Joueur> joueurs) {
 		super(tasIngredients, joueurs);
 		this.tasCartesAllies = tasAllies;
+		this.estRapide = false;
 	}
 
 	public void jouer() {
@@ -38,8 +38,16 @@ public class MancheAvancee extends Manche {
 				}
 			}
 		}
+	}
 
-		this.nettoyer();
+	public void nettoyer() {
+		super.nettoyer();
+		this.decalerJoueurs();
+	}
+
+	protected void decalerJoueurs() {
+		Joueur shiftJoueur = this.joueurs.remove(this.joueurs.size() - 1);
+		this.joueurs.add(0, shiftJoueur);
 	}
 
 	protected void recupererCartes(List<Carte> cartes) {

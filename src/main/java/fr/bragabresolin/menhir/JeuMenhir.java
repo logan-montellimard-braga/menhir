@@ -31,7 +31,6 @@ public class JeuMenhir {
 	public JeuMenhir() {
 		this.tasCartesAllies = new Tas<CarteAllie>();
 		this.tasCartesIngredients = new Tas<CarteIngredient>();
-		List<Joueur> joueurs = new ArrayList<Joueur>();
 	}
 
 	/**
@@ -68,77 +67,23 @@ public class JeuMenhir {
 				+ "> "+ this.joueurs.size() + " joueurs, partie "
 				+ (this.estPartieAvancee ? "avancée" : "rapide") + ".");
 
-		int nombreManches = this.estPartieAvancee ? this.joueurs.size() : 1;
-		for (int i = 0; i < nombreManches ; i++) {
-			CLIUtils.infoBox("Manche n°" + (i + 1) + "/" + nombreManches + ".");
-
-			// Chaque joueur pioche 4 cartes ingrédient
-			// ou 2 graines
-			for (Joueur j : this.joueurs) {
-				j.piocherCartes(this.tasCartesIngredients, 4);
-				System.out.println(j.getNom() + " pioche 4 cartes ingrédient.");
-				if (this.estPartieAvancee) {
-					if (j.veutPiocherCarteAllie()) {
-						j.piocherCartes(this.tasCartesAllies, 1);
-						System.out.println(j.getNom() + " pioche 1 carte allié.");
-					}
-					else {
-						j.augmenterGraines(2);
-						System.out.println(j.getNom() + " prends 2 graines.");
-					}
-				} else {
-					j.augmenterGraines(2);
-					System.out.println(j.getNom() + " prends 2 graines.");
+		Manche manche = null;
+		if (this.estPartieAvancee) {
+			int nombreManches = this.joueurs.size();
+			for (int i = 0; i < nombreManches; i++) {
+				manche = new MancheAvancee(this.tasCartesIngredients,
+						this.tasCartesAllies, this.joueurs);
+				manche.jouer();
+				if (i != nombreManches - 1) {
+					manche.nettoyer();
 				}
 			}
-			System.out.println("\nVoici l'état des joueurs :");
-			for (Joueur j : this.joueurs) System.out.println(j);
-			System.out.println("");
-
-			// Pour chaque saison, on a un tour
-			for (Saison saison : Saison.values()) {
-				CLIUtils.infoBox("Tour : " + saison);
-				// Un tour se joue pour chaque joueur
-				for (Joueur j : this.joueurs) {
-					if (j instanceof JoueurVirtuel) {
-						System.out.println(j.getNom() + " réfléchit...");
-						try {
-							Thread.sleep(1000 + (int) (Math.random() * ((2500 - 1000) + 1)));
-						} catch (InterruptedException e) { }
-					}
-					j.jouer(this.joueurs, this.estPartieAvancee, saison);
-					// A la fin d'un tour de joueur, on demande aux autres
-					// s'ils veulent effectuer une action particulière
-					// exemple : jouer une carte taupe (jouable n'importe quand)
-					for (Joueur autreJoueur : this.joueurs)
-						if (j != autreJoueur) autreJoueur.jouerDansTourAdverse();
-				}
-			}
-			// On shift l'ordre des joueurs pour la manche suivante
-			Joueur shiftJoueur = this.joueurs.remove(this.joueurs.size() - 1);
-			this.joueurs.add(0, shiftJoueur);
-
-			// Chaque joueur sauve ses points, vide son Champ, et rend ses 
-			// cartes
-			for (Joueur j : this.joueurs) {
-				j.sauverPoints();
-				j.reinitialiserChamp();
-				this.recupererCartes(j.rendreCartes());
-				this.tasCartesIngredients.melanger();
-				if (this.estPartieAvancee)
-					this.tasCartesAllies.melanger();
-			}
+		} else {
+			manche = new Manche(this.tasCartesIngredients, this.joueurs);
+			manche.jouer();
 		}
-	}
-
-	private void recupererCartes(List<Carte> cartes) {
-		for (Carte carte : cartes) {
-			carte.setDejaJouee(false);
-			if (carte instanceof CarteIngredient)
-				this.tasCartesIngredients.ajouterCarte((CarteIngredient) carte);
-			else if (carte instanceof CarteAllie)
-				this.tasCartesAllies.ajouterCarte((CarteAllie) carte);
-		}
+		manche.classerJoueurs();
+		System.out.println(this.joueurs);
 	}
 
 	/**
@@ -242,24 +187,6 @@ public class JeuMenhir {
 	class AgeComparator implements Comparator<Joueur> {
 		public int compare(Joueur a, Joueur b) {
 			return a.getAge() < b.getAge() ? -1 : a.getAge() == b.getAge() ? 0 : 1;
-		}
-	}
-
-
-	class ScoreComparator implements Comparator<Joueur> {
-		public int compare(Joueur a, Joueur b) {
-			int scoreA = a.getPoints();
-			int scoreB = b.getPoints();
-
-			if (scoreA < scoreB) {
-				return -1;
-			} else if (scoreA > scoreB) {
-				return 1;
-			} else {
-				int grainesA = a.getNombreGraines();
-				int grainesB = b.getNombreGraines();
-				return grainesA < grainesB ? -1 : grainesA == grainesB ? 0 : 1;
-			}
 		}
 	}
 }

@@ -7,11 +7,12 @@ public class Manche {
 	protected Tas<CarteIngredient> tasCartesIngredients;
 	protected ArrayList<Joueur> joueurs;
 	protected Saison saisonEnCours;
-	protected final boolean estRapide = true;
+	protected boolean estRapide;
 
 	public Manche(Tas<CarteIngredient> tasIngredients, ArrayList<Joueur> joueurs) {
 		this.tasCartesIngredients = tasIngredients;
 		this.joueurs = joueurs;
+		this.estRapide = true;
 	}
 
 	public void jouer() {
@@ -43,7 +44,7 @@ public class Manche {
 		joueur.jouer(this.joueurs, !this.estRapide, this.saisonEnCours);
 	}
 
-	protected void nettoyer() {
+	public void nettoyer() {
 		Iterator<Joueur> jIt = this.joueurs.iterator();
 		while (jIt.hasNext()) {
 			Joueur joueur = jIt.next();
@@ -57,6 +58,28 @@ public class Manche {
 		for (Carte carte : cartes) {
 			carte.setDejaJouee(false);
 			this.tasCartesIngredients.ajouterCarte((CarteIngredient) carte);
+		}
+	}
+
+	public List<Joueur> classerJoueurs() {
+		Collections.sort(this.joueurs, new ScoreComparator());
+		return this.joueurs;
+	}
+
+	protected class ScoreComparator implements Comparator<Joueur> {
+		public int compare(Joueur a, Joueur b) {
+			int scoreA = a.getPoints();
+			int scoreB = b.getPoints();
+
+			if (scoreA > scoreB) {
+				return -1;
+			} else if (scoreA < scoreB) {
+				return 1;
+			} else {
+				int grainesA = a.getNombreGraines();
+				int grainesB = b.getNombreGraines();
+				return grainesA > grainesB ? -1 : grainesA == grainesB ? 0 : 1;
+			}
 		}
 	}
 }
