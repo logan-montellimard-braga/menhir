@@ -82,9 +82,10 @@ public class JeuMenhir {
 						this.tasCartesAllies, this.joueurs);
 
 				manche.jouer();
-				if (i != nombreManches - 1) {
-					manche.nettoyer();
-				}
+				if (i == nombreManches - 1)
+					manche.nettoyer(false);
+				else
+					manche.nettoyer(true);
 			}
 		} else {
 			manche = new Manche(this.tasCartesIngredients, this.joueurs);

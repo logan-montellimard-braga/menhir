@@ -29,7 +29,7 @@ public class Manche {
 			while (jIt.hasNext()) this.faireJouer(jIt.next());
 		}
 
-		this.nettoyer();
+		this.nettoyer(true);
 	}
 
 	protected void faireJouer(Joueur joueur) {
@@ -44,12 +44,12 @@ public class Manche {
 		joueur.jouer(this.joueurs, !this.estRapide, this.saisonEnCours);
 	}
 
-	public void nettoyer() {
+	public void nettoyer(boolean destructif) {
 		Iterator<Joueur> jIt = this.joueurs.iterator();
 		while (jIt.hasNext()) {
 			Joueur joueur = jIt.next();
 			joueur.sauverPoints();
-			joueur.reinitialiserChamp();
+			if (destructif) joueur.reinitialiserChamp();
 			this.recupererCartes(joueur.rendreCartes());
 		}
 	}

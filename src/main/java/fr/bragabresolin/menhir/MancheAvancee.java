@@ -40,8 +40,8 @@ public class MancheAvancee extends Manche {
 		}
 	}
 
-	public void nettoyer() {
-		super.nettoyer();
+	public void nettoyer(boolean destructif) {
+		super.nettoyer(destructif);
 		this.decalerJoueurs();
 	}
 
