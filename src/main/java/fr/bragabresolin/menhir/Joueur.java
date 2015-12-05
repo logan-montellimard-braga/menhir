@@ -170,7 +170,7 @@ public abstract class Joueur extends Observable {
 		else
 			type = "allié";
 		this.setChanged();
-		this.notifyObservers(this.nom + " pioche " + nombreCartes + " carte(s) " + type);
+		this.notifyObservers(this.nom + " pioche " + nombreCartes + " carte" + (nombreCartes > 1 ? "s " : " ") + type + ".");
 
 		for (int i = 0; i < nombreCartes; i++) {
 			this.cartes.add(tas.donnerCarte());
