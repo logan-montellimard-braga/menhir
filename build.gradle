@@ -35,3 +35,7 @@ task copyLicense {
 applicationDistribution.from(copyLicense) {
     into ""
 }
+
+javadoc {
+    options.charSet = 'UTF-8'
+}
