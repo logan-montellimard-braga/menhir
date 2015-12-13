@@ -8,10 +8,11 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.12'
+    compile 'com.miglayout:miglayout:3.7.4'
 }
 
 version = "1.0.0"
-mainClassName = 'fr.bragabresolin.menhir.InterfaceLigneCommande'
+mainClassName = 'fr.bragabresolin.menhir.Menhir'
 
 jar {
     manifest {
@@ -38,4 +39,15 @@ applicationDistribution.from(copyLicense) {
 
 javadoc {
     options.charSet = 'UTF-8'
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Jeu du Menhir',  
+            'Implementation-Version': version,
+            'Main-Class': mainClassName
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
