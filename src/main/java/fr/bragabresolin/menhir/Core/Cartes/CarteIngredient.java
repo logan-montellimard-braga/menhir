@@ -6,6 +6,19 @@ import fr.bragabresolin.menhir.Core.Joueurs.Joueur;
 import fr.bragabresolin.menhir.Core.Message.Message;
 import fr.bragabresolin.menhir.Core.Message.MessageType;
 
+/**
+ * Classe représentant une carte ingrédient du jeu du Menhir.
+ * 
+ * Une carte ingrédient est une carte qui dispose en plus d'un nom, d'une 
+ * action/facette (eg Farfadet, Engrais, Géant) et d'une matrice de forces à 
+ * deux dimensions, spécifiant la force de l'effet de la carte selon la saison  
+ * dans laquelle elle est exécutée et l'action choisie.
+ * 
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+ * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
+ */
 public class CarteIngredient extends Carte {
 	
 	/**

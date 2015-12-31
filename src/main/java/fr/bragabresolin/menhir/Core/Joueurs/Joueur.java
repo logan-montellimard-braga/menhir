@@ -6,9 +6,19 @@ import fr.bragabresolin.menhir.Core.Cartes.*;
 import fr.bragabresolin.menhir.Core.Message.*;
 
 /**
- * 
- * @author simon
+ * Classe abstraite représentant un joueur, réel comme virtuel, du jeu du Menhir.
+ * Cette classe encapsule les informations sur le joueur (nom, âge, ...) ainsi
+ * que ses variables en cours de jeu (cartes, points, ...).
  *
+ * Cette classe est productrice de messages.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Joueurs.JoueurVirtuel
+ * @see fr.bragabresolin.menhir.Core.Joueurs.JoueurPhysique
+ * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+ * @see fr.bragabresolin.menhir.Core.Message.Message
+ * @see fr.bragabresolin.menhir.Core.Message.MessageType
  */
 public abstract class Joueur extends Observable {
 
@@ -276,9 +286,7 @@ public abstract class Joueur extends Observable {
 	/**
 	 * Setter of the property <tt>age</tt>
 	 * 
-	 * @param age
-	 *            The age to set.
-	 * 
+	 * @param age The age to set.
 	 */
 	public void setAge(int age) throws IllegalArgumentException {
 		if (age >= 8)

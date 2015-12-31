@@ -2,6 +2,16 @@ package fr.bragabresolin.menhir.Core.Message;
 
 import fr.bragabresolin.menhir.Core.Cartes.Carte;
 
+/**
+ * Classe servant de tampon (buffer) de stockage d'une carte de jeu,
+ * généralement pour échanger des informations entre le joueur et le coeur du 
+ * jeu.
+ * Cette classe fonctionne à la manière d'une "boîte aux lettres" synchronisée.
+ * Cette classe implémente le patron de conception Singleton.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ */
 public class TamponCarte {
 
 	private Carte carte;

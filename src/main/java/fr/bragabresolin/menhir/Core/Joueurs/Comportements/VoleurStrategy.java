@@ -5,6 +5,19 @@ import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Joueurs.*;
 import fr.bragabresolin.menhir.Core.Cartes.*;
 
+/**
+ * Classe de stratégie pour joueur virtuel, définissant un comportement de 
+ * "voleur" pour le joueur qui l'utilise.
+ * 
+ * Un joueur voleur est un joueur agressif qui cherche à voler les autres 
+ * joueurs pour obtenir ses graines (et les transformer une fois un seuil 
+ * atteint). Il tente également de détruire les menhirs des meilleurs joueurs 
+ * lorsque possible, avec ses Taupes Géantes.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
+ */
 public class VoleurStrategy implements ComportementStrategy {
 	private static final int SEUIL_GRAINES = 4;
 

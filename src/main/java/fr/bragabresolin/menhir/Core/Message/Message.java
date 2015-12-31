@@ -1,5 +1,17 @@
 package fr.bragabresolin.menhir.Core.Message;
 
+/**
+ * Classe représentant un message émis par les classes émetrices (observables) 
+ * du jeu afin de transmettre plus d'information à leurs observateurs.
+ * Un message est composé d'un type défini depuis une énumération, et d'un corps
+ * quelconque. Le type concret du corps dépend généralement du type et n'est pas 
+ * imposé à la compilation. On veillera donc à utiliser sciemment ce membre afin
+ * de ne pas provoquer d'erreur à l'exécution liée à un problème de type.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Message.MessageType
+ */
 public class Message
 {
     private MessageType type;

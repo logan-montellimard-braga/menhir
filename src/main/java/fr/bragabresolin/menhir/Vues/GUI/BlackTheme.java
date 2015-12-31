@@ -3,6 +3,14 @@ package fr.bragabresolin.menhir.Vues.GUI;
 import java.awt.Color;
 import java.awt.Font;
 
+/**
+ * Interface permettant à un composant graphique quelconque d'utiliser des 
+ * constantes de couleurs et polices pré-configurées.
+ * Cette interface est uniquement porteuse de constantes.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ */
 public interface BlackTheme {
 	public static final int WIDTH = 850;
 	public static final int HEIGHT = 535;

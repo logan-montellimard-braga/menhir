@@ -5,6 +5,19 @@ import fr.bragabresolin.menhir.Core.*;
 import fr.bragabresolin.menhir.Core.Joueurs.*;
 import fr.bragabresolin.menhir.Core.Cartes.*;
 
+/**
+ * Classe de stratégie pour joueur virtuel, définissant un comportement de 
+ * "stockeur" (économe) pour le joueur qui l'utilise.
+ * 
+ * Un joueur économe est un joueur qui cherche à économiser le plus possible de 
+ * graines, jusqu'à un seuil donné, avant de les faire pousser en menhirs. Dans 
+ * cette logique, il cherche à protéger ses graines et jouera donc en priorité 
+ * les Chiens de Garde dont il disposera.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
+ */
 public class StockeurStrategy implements ComportementStrategy {
 	private static final int SEUIL_GRAINES = 6;
 	private static final int SEUIL_MENHIRS = 5;

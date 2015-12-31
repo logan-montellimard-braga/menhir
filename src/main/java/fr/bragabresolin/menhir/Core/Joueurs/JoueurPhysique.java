@@ -8,6 +8,25 @@ import fr.bragabresolin.menhir.Core.Message.MessageType;
 import fr.bragabresolin.menhir.Core.Message.TamponBooleen;
 import fr.bragabresolin.menhir.Core.Message.TamponCarte;
 
+/**
+ * Classe représentant un joueur physique, c'est-à-dire un joueur réel devant 
+ * son écran.
+ * Un joueur physique est concret, contrairement à un Joueur. L'implémentation 
+ * de ses comportements de jeu repose sur l'utilisation de Messages pour 
+ * informer une quelconque vue qui écoute que le joueur a besoin de données, 
+ * ainsi que des Tampons pour les récupérer de façon transparente et 
+ * synchronisée.
+ *
+ * Cette classe est productrice de messages.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+ * @see fr.bragabresolin.menhir.Core.Message.Message
+ * @see fr.bragabresolin.menhir.Core.Message.MessageType
+ * @see fr.bragabresolin.menhir.Core.Message.TamponBooleen
+ * @see fr.bragabresolin.menhir.Core.Message.TamponCarte
+ */
 public class JoueurPhysique extends Joueur {
 
 	public JoueurPhysique() {

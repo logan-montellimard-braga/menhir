@@ -8,6 +8,20 @@ import fr.bragabresolin.menhir.Core.Cartes.*;
 import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Message.*;
 
+/**
+ * Classe représentant le déroulement d'une manche de jeu du Menhir.
+ * Cette classe encapsule la logique et les règles d'une manche classique d'un 
+ * jeu du Menhir : nombre de tours, qui joue et quand, classement des joueurs, 
+ * etc...
+ * Cette classe a besoin de référence vers les composants d'une manche (joueurs 
+ * et tas) pour les faire jouer.
+ * 
+ * Cette classe est productrice de messages.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Partie.MancheAvancee
+ */
 public class Manche extends java.util.Observable {
 
 	protected Tas<CarteIngredient> tasCartesIngredients;

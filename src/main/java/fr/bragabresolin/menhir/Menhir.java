@@ -4,6 +4,14 @@ import fr.bragabresolin.menhir.Vues.Vue;
 import fr.bragabresolin.menhir.Vues.Console.InterfaceLigneCommande;
 import fr.bragabresolin.menhir.Vues.GUI.VueMenhir;
 
+/**
+ * Cette classe est le point d'entrée du programme du jeu du Menhir.
+ * Elle contient la logique de démarrage du jeu selon les réglages et 
+ * l'interface demandée.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ */
 public class Menhir {
 	
 	public static void main(String[] args) {

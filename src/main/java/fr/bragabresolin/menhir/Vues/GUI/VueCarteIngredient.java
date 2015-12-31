@@ -29,6 +29,21 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 
+/**
+ * Composant graphique représentant une carte ingrédient.
+ * Ce composant affiche les informations de la carte qu'il suit. Ces 
+ * informations n'évoluant pas au cours du temps, l'affichage n'est pas mis à 
+ * jour, sauf lorsque la carte est jouée, auquel cas ce composant devient 
+ * invisible.
+ * Ce composant inclut la logique de sélection de la carte lors du clic.
+ * Ce composant doit être contrôlé de l'extérieur pour savoir s'il est 
+ * cliquable.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Vues.GUI.VueMenhir
+ * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+ */
 public class VueCarteIngredient extends JPanel implements Observer, BlackTheme {
 	
 	public static final long serialVersionUID = 1l;

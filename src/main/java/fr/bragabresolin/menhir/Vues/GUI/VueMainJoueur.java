@@ -20,6 +20,21 @@ import fr.bragabresolin.menhir.Core.Message.TamponBooleen;
 import fr.bragabresolin.menhir.Core.Message.TamponCarte;
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * Composant graphique représentant la main du joueur, c'est-à-dire l'ensemble 
+ * des cartes qu'il a en main.
+ * Ce composant est mis à jour lorsque le joueur réel qu'il suit pioche ou rend 
+ * des cartes.
+ * Ce composant est composé des vues des cartes (ingrédient et allié) du joueur, 
+ * et c'est lui qui indique à chacune d'entre elle si elle peut être utiliée 
+ * selon les besoins du joueur suivi.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Vues.GUI.VueMenhir
+ * @see fr.bragabresolin.menhir.Vues.GUI.VueCarteAllie
+ * @see fr.bragabresolin.menhir.Vues.GUI.VueCarteIngredient
+ */
 public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 	
 	public static final long serialVersionUID = 1l;

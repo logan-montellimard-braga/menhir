@@ -15,6 +15,16 @@ import java.util.Observer;
 
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * Composant graphique représentant un joueur, qu'il soit physique ou virtuel.
+ * L'intégralité des informations du joueur (points, graines, menhirs, ...) est
+ * mise à jour à chaque notification du joueur suivi.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Vues.GUI.VueMenhir
+ * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+ */
 public class VueJoueur extends JPanel implements Observer, BlackTheme {
 	
 	public static final long serialVersionUID = 1l;

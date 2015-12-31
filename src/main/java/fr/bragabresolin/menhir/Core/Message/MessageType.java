@@ -1,5 +1,13 @@
 package fr.bragabresolin.menhir.Core.Message;
 
+/**
+ * Enumération représentant les différents types de messages qu'un producteur de 
+ * message peut vouloir envouyer à ses observateurs.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Message.Message
+ */
 public enum MessageType {
 	// Messages de la partie
 	DEBUT_PARTIE, FIN_PARTIE, DEBUT_MANCHE, FIN_MANCHE, DEBUT_SAISON, FIN_SAISON,

@@ -8,6 +8,18 @@ import fr.bragabresolin.menhir.Core.Cartes.*;
 import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Message.*;
 
+/**
+ * Classe représentant le déroulement d'une manche avancée de jeu du Menhir.
+ * Cette classe encapsule la logique et les règles d'une manche avancée d'un 
+ * jeu du Menhir, en se basant sur les règles d'une manche normale.
+ * Cette classe surdéfinit les fonctions nécessaires de manière à ajouter le
+ * comportement particulier des manches avancées (utilisées dans les parties 
+ * avancées).
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Partie.Manche
+ */
 public class MancheAvancee extends Manche {
 	protected Tas<CarteAllie> tasCartesAllies;
 

@@ -15,6 +15,19 @@ import fr.bragabresolin.menhir.Core.Joueurs.Joueur;
 import fr.bragabresolin.menhir.Vues.Vue;
 import fr.bragabresolin.menhir.Core.Message.*;
 
+/**
+ * Vue textuelle (en ligne de commande) pouvant être connectée au jeu du Menhir.
+ * Cette classe implémente un affichage textuel pour le jeu du Menhir.
+ * L'implémentation est "bloquante" : le joueur ne peut intéragir avec 
+ * l'interface que lorsqu'elle le lui permet explicitement.
+ * Une implémentation future pourrait permettre de s'affranchir de cette 
+ * contrainte en acceptant une entrée clavier permanente traitée en 
+ * conséquences.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Vues.Vue
+ */
 public class InterfaceLigneCommande implements Vue {
 
 	private JeuMenhir jeu;

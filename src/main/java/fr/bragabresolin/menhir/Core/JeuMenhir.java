@@ -8,6 +8,23 @@ import fr.bragabresolin.menhir.Core.Joueurs.*;
 import fr.bragabresolin.menhir.Core.Partie.*;
 import fr.bragabresolin.menhir.Core.Message.*;
 
+/**
+ * Classe principale contenant la logique du jeu du Menhir.
+ * Cette classe est le "chef d'orchestre" d'une partie de jeu du Menhir. Une 
+ * fois un jeu instancié, il s'occupe d'instancier et enclencher tous les 
+ * composants nécessaires à son fonctionnement (joueurs, cartes, tas, ...).
+ * Cette classe est un émetteur de messages.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+ * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+ * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+ * @see fr.bragabresolin.menhir.Core.Partie.Manche
+ * @see fr.bragabresolin.menhir.Core.Saison
+ * @see fr.bragabresolin.menhir.Core.Message.Message
+ * @see fr.bragabresolin.menhir.Core.Message.MessageType
+ */
 public class JeuMenhir extends java.util.Observable {
 
 	/**

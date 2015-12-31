@@ -5,6 +5,18 @@ import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Joueurs.*;
 import fr.bragabresolin.menhir.Core.Message.*;
 
+/**
+ * Classe abstraite représentant une carte quelconque du jeu du Menhir.
+ * 
+ * Une carte est caractérisée par son origine (qui la joue), sa cible éventuelle 
+ * (sur qui elle fait effet), et son statut (déjà jouée (défaussée) ou non),
+ * ainsi que la possibilité de s'exécuter.
+ * 
+ * Cette classe est émettrice de messages.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ */
 public abstract class Carte extends Observable {
 
 	/**

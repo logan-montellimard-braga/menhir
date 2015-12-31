@@ -35,6 +35,25 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Interface graphique complète pour le jeu du Menhir.
+ * Cette vue graphique encapsule un ensemble d'autres composants graphiques du 
+ * même paquet afin d'afficher indépendamment les informations des joueurs, des 
+ * cartes et le déroulement du jeu.
+ * Cette classe utilise de façon extensive le layout Swing non officiel 
+ * MigLayout.
+ *
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.JeuMenhir
+ * @see fr.bragabresolin.menhir.Vues.Vue
+ * @see fr.bragabresolin.menhir.Vues.GUI.VueCarteAllie
+ * @see fr.bragabresolin.menhir.Vues.GUI.VueCarteIngredient
+ * @see fr.bragabresolin.menhir.Vues.GUI.VueJoueur
+ * @see fr.bragabresolin.menhir.Vues.GUI.VueMainJoueur
+ * @see fr.bragabresolin.menhir.Vues.GUI.BlackTheme
+ */
 public class VueMenhir implements Vue, BlackTheme {
 	
 	private JeuMenhir jeu;

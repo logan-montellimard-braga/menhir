@@ -6,6 +6,20 @@ import java.util.Observable;
 import java.util.Collections;
 import fr.bragabresolin.menhir.Core.Message.*;
 
+/**
+ * Classe représentant un tas de cartes du jeu du Menhir.
+ * 
+ * Un tas de cartes est un regroupement de cartes de même type. Un tas permet de
+ * piocher la carte du dessus du tas, d'ajouter une carte au tas, et d'être 
+ * mélangé.
+ * 
+ * Cette classe est émettrice de messages.
+ * 
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+ * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
+ */
 public class Tas<E extends Carte> extends Observable {
 	private LinkedList<E> cartes;
 
@@ -21,10 +35,6 @@ public class Tas<E extends Carte> extends Observable {
 
 	public E donnerCarte() {
 		return this.cartes.poll();
-	}
-
-	public E peek() {
-		return this.cartes.getFirst();
 	}
 
 	public void ajouterCarte(E carte) {

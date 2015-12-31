@@ -7,20 +7,27 @@ import fr.bragabresolin.menhir.Core.Joueurs.Comportements.*;
 import fr.bragabresolin.menhir.Core.Message.Message;
 import fr.bragabresolin.menhir.Core.Message.MessageType;
 
+/**
+ * Classe représentant un joueur virtuel, c'est-à-dire un joueur fictif contrôlé 
+ * par un algorithme prédéfini.
+ * Un joueur virtuel est concret, contrairement à un Joueur. L'implémentation 
+ * de ses comportements de jeu repose sur l'utilisation d'algorithmes (et/ou de 
+ * hasard) afin de déterminer le comportement à adopter selon le contexte.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+ * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
+ */
 public class JoueurVirtuel extends Joueur {
 
-	/*
-	 * (non-javadoc)
-	 */
 	private ComportementStrategy comportementStrategy = null;
 
 	/**
 	 * Getter of the property <tt>comportementStrategy</tt>
 	 * 
 	 * @return Returns the comportementStrategy.
-	 * 
 	 */
-
 	public ComportementStrategy getComportementStrategy() {
 		return comportementStrategy;
 	}

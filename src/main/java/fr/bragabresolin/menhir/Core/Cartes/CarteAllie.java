@@ -3,6 +3,17 @@ package fr.bragabresolin.menhir.Core.Cartes;
 import java.util.EnumMap;
 import fr.bragabresolin.menhir.Core.Saison;
 
+/**
+ * Classe abstraite représentant une carte allié du jeu du Menhir.
+ * 
+ * Une carte allié est une carte disposant d'une matrice de forces de son effet,
+ * encodant dans l'objet la puissance numérique de l'effet de la carte en 
+ * fonction de la saison dans laquelle est est exécutée.
+ * 
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+ */
 public abstract class CarteAllie extends Carte {
 	
 	/**

@@ -4,6 +4,16 @@ import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Message.Message;
 import fr.bragabresolin.menhir.Core.Message.MessageType;
 
+/**
+ * Classe représentant une carte allié "Taupe Géante" du jeu du Menhir.
+ * 
+ * Une carte allié taupe est une carte allié dont l'effet d'exécution est 
+ * de détruire les mehnirs du joueur ciblé.
+ * 
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
+ */
 public class CarteAllieTaupe extends CarteAllie {
 
 	public void executer(Saison saisonActuelle) {

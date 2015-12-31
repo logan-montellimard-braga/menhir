@@ -5,6 +5,19 @@ import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Joueurs.*;
 import fr.bragabresolin.menhir.Core.Cartes.*;
 
+/**
+ * Classe de stratégie pour joueur virtuel, définissant un comportement de 
+ * "transformateur" (impatient) pour le joueur qui l'utilise.
+ * 
+ * Un joueur impatient est un joueur qui cherche à transformer ses graines en 
+ * menhir le plus rapidement possible, dès qu'il en dispose. Dans cette optique,
+ * il peut se permettre d'être plus agressif avec ses cartes allié et donc de 
+ * jouer la Taupe Géante lorsque possible.
+ *
+ * @author  Logan Braga
+ * @author  Simon Bresolin
+ * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
+ */
 public class TransformateurStrategy implements ComportementStrategy {
 
 	public CarteIngredient choisirCarteIngredient(Joueur joueur, Saison saisonActuelle,
