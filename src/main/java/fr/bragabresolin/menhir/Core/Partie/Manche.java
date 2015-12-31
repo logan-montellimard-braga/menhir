@@ -24,9 +24,40 @@ import fr.bragabresolin.menhir.Core.Message.*;
  */
 public class Manche extends java.util.Observable {
 
+	/**
+	 * Représente le tas de cartes ingrédient utilisé pendant la manche.
+	 *
+	 * Une valeur nulle signifie que la manche n'a pas encore été initialisée ou
+	 * a mal été construite, et n'est pas dans un état utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 */
 	protected Tas<CarteIngredient> tasCartesIngredients;
+
+	/**
+	 * Représente la liste des joueurs participant à la manche.
+	 *
+	 * Une valeur nulle signifie que la manche n'a pas encore été initialisée ou
+	 * a mal été construite, et n'est pas dans un état utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 */
 	protected ArrayList<Joueur> joueurs;
+
+	/**
+	 * Représente la saison actuellement active de la manche.
+	 *
+	 * Une valeur nulle est impossible ; l'attribut est toujours au moins rempli 
+	 * par la première saison disponible dans l'énumération Saison.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 */
 	protected Saison saisonEnCours;
+
+	/**
+	 * Représente le type de jeu (manche avancée ou rapide).
+	 */
 	protected boolean estRapide;
 
 	public Manche(Tas<CarteIngredient> tasIngredients, ArrayList<Joueur> joueurs) {

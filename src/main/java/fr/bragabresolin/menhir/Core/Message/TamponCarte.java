@@ -14,9 +14,34 @@ import fr.bragabresolin.menhir.Core.Cartes.Carte;
  */
 public class TamponCarte {
 
+	/**
+	 * Représente la carte stockée dans le tampon.
+	 * Elle peut être lue et écrite de manière synchrone.
+	 *
+	 * Une valeur nulle signifie qu'aucune donnée n'est disponible.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+	 */
 	private Carte carte;
+
+	/**
+	 * Attribut utilisé pour indiquer que la présence ou non d'une carte dans le 
+	 * tampon peut être ignorée.
+	 * Cet attribut est utilisé pour indiquer la non disponibilité définitive 
+	 * d'une donnée pour un besoin particulier, étant donné que la valeur nulle 
+	 * pour l'attribut carte signifie qu'une donnée n'est pas encore disponible,
+	 * mais peut l'être prochainement.
+	 */
 	private boolean ignorer;
 	
+	/**
+	 * Attribut statique contenant l'unique instance de la classe (patron de 
+	 * conception Singleton).
+	 *
+	 * Une valeur nulle est possible et signifie que la classe n'a pas encore 
+	 * été utilisée, mais la nullité de cette valeur n'est jamais apparente à 
+	 * l'extérieur de la classe.
+	 */
 	private static TamponCarte instance;
 	
 	public static TamponCarte getInstance() {

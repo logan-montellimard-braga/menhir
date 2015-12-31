@@ -19,6 +19,11 @@ import fr.bragabresolin.menhir.Core.Cartes.*;
  * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
  */
 public class VoleurStrategy implements ComportementStrategy {
+
+	/**
+	 * Représente le seuil à partir duquel la stratégie pousse le joueur à faire 
+	 * pousser ses graines en menhirs.
+	 */
 	private static final int SEUIL_GRAINES = 4;
 
 	public CarteIngredient choisirCarteIngredient(Joueur joueur, Saison saisonActuelle,

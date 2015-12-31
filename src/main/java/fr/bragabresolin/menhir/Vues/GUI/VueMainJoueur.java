@@ -37,11 +37,49 @@ import net.miginfocom.swing.MigLayout;
  */
 public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 	
+	/**
+	 * Constante d'identification pour la sérialisation.
+	 */
 	public static final long serialVersionUID = 1l;
 	
+	/**
+	 * Représente le panneau contenant uniquement les cartes ingrédients.
+	 * 
+	 * Les autres cartes (cartes allié) sont directement ajoutées au JPanel 
+	 * courant ; les cartes ingrédient ayant besoin d'un panel supplémentaire 
+	 * pour utiliser un layout imbriqué plus favorable à leur nombre, 
+	 * contrairement aux cartes allié.
+	 */
 	private JPanel panelCartesIng;
+
+	/**
+	 * Référence vers les vues des cartes ingrédient du panneau.
+	 * 
+	 * Cette référence est nécessaire afin d'effectuer les actions individuelles 
+	 * sur chaque vues, comme les rendre jouables/cliquables.
+	 */
 	private LinkedList<VueCarteIngredient> listeCartes;
+
+	/**
+	 * Référence vers les vues des cartes allié du panneau.
+	 * 
+	 * Cette référence est nécessaire afin d'effectuer les actions individuelles 
+	 * sur chaque vues, comme les rendre jouables/cliquables.
+	 */
 	private LinkedList<VueCarteAllie> listeCartesAllie;
+
+	/**
+	 * Référence vers le jeu en train d'être joué.
+	 * Cette référence est utilisée pour être passée aux vues des cartes, qui 
+	 * s'en servent directement.
+	 * 
+	 * Une valeur nulle signifie que le composant est dans un état non 
+	 * utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.JeuMenhir
+	 * @see fr.bragabresolin.menhir.Vues.GUI.VueCarteAllie
+	 * @see fr.bragabresolin.menhir.Vues.GUI.VueCarteIngredient
+	 */
 	private JeuMenhir jeu;
 	
 	public VueMainJoueur(JeuMenhir jeu) {

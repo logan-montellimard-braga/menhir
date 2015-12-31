@@ -23,17 +23,33 @@ public class CarteIngredient extends Carte {
 	
 	/**
 	 * Représente les forces des actions de la carte en fonction de la saison. 
+	 * 
+	 * Une valeur nulle n'est possible que lorsque la carte est en cours 
+	 * d'initialisation (par exemple par un générateur extérieur). Elle n'est 
+	 * pas utilisable en l'état.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
 	 */
 	private EnumMap<Saison, EnumMap<ActionIngredient, Integer>> matriceForces;
 
 	/**
-	 * Nom de la carte qui sert uniquement à l'affichage (ex : chant de sirène).
+	 * Nom de la carte, qui sert uniquement à l'affichage (ex : chant de sirène).
+	 * Le nom n'est pas unique ; plusieurs cartes peuvent avoir le même nom 
+	 * (elles n'ont généralement alors pas la même matrice des forces, mais rien 
+	 * ne l'interdit).
 	 */
 	private String nomCarte;
 
 	/**
-	 * Une action choisie avant de jouer la carte  parmi les actions possibles 
+	 * Une action choisie avant de jouer la carte parmi les actions possibles 
 	 * des cartes ingredients : géant, farfadet, engrais.
+	 * 
+	 * Une valeur nulle est possible avant l'exécution de la carte, mais 
+	 * provoquera la levée d'une exception à l'exécution si l'action n'est 
+	 * toujours pas spécifiée.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
 	 */
 	private ActionIngredient action;
 

@@ -18,6 +18,12 @@ public abstract class CarteAllie extends Carte {
 	
 	/**
 	 * Représente la force de l'action de la carte en fonction de la saison. 
+	 * 
+	 * Une valeur nulle n'est possible que lorsque la carte est en cours 
+	 * d'initialisation (par exemple par un générateur extérieur). Elle n'est 
+	 * pas utilisable en l'état.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Saison
 	 */
 	protected EnumMap<Saison, Integer> matriceForces;
 	

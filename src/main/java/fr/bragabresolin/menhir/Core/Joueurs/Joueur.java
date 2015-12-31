@@ -25,29 +25,35 @@ public abstract class Joueur extends Observable {
 	/**
 	 * Représente le nom du joueur.
 	 * Utilisé pour un affichage un peu plus chaleureux.
+	 * 
+	 * Une valeur nulle signifie que l'objet n'a pas encore fini d'être 
+	 * initialisé. Il peut quand même être utilisé dans cet état.
 	 */
 	protected String nom;
 
 	/**
 	 * Représente l'âge du joueur.
-	 * Doit être plus grand que 7.
+	 * Doit être plus grand que 7 selon les règles du jeu.
 	 */
 	protected int age;
 	
 	/**
-	 * Représente le nombre de points présents sur la carte point.
-	 * Ce sont les points calculés à la fin de chaque manche, ils ne peuvent pas¨
-	 * être enlevés par un autre joueur. 
+	 * Représente le nombre de points présents sur la carte point du joueur.
+	 * Ce sont les points calculés à la fin de chaque manche, ils ne peuvent pas
+	 * être enlevés par un autre joueur durant une manche et sont forcément 
+	 * positifs ou nuls.
 	 */
 	protected int points;
 	
 	/**
 	 * Représente le nombre de graines sur la carte champ.
+	 * Ce nombre est forcément positif ou nul ; il varie au cours d'une manche.
 	 */
 	protected int nombreGraines;
 	
 	/**
 	 * Représente le nombre de menhirs adultes sur la carte champ.
+	 * Ce nombre est forcément positif ou nul ; il varie au cours d'une manche.
 	 */
 	protected int nombreMenhirs;
 	
@@ -58,8 +64,12 @@ public abstract class Joueur extends Observable {
 	protected int nombreGrainesProteges;
 
 	/**
-	 * Représente la main du joueur. Cette main contient à la fois des cartes
-	 * ingrédients et alliés.
+	 * Représente la main du joueur.
+	 * Cette main contient à la fois ses cartes ingrédients et alliés.
+	 * 
+	 * Une valeur nulle indique que l'objet est dans un état inconsistent et ne 
+	 * peut pas être utilisé tel quel ; si le joueur n'a plus de cartes en main,
+	 * la List est vide.
 	 */
 	protected List<Carte> cartes;
 	

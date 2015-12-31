@@ -12,8 +12,23 @@ package fr.bragabresolin.menhir.Core.Message;
  * @author  Simon Bresolin
  */
 public class TamponBooleen {
+
+	/**
+	 * Représente le booléen stocké dans le tampon.
+	 * Il peut être lu et écrit de manière synchrone.
+	 *
+	 * Une valeur nulle signifie qu'aucune donnée n'est disponible.
+	 */
 	private Boolean bool;
 	
+	/**
+	 * Attribut statique contenant l'unique instance de la classe (patron de 
+	 * conception Singleton).
+	 *
+	 * Une valeur nulle est possible et signifie que la classe n'a pas encore 
+	 * été utilisée, mais la nullité de cette valeur n'est jamais apparente à 
+	 * l'extérieur de la classe.
+	 */
 	private static TamponBooleen instance;
 	
 	public static TamponBooleen getInstance() {

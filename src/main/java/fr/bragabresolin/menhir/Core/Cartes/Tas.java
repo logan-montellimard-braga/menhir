@@ -21,6 +21,14 @@ import fr.bragabresolin.menhir.Core.Message.*;
  * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
  */
 public class Tas<E extends Carte> extends Observable {
+
+	/**
+	 * Contient les cartes contenues dans le tas.
+	 * 
+	 * Si le tas est vide, la LinkedList est également vide (pas de valeur nulle).
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+	 */
 	private LinkedList<E> cartes;
 
 	public Tas() {

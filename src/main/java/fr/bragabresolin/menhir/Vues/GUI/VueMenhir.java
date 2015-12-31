@@ -56,19 +56,82 @@ import javax.swing.JOptionPane;
  */
 public class VueMenhir implements Vue, BlackTheme {
 	
+	/**
+	 * Référence vers le jeu que la vue observe.
+	 * 
+	 * Une valeur nulle signifie que le jeu n'a pas encore été créé ; c'est 
+	 * typiquement le cas au début de l'application, lorsque l'on demande 
+	 * d'abord les informations nécessaires aux réglages du jeu à l'utilisateur.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.JeuMenhir
+	 */
 	private JeuMenhir jeu;
 	
+	/**
+	 * Référence vers la frame principale de la fenêtre.
+	 */
 	private JFrame frame;
+
+	/**
+	 * Référence vers le panneau contenant les vues des joueurs de la partie.
+	 */
 	private JPanel panelJoueurs;
+
+	/**
+	 * Liste contenant toutes les vues des joueurs ajoutées au panneau des 
+	 * joueurs.
+	 * 
+	 * Cette référence est nécessaire notamment afin de pouvoir 
+	 * ajouter/supprimer les observateurs des joueurs avant la re-création de 
+	 * nouvelles vues de joueurs pour éviter d'avoir des observateurs fantômes.
+	 * 
+	 * @see fr.bragabresolin.menhir.Vues.GUI.VueJoueur
+	 */
 	private LinkedList<VueJoueur> vuesJoueurs;
+
+	/**
+	 * Référence vers le panneau contenant les vues de la main du joueur.
+	 * 
+	 * @see fr.bragabresolin.menhir.Vues.GUI.VueMainJoueur
+	 */
 	private JPanel panelCartes;
+
+	/**
+	 * Référence vers le panneau contenant les informations de suivi des actions 
+	 * de la partie.
+	 *
+	 * TODO: pas besoin de le garder en attribut
+	 */
 	private JPanel panelSuiviEffets;
 	
+	/**
+	 * Label affiché contenant les dernières actions effectuées 
+	 * (par exemple, "Joueur X gagne Y graines") par les joueurs.
+	 */
 	private JLabel lblSuiviEffets;
+
+	/**
+	 * Label affiché contenant le numéro de manche active.
+	 */
 	private JLabel lblManche;
+
+	/**
+	 * Label affiché contenant le nom de la saison en cours de jeu.
+	 */
 	private JLabel lblSaisonencours;
+
+	/**
+	 * Label affiché contenant les informations générales de la partie 
+	 * (changement de manche/saison, tour de tel ou tel joueur, fin de partie, 
+	 * etc...)
+	 */
 	private JLabel lblInformations;
 	
+	/**
+	 * Représente le numéro de manche actuellement jouée.
+	 * 
+	 * TODO: à déprécier ; devrait être gardé dans le jeu
+	 */
 	private int mancheActuelle;
 
 

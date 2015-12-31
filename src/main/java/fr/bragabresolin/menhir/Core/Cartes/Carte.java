@@ -21,11 +21,24 @@ public abstract class Carte extends Observable {
 
 	/**
 	 * Defini le joueur qui lance la carte.
+	 * 
+	 * Une valeur nulle est possible avant de jouer la carte, mais résultera en 
+	 * une exception à l'exécution de celle-ci si l'origine n'est toujours pas 
+	 * spécifiée à ce moment-là.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
 	 */
 	protected Joueur origine;
 
 	/**
 	 * Defini le joueur sur qui la carte agit négativement (optionnel).
+	 * 
+	 * Une valeur nulle est possible et parfaitement acceptable pour la plupart 
+	 * des situations. Les actions qui requierent une cible (eg Farfadet) 
+	 * provoqueront une exception à l'exécution de celle-ci si la cible n'est 
+	 * toujours pas spécifiée à ce moment-là.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
 	 */
 	protected Joueur cible;
 

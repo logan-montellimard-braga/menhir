@@ -21,6 +21,14 @@ import fr.bragabresolin.menhir.Core.Message.MessageType;
  */
 public class JoueurVirtuel extends Joueur {
 
+	/**
+	 * Représente la stratégie de comportement utilisée par le joueur.
+	 * 
+	 * Une valeur nulle indique que l'objet est dans un état inconsistent et ne 
+	 * peut pas être utilisé tel quel.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
+	 */
 	private ComportementStrategy comportementStrategy = null;
 
 	/**

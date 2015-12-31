@@ -21,6 +21,16 @@ import fr.bragabresolin.menhir.Core.Message.*;
  * @see fr.bragabresolin.menhir.Core.Partie.Manche
  */
 public class MancheAvancee extends Manche {
+
+	/**
+	 * Représente le tas de cartes allié utilisé pendant la manche.
+	 *
+	 * Une valeur nulle signifie que la manche n'a pas encore été initialisée ou
+	 * a mal été construite, et n'est pas dans un état utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
+	 */
 	protected Tas<CarteAllie> tasCartesAllies;
 
 	public MancheAvancee(Tas<CarteIngredient> tasIngredients,

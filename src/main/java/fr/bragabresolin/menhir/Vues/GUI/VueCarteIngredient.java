@@ -46,11 +46,39 @@ import javax.swing.JComboBox;
  */
 public class VueCarteIngredient extends JPanel implements Observer, BlackTheme {
 	
+	/**
+	 * Constante d'identification pour la sérialisation.
+	 */
 	public static final long serialVersionUID = 1l;
 	
+	/**
+	 * Référence vers la carte ingrédient observée par le composant.
+	 * 
+	 * Une valeur nulle signifie que le composant est dans un état non 
+	 * utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 */
 	private CarteIngredient carte;
+
+	/**
+	 * Référence vers le jeu en train d'être joué.
+	 * Cette référence est utilisée pour obtenir l'accès à des informations 
+	 * inacessibles autrement, comme la liste des autres joueurs (par exemple 
+	 * pour proposer de choisir une cible lors du clic sur le composant).
+	 * 
+	 * Une valeur nulle signifie que le composant est dans un état non 
+	 * utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.JeuMenhir
+	 */
 	private JeuMenhir jeu;
 	
+	/**
+	 * Indique si la carte est actuellement jouable (et donc cliquable).
+	 * Si ce n'est pas le cas, les actions au clic renvoient une erreur 
+	 * visuelle.
+	 */
 	private boolean estJouable;
 	
 	public void setEstJouable(boolean estJouable) {

@@ -33,20 +33,43 @@ public class JeuMenhir extends java.util.Observable {
 	private boolean estPartieAvancee;
 	
 	/**
-	 * Représente le tas de cartes alliées dans lequel le joueur doit piocher.
+	 * Représente le tas de cartes allié dans lequel le joueur doit piocher.
+	 * Une valeur nulle signifie que le jeu n'a pas encore été initialisé, et 
+	 * n'est pas dans un état utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
 	 */
 	private Tas<CarteAllie> tasCartesAllies = null;
 	
 	/**
-	 * Représente le tas de cartes ingrédients dans lequel le joueur doit piocher.
+	 * Représente le tas de cartes ingrédient dans lequel le joueur doit piocher.
+	 * Une valeur nulle signifie que le jeu n'a pas encore été initialisé, et 
+	 * n'est pas dans un état utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
 	 */
 	private Tas<CarteIngredient> tasCartesIngredients = null;
 
 	/**
 	 * Représente l'ensemble des joueur de la partie.
+	 * 
+	 * La liste des joueurs contiendra, selon les règles du jeu, entre 2 et 6 
+	 * joueurs.
+	 * Une valeur nulle signifie que le jeu n'a pas encore été initialisé, et 
+	 * n'est pas dans un état utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
 	 */
 	private ArrayList<Joueur> joueurs;
 	
+	/**
+	 * Représente la manche en train d'être jouée pour le jeu.
+	 * 
+	 * Une valeur nulle est possible et signifie qu'aucune manche n'est 
+	 * actuellement en train d'être jouée.
+	 */
 	private Manche manche;
 
 	public JeuMenhir(int nombreJoueurs, String nomJoueur, int ageJoueur, boolean modeAvance) {

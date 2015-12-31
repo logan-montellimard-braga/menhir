@@ -12,9 +12,24 @@ package fr.bragabresolin.menhir.Core.Message;
  * @author  Simon Bresolin
  * @see fr.bragabresolin.menhir.Core.Message.MessageType
  */
-public class Message
-{
+public class Message {
+
+	/**
+	 * Représente le type du message envoyé.
+	 *
+	 * Une valeur nulle est possible, mais devra être gérée en conséquence par 
+	 * le receveur du message.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Message.MessageType
+	 */
     private MessageType type;
+
+	/**
+	 * Représente le corps, quelconque, du message.
+	 *
+	 * Une valeur nulle est possible, mais devra être gérée en
+	 * conséquence par le receveur du message.
+	 */
     private Object body;
 
     public Message(MessageType type, Object body) {
@@ -35,4 +50,3 @@ public class Message
         return body;
     }
 }
-

@@ -27,13 +27,39 @@ import net.miginfocom.swing.MigLayout;
  */
 public class VueJoueur extends JPanel implements Observer, BlackTheme {
 	
+	/**
+	 * Constante d'identification pour la sérialisation.
+	 */
 	public static final long serialVersionUID = 1l;
 	
+	/**
+	 * Référence vers le joueur observé par le composant.
+	 * 
+	 * Une valeur nulle signifie que le composant est dans un état non 
+	 * utilisable.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 */
 	private Joueur joueur;
 	
+	/**
+	 * Label affiché contenant le nom du joueur suivi.
+	 */
 	private JLabel labelNom;
+
+	/**
+	 * Label affiché contenant le nombre de points du joueur suivi.
+	 */
 	private JLabel labelPoints;
+
+	/**
+	 * Label affiché contenant le nombre de graines du joueur suivi.
+	 */
 	private JLabel labelGraines;
+
+	/**
+	 * Label affiché contenant le nombre de menhirs du joueur suivi.
+	 */
 	private JLabel labelMenhirs;
 	
 	public void update (Observable o, Object message) {

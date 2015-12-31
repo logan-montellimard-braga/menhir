@@ -30,15 +30,43 @@ import fr.bragabresolin.menhir.Core.Message.*;
  */
 public class InterfaceLigneCommande implements Vue {
 
+	/**
+	 * Représente le jeu actuellement observé par l'interface.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.JeuMenhir
+	 */
 	private JeuMenhir jeu;
+
+	/**
+	 * Représente le numéro de manche actuellement jouée.
+	 * 
+	 * TODO: à déprécier ; devrait être gardé dans le jeu
+	 */
 	private int mancheActuelle;
 
+	/**
+	 * Constante d'affichage utilisée pour signifier que l'utilisateur peut 
+	 * saisir une entrée clavier.
+	 */
 	private static final String SIGNE_PROMPT = ">> ";
+
+	/**
+	 * Constante d'affichage utilisée pour représenter un séparateur de boîte 
+	 * UTF-8.
+	 */
 	private static final String SEPARATEUR = "└─────────────────────────┘";
+
+	/**
+	 * Constante d'affichage utilisée pour représenter l'en-tête affiché lors du 
+	 * lancement du jeu.
+	 */
 	private static final String HEADER     = "┌───── JEU DU MENHIR ─────┐\n"
 									       + "│ Braga & Bresolin, A2015 │\n"
 									       + SEPARATEUR;
 
+	/**
+	 * Représente le Scanner utilisé pour lire l'entrée clavier.
+	 */
 	private Scanner reader;
 
 	public InterfaceLigneCommande() { 
