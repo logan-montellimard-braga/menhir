@@ -80,6 +80,9 @@ public class CarteIngredient extends Carte {
 			break;
 		}
 		this.dejaJouee = true;
+		
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public void setMatrice(EnumMap<Saison, EnumMap<ActionIngredient, Integer>> matrice) {

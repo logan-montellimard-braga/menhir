@@ -3,6 +3,10 @@ package fr.bragabresolin.menhir.Core.Joueurs;
 import java.util.*;
 import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Cartes.*;
+import fr.bragabresolin.menhir.Core.Message.Message;
+import fr.bragabresolin.menhir.Core.Message.MessageType;
+import fr.bragabresolin.menhir.Core.Message.TamponBooleen;
+import fr.bragabresolin.menhir.Core.Message.TamponCarte;
 
 public class JoueurPhysique extends Joueur {
 
@@ -15,18 +19,41 @@ public class JoueurPhysique extends Joueur {
 	}
 	
 	public void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle) {
-		// Pour l'instant, on utilise uniquement l'implémentation de la classe 
-		// fille JoueurPhysiqueLigneCommande.
-		// Lorsque l'on fera un vrai MVC avec interface, cette méthode sera 
-		// utilisée et exécutera la carte choisie.
+		this.setChanged();
+		this.notifyObservers(new Message(MessageType.JOUEUR_DEBUT_TOUR));
+		
+		this.setChanged();
+		this.notifyObservers(new Message(MessageType.JOUEUR_CHOIX_JOUER_ING));
+		
+		Carte carteAJouer = TamponCarte.getInstance().recupererCarte();
+		carteAJouer.setOrigine(this);
+		carteAJouer.executer(saisonActuelle);
+		
+		if (partieAvancee) {
+			CarteAllie carteAllie = this.choisirJouerAllie(saisonActuelle, contexte);
+			if (carteAllie != null) carteAllie.executer(saisonActuelle);
+		}
+		
+		this.setChanged();
+		this.notifyObservers(new Message(MessageType.JOUEUR_FIN_TOUR));
 	}
 
 	protected CarteAllie choisirJouerAllie(Saison saisonActuelle, ArrayList<Joueur> contexte) {
-		return null;
+		this.setChanged();
+		this.notifyObservers(new Message(MessageType.JOUEUR_CHOIX_JOUER_ALLIE));
+		
+		Carte carteAJouer = TamponCarte.getInstance().recupererCarte();
+		if (carteAJouer != null) carteAJouer.setOrigine(this);
+		
+		return (CarteAllie) carteAJouer;
 	}
 
 	public boolean veutPiocherCarteAllie() {
-		return true;
+		this.setChanged();
+		this.notifyObservers(new Message(MessageType.JOUEUR_CHOIX_PIOCHER_ALLIE));
+		
+		boolean veutPiocherAllie = TamponBooleen.getInstance().recupererBool();
+		return veutPiocherAllie;
 	}
 
 	public void jouerDansTourAdverse(ArrayList<Joueur> contexte, Saison saisonActuelle) {

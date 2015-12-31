@@ -17,6 +17,8 @@ public abstract class CarteAllie extends Carte {
 	 */
 	public void executer(Saison saisonActuelle) {
 		this.dejaJouee = true;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public void setMatrice(EnumMap<Saison, Integer> m) {

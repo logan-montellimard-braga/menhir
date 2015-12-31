@@ -29,6 +29,8 @@ public class JeuMenhir extends java.util.Observable {
 	 * Représente l'ensemble des joueur de la partie.
 	 */
 	private ArrayList<Joueur> joueurs;
+	
+	private Manche manche;
 
 	public JeuMenhir(int nombreJoueurs, String nomJoueur, int ageJoueur, boolean modeAvance) {
 		this.estPartieAvancee = modeAvance;
@@ -36,6 +38,7 @@ public class JeuMenhir extends java.util.Observable {
 		this.tasCartesIngredients = new Tas<CarteIngredient>();
 		this.genererJoueurs(nomJoueur, ageJoueur, nombreJoueurs);
 		this.genererTas();
+		this.manche = null;
 	}
 
 	public void registerObserver(Observer o) {
@@ -48,13 +51,26 @@ public class JeuMenhir extends java.util.Observable {
 		Iterator<Joueur> itj = this.joueurs.iterator();
 		while (itj.hasNext()) itj.next().addObserver(o);
 	}
+	
+	public Joueur getJoueurPhysique() {
+		Iterator<Joueur> it = this.joueurs.iterator();
+		Joueur joueur = null;
+		while (it.hasNext()) {
+			Joueur j = it.next();
+			if (j instanceof JoueurPhysique) {
+				joueur = j;
+				break;
+			}
+		}
+		return joueur;
+	}
 
 	/**
 	 * Crée les joueurs de la partie.
 	 */
 	private void genererJoueurs(String nomJoueur, int ageJoueur, int nombreJoueurs) {
 		ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
-		joueurs.add(new JoueurPhysiqueLigneCommande(nomJoueur, ageJoueur));
+		joueurs.add(new JoueurPhysique(nomJoueur, ageJoueur));
 		for (int i = 0; i < nombreJoueurs; i++) {
 			int age = 12 + (int) (Math.random() * ((85 - 12) + 1));
 			joueurs.add(new JoueurVirtuel("", age));
@@ -74,29 +90,28 @@ public class JeuMenhir extends java.util.Observable {
 	}
 	
 	public void lancerPartie() {
-		this.setChanged();
-		this.notifyObservers(new Message(MessageType.DEBUT_PARTIE));
-
-		Manche manche = null;
 		if (this.estPartieAvancee) {
 			int nombreManches = this.joueurs.size();
 			for (int i = 0; i < nombreManches; i++) {
 				this.tasCartesIngredients.melanger();
 				this.tasCartesAllies.melanger();
-				manche = new MancheAvancee(this.tasCartesIngredients,
+				this.manche = new MancheAvancee(this.tasCartesIngredients,
 						this.tasCartesAllies, this.joueurs);
-
-				manche.jouer();
+				this.setChanged();
+				this.notifyObservers(new Message(MessageType.DEBUT_PARTIE));
+				this.manche.jouer();
 				if (i == nombreManches - 1)
-					manche.nettoyer(false);
+					this.manche.nettoyer(false);
 				else
-					manche.nettoyer(true);
+					this.manche.nettoyer(true);
 			}
 		} else {
-			manche = new Manche(this.tasCartesIngredients, this.joueurs);
-			manche.jouer();
+			this.manche = new Manche(this.tasCartesIngredients, this.joueurs);
+			this.setChanged();
+			this.notifyObservers(new Message(MessageType.DEBUT_PARTIE));
+			this.manche.jouer();
 		}
-		manche.classerJoueurs();
+		this.manche.classerJoueurs();
 
 		this.setChanged();
 		this.notifyObservers(new Message(MessageType.FIN_PARTIE));
@@ -184,5 +199,9 @@ public class JeuMenhir extends java.util.Observable {
 
 	public ArrayList<Joueur> getJoueurs() {
 		return this.joueurs;
+	}
+	
+	public Manche getMancheEnCours() {
+		return this.manche;
 	}
 }

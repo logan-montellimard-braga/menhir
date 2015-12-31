@@ -19,6 +19,7 @@ public class Manche extends java.util.Observable {
 		this.tasCartesIngredients = tasIngredients;
 		this.joueurs = joueurs;
 		this.estRapide = true;
+		this.saisonEnCours = Saison.values()[0];
 	}
 
 	public void jouer() {
@@ -52,14 +53,6 @@ public class Manche extends java.util.Observable {
 	}
 
 	protected void faireJouer(Joueur joueur) {
-		if (joueur instanceof JoueurVirtuel) {
-			int tempsAttenteMin = 1000;
-			int tempsAttenteMax = 2500;
-			try {
-				Thread.sleep(tempsAttenteMin + (int) (Math.random() * 
-							((tempsAttenteMax - tempsAttenteMin) + 1)));
-			} catch (InterruptedException e) { e.printStackTrace(); }
-		}
 		joueur.jouer(this.joueurs, !this.estRapide, this.saisonEnCours);
 	}
 
@@ -100,5 +93,9 @@ public class Manche extends java.util.Observable {
 				return grainesA > grainesB ? -1 : grainesA == grainesB ? 0 : 1;
 			}
 		}
+	}
+	
+	public Saison getSaisonEnCours() {
+		return this.saisonEnCours;
 	}
 }

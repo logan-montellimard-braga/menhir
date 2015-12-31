@@ -1,8 +1,19 @@
 package fr.bragabresolin.menhir.Vues.GUI;
 
+import fr.bragabresolin.menhir.Core.JeuMenhir;
+import fr.bragabresolin.menhir.Core.JeuMenhirThread;
+import fr.bragabresolin.menhir.Core.Message.Message;
+import fr.bragabresolin.menhir.Core.Partie.Manche;
+import fr.bragabresolin.menhir.Core.Joueurs.*;
 import fr.bragabresolin.menhir.Vues.Vue;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -10,26 +21,36 @@ import net.miginfocom.swing.MigLayout;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.SystemColor;
+
 import javax.swing.UIManager;
-import java.awt.Font;
 import javax.swing.border.MatteBorder;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JOptionPane;
 
-public class VueMenhir implements Vue {
-
-	private static final int WIDTH = 850;
-	private static final int HEIGHT = 500;
+public class VueMenhir implements Vue, BlackTheme {
 	
-	private static final Color DARK_BG = new Color(51, 51, 51);
-	private static final Color LIGHT_FG = new Color(230, 230, 230);
-	private static final Color BORDER_COLOR = new Color(95, 95, 95);
-	private static final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 11);
+	private JeuMenhir jeu;
 	
 	private JFrame frame;
+	private JPanel panelJoueurs;
+	private LinkedList<VueJoueur> vuesJoueurs;
+	private JPanel panelCartes;
+	
+	private JLabel lblManche;
+	private JLabel lblSaisonencours;
+	private JLabel lblInformations;
+	
+	private int mancheActuelle;
+
 
 	public VueMenhir() {
+		this.mancheActuelle = 0;
+		
+		this.vuesJoueurs = new LinkedList<VueJoueur>();
+
 		frame = new JFrame();
 		frame.setIconImage(frame.getToolkit().getImage(getClass().getResource("/images/ico.png")));
 		frame.setTitle("Jeu du Menhir - Braga & Bresolin");
@@ -38,8 +59,6 @@ public class VueMenhir implements Vue {
 		frame.setBackground(DARK_BG);
 		frame.setBounds(100, 100, WIDTH, HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.frame.pack();
-		this.frame.setSize(WIDTH, HEIGHT);
 		
 		UIManager.put("OptionPane.background", DARK_BG);
 		UIManager.put("Panel.background",DARK_BG);
@@ -56,76 +75,124 @@ public class VueMenhir implements Vue {
 		frame.getContentPane().add(panel, "cell 0 0,growx,aligny top");
 		panel.setLayout(new MigLayout("", "20[10%]10[80%]10[10%]20", "[100%]"));
 
-		JLabel lblSaisonencours = new JLabel("Hiver".toUpperCase());
-		lblSaisonencours.setToolTipText("Saison en cours");
-		lblSaisonencours.setFont(TITLE_FONT);
-		lblSaisonencours.setForeground(LIGHT_FG);
-		panel.add(lblSaisonencours, "cell 0 0,alignx left,growy");
+		this.lblSaisonencours = new JLabel("Saison".toUpperCase());
+		this.lblSaisonencours.setToolTipText("Saison en cours");
+		this.lblSaisonencours.setFont(TITLE_FONT);
+		this.lblSaisonencours.setForeground(LIGHT_FG);
+		panel.add(this.lblSaisonencours, "cell 0 0,alignx left,growy");
 
-		JLabel lblInformations = new JLabel("Tour du joueur J2");
-		lblInformations.setFont(UIManager.getFont("Table.font"));
-		lblInformations.setForeground(LIGHT_FG);
-		panel.add(lblInformations, "cell 1 0,alignx center,aligny center");
+		this.lblInformations = new JLabel("<...>");
+		this.lblInformations.setFont(UIManager.getFont("Table.font"));
+		this.lblInformations.setForeground(LIGHT_FG);
+		panel.add(this.lblInformations, "cell 1 0,alignx center,aligny center");
 
-		JLabel lblManche = new JLabel("MANCHE 1/6");
-		lblManche.setToolTipText("Manche en cours");
-		lblManche.setForeground(LIGHT_FG);
-		lblManche.setFont(TITLE_FONT);
-		panel.add(lblManche, "cell 2 0,alignx right,aligny center");
+		this.lblManche = new JLabel("MANCHE x");
+		this.lblManche.setToolTipText("Manche en cours");
+		this.lblManche.setForeground(LIGHT_FG);
+		this.lblManche.setFont(TITLE_FONT);
+		panel.add(this.lblManche, "cell 2 0,alignx right,aligny center");
+		
+		this.panelJoueurs = new JPanel();
+		this.panelJoueurs.setBackground(DARK_BG);
+		frame.getContentPane().add(this.panelJoueurs, "cell 0 1,grow");
+		this.panelJoueurs.setLayout(new GridLayout(1, 6, 0, 0));
+		this.remplirPanelJoueurs();
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(DARK_BG);
-		frame.getContentPane().add(panel_1, "cell 0 1,grow");
-		panel_1.setLayout(new GridLayout(1, 6, 0, 0));
-
-		VueJoueur j1 = new VueJoueur("J1");
-		j1.setBorder(new MatteBorder(0, 0, 0, 1, (Color) BORDER_COLOR));
-		VueJoueur j2 = new VueJoueur("J2");
-		j2.setBorder(new MatteBorder(0, 0, 0, 1, (Color) BORDER_COLOR));
-		VueJoueur j3 = new VueJoueur("J3");
-		j3.setBorder(new MatteBorder(0, 0, 0, 1, (Color) BORDER_COLOR));
-		VueJoueur j4 = new VueJoueur("J4");
-		j4.setBorder(new MatteBorder(0, 0, 0, 1, (Color) BORDER_COLOR));
-		VueJoueur j5 = new VueJoueur("J5");
-
-		VueJoueur j = new VueJoueur("Logan");
-		j.setBackground(new Color(65, 65, 65));
-		j.setBorder(new MatteBorder(0, 0, 0, 1, (Color) BORDER_COLOR));
-		panel_1.add(j);
-		panel_1.add(j1);
-		panel_1.add(j2);
-		panel_1.add(j3);
-		panel_1.add(j4);
-		panel_1.add(j5);
-
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(DARK_BG);
-		panel_2.setBorder(new MatteBorder(1, 0, 0, 0, (Color) BORDER_COLOR));
-		frame.getContentPane().add(panel_2, "cell 0 2,grow");
-		panel_2.setLayout(new MigLayout("", "0[80%-15px,grow]40[20%-15px]0", "0[30px][100%-30px,grow]0"));
-
-		JPanel panel_3 = new JPanel();
-		panel_3.setBackground(DARK_BG);
-		panel_2.add(panel_3, "cell 0 1,grow");
-		panel_3.setLayout(new GridLayout(1, 4, 0, 0));
-
-		VueCarteIngredient btnFour = new VueCarteIngredient("Larmes de Dryade");
-		panel_3.add(btnFour);
-
-		VueCarteIngredient btnThree = new VueCarteIngredient("Racine d'arc-en-ciel");
-		panel_3.add(btnThree);
-
-		VueCarteIngredient btnTwo = new VueCarteIngredient("Esprit du Dolmen");
-		panel_3.add(btnTwo);
-
-		VueCarteIngredient btnOne = new VueCarteIngredient("Rayon de lune");
-		panel_3.add(btnOne);
-
-		VueCarteAllie btnFive = new VueCarteAllie("Chien de garde");
-		panel_2.add(btnFive, "cell 1 1,grow");
+		this.panelCartes = new VueMainJoueur(this.jeu);
+		this.frame.getContentPane().add(this.panelCartes, "cell 0 2,grow");
+		
+		this.jeu.addObserver(new Observer() {
+			public void update(Observable o, Object message) {
+				switch (((Message) message).getType()) {
+				case DEBUT_PARTIE:
+					VueMenhir.this.initTopPanel();
+					break;
+				case FIN_PARTIE:
+					VueMenhir.this.afficherClassement();
+					break;
+				}
+			}
+		});
+		
+		Iterator<Joueur> itj = this.jeu.getJoueurs().iterator();
+		while (itj.hasNext()) {
+			itj.next().addObserver(new Observer() {
+				public void update(Observable o, Object message) {
+					if (message instanceof Message) {
+						switch (((Message) message).getType()) {
+						case JOUEUR_DEBUT_TOUR:
+							Joueur j = (Joueur) o;
+							VueMenhir.this.lblInformations.setText("Tour de " + j.getNom());
+							break;
+						}	
+					}
+				}
+			});
+		}
 		
 		this.frame.pack();
-		this.frame.setSize(WIDTH, HEIGHT);
+	}
+	
+	private void afficherClassement() {
+		this.panelCartes.removeAll();
+		this.panelCartes.setLayout(new BorderLayout());
+		
+		this.lblManche.setText("");
+		this.lblSaisonencours.setText("");
+		this.lblInformations.setText("Partie terminée ! Voici le classement :");
+		
+		this.remplirPanelJoueurs();
+		
+		JButton boutonRejouer = new JButton("REJOUER");
+		boutonRejouer.setBackground(DARK_BG);
+		boutonRejouer.setForeground(LIGHT_FG);
+		boutonRejouer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VueMenhir.this.demarrerJeu();
+			}
+		});
+		this.panelCartes.add(boutonRejouer, BorderLayout.CENTER);
+		
+		this.frame.pack();
+	}
+	
+	private void initTopPanel() {
+		lblSaisonencours.setText(this.jeu.getMancheEnCours().getSaisonEnCours().toString());
+		this.jeu.getMancheEnCours().addObserver(new Observer() {
+			public void update(Observable o, Object message) {
+				Message mes = (Message) message;
+				switch (mes.getType()) {
+				case DEBUT_SAISON:
+					lblSaisonencours.setText(((Manche) o).getSaisonEnCours().toString());
+					lblInformations.setText("Changement de saison !");
+					break;
+				case DEBUT_MANCHE:
+					remplirPanelJoueurs();
+					mancheActuelle++;
+					lblManche.setText("Manche " + mancheActuelle);
+					lblInformations.setText("Changement de manche !");
+				default:
+				}
+			}
+		});
+	}
+	
+	private void remplirPanelJoueurs() {
+		Iterator<VueJoueur> itv = this.vuesJoueurs.iterator();
+		while (itv.hasNext()) {
+			itv.next().nettoyer();
+		}
+		this.panelJoueurs.removeAll();
+		Iterator<Joueur> it = this.jeu.getJoueurs().iterator();
+		while (it.hasNext()) {
+			Joueur j = it.next();
+			VueJoueur vueJoueur = new VueJoueur(j);
+			this.vuesJoueurs.add(vueJoueur);
+			if (it.hasNext()) {
+				vueJoueur.setBorder(new MatteBorder(0, 0, 0, 1, (Color) BORDER_COLOR));
+			}
+			this.panelJoueurs.add(vueJoueur);
+		}
 	}
 	
 	private void confirmerDemarrage() {
@@ -151,6 +218,12 @@ public class VueMenhir implements Vue {
 			if (nomJoueur == null) System.exit(0);
 		}
 		return nomJoueur;
+	}
+	
+	private boolean demanderModePartie() {
+		String texte = "Voulez-vous jouer en partie avancée ?";
+		int result = JOptionPane.showConfirmDialog(this.frame, texte, "Choix du mode de jeu - Menhir", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+		return result == 0;
 	}
 	
 	private int demanderAge() {
@@ -198,18 +271,29 @@ public class VueMenhir implements Vue {
 		}
 		return nombreJoueurs;
 	}
-
-
-	public void lancer() {
-		JLabel splash = new JLabel("HEJEKJKJ");
-		splash.setIcon(new ImageIcon(VueMenhir.class.getResource("/images/splash.png")));
-		frame.getContentPane().add(splash, BorderLayout.CENTER);
-		this.frame.setVisible(true);
-		
-		this.confirmerDemarrage();
+	
+	private void demarrerJeu() {
 		String nomJoueur = this.demanderNom();
 		int ageJoueur = this.demanderAge();
 		int nombreJoueurs = this.demanderNombreJoueurs();
+		boolean partieAvancee = this.demanderModePartie();
+		this.jeu = new JeuMenhirThread(nombreJoueurs, nomJoueur, ageJoueur, partieAvancee);
 		this.initialize();
+		this.jeu.lancerPartie();
+	}
+	
+	private void afficherSplashScreen() {
+		frame.getContentPane().removeAll();
+		JLabel splash = new JLabel("");
+		splash.setIcon(new ImageIcon(VueMenhir.class.getResource("/images/splash.png")));
+		frame.getContentPane().add(splash, BorderLayout.CENTER);
+	}
+
+	public void lancer() {
+		this.afficherSplashScreen();
+		this.frame.setVisible(true);
+		
+		this.confirmerDemarrage();
+		this.demarrerJeu();
 	}
 }

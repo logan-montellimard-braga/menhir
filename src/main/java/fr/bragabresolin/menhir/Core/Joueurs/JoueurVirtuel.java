@@ -4,6 +4,8 @@ import java.util.*;
 import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Cartes.*;
 import fr.bragabresolin.menhir.Core.Joueurs.Comportements.*;
+import fr.bragabresolin.menhir.Core.Message.Message;
+import fr.bragabresolin.menhir.Core.Message.MessageType;
 
 public class JoueurVirtuel extends Joueur {
 
@@ -58,7 +60,14 @@ public class JoueurVirtuel extends Joueur {
 
 	public void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle) {
 		this.setChanged();
-		this.notifyObservers(this.nom + " joue... ");
+		this.notifyObservers(new Message(MessageType.JOUEUR_DEBUT_TOUR));
+		
+		int tempsAttenteMin = 1000;
+		int tempsAttenteMax = 2500;
+		try {
+			Thread.sleep(tempsAttenteMin + (int) (Math.random() * 
+						((tempsAttenteMax - tempsAttenteMin) + 1)));
+		} catch (InterruptedException e) { e.printStackTrace(); }
 
 		ArrayList<CarteIngredient> cartesIng = new ArrayList<CarteIngredient>();
 		for (Carte carte : this.cartes)
@@ -71,6 +80,9 @@ public class JoueurVirtuel extends Joueur {
 			CarteAllie carteAllie = this.choisirJouerAllie(saisonActuelle, contexte);
 			if (carteAllie != null) carteAllie.executer(saisonActuelle);
 		}
+		
+		this.setChanged();
+		this.notifyObservers(new Message(MessageType.JOUEUR_FIN_TOUR));
 	}
 
 	protected CarteAllie choisirJouerAllie(Saison saisonActuelle, ArrayList<Joueur> contexte) {

@@ -80,11 +80,11 @@ public abstract class Joueur extends Observable {
 	 */
 	public void augmenterGraines(int n) {
 		if (n <= 0) return;
+		
+		this.nombreGraines += n;
 
 		this.setChanged();
 		this.notifyObservers(new Message(MessageType.JOUEUR_PIOCHE_GRAINE, n));
-		
-		this.nombreGraines += n;
 	}
 	
 	/**
@@ -101,7 +101,10 @@ public abstract class Joueur extends Observable {
 		if (this.nombreGraines < 0) {
 			this.nombreGraines = 0;
 		}
-		return grainesAvant - this.nombreGraines;	
+		this.setChanged();
+		this.notifyObservers(new Message(MessageType.JOUEUR_PERDS_GRAINES, grainesAvant - this.nombreGraines));
+		return grainesAvant - this.nombreGraines;
+		
 	}
 	
 	/**
@@ -178,6 +181,8 @@ public abstract class Joueur extends Observable {
 
 	public void setNombreGrainesProteges(int n) {
 		this.nombreGrainesProteges = n;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public int getNombreGrainesProteges() {
@@ -187,14 +192,6 @@ public abstract class Joueur extends Observable {
 	public abstract boolean veutPiocherCarteAllie();
 
 	public void piocherCartes(Tas<? extends Carte> tas, int nombreCartes) {
-		String type;
-		if (tas.peek() instanceof CarteIngredient)
-			type = "ingrédient";
-		else
-			type = "allié";
-		this.setChanged();
-		this.notifyObservers(this.nom + " pioche " + nombreCartes + " carte" + (nombreCartes > 1 ? "s " : " ") + type + ".");
-
 		for (int i = 0; i < nombreCartes; i++) {
 			Carte carte = tas.donnerCarte();
 			this.cartes.add(carte);
@@ -208,9 +205,6 @@ public abstract class Joueur extends Observable {
 		List<Carte> copie = new ArrayList<Carte>(this.cartes);
 		Collections.copy(copie, this.cartes);
 		this.cartes.clear();
-
-		this.setChanged();
-		this.notifyObservers(this.nom + " rend ses cartes.");
 
 		this.setChanged();
 		this.notifyObservers(new Message(MessageType.JOUEUR_REND_CARTES));
@@ -263,6 +257,20 @@ public abstract class Joueur extends Observable {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+	
+	public List<Carte> getCartes() {
+		return this.cartes;
+	}
+	
+	public boolean carteAllieDispo() {
+		Iterator<Carte> it = this.cartes.iterator();
+		while (it.hasNext()) {
+			Carte carte = it.next();
+			if (carte instanceof CarteAllie &&
+					!carte.getDejaJouee()) return true;
+		}
+		return false;
 	}
 
 	/**
