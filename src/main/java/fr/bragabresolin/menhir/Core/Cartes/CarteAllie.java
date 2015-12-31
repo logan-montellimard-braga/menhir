@@ -1,7 +1,6 @@
 package fr.bragabresolin.menhir.Core.Cartes;
 
 import java.util.EnumMap;
-import java.util.Arrays;
 import fr.bragabresolin.menhir.Core.Saison;
 
 public abstract class CarteAllie extends Carte {

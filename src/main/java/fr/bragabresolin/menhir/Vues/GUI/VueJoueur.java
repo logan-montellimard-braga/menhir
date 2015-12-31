@@ -2,7 +2,6 @@ package fr.bragabresolin.menhir.Vues.GUI;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import java.awt.Color;
 import javax.swing.SwingConstants;
 
 import fr.bragabresolin.menhir.Core.Joueurs.Joueur;
@@ -15,9 +14,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import net.miginfocom.swing.MigLayout;
-import javax.swing.ImageIcon;
 
 public class VueJoueur extends JPanel implements Observer, BlackTheme {
+	
+	public static final long serialVersionUID = 1l;
 	
 	private Joueur joueur;
 	
@@ -36,7 +36,7 @@ public class VueJoueur extends JPanel implements Observer, BlackTheme {
 			Message mes = (Message) message;
 			switch(mes.getType()) {
 			case JOUEUR_DEBUT_TOUR:
-				this.labelNom.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, LIGHT_FG));
+				this.labelNom.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, LIGHT_FG));
 				break;
 			case JOUEUR_FIN_TOUR:
 				this.labelNom.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, DARK_BG));
@@ -51,8 +51,8 @@ public class VueJoueur extends JPanel implements Observer, BlackTheme {
 		this.joueur = joueur;
 		this.joueur.addObserver(this);
 		
-		if (joueur instanceof JoueurPhysique) setBackground(new Color(65, 65, 65));
-		else setBackground(new Color(51, 51, 51));
+		if (joueur instanceof JoueurPhysique) setBackground(ACCENT_2);
+		else setBackground(DARK_BG);
 		setLayout(new MigLayout("", "15[20%]10[80%]", "15[25%][25%][25%][25%]"));
 		
 		// Label du nom + âge
@@ -60,46 +60,43 @@ public class VueJoueur extends JPanel implements Observer, BlackTheme {
 		this.labelNom.setVerticalAlignment(SwingConstants.TOP);
 		this.labelNom.setFont(new Font("SansSerif", Font.BOLD, 14));
 		this.labelNom.setHorizontalAlignment(SwingConstants.LEFT);
-		this.labelNom.setForeground(new Color(230, 230, 230));
+		this.labelNom.setForeground(LIGHT_FG);
 		this.add(this.labelNom, "cell 0 0 2 1,alignx left,aligny top");
 		
 		// Label des points 
 		JLabel lblP = new JLabel("Points");
-		//lblP.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/points_ico.png")));
 		lblP.setToolTipText("Points");
 		lblP.setHorizontalAlignment(SwingConstants.LEFT);
-		lblP.setForeground(new Color(230, 230, 230));
+		lblP.setForeground(LIGHT_FG);
 		lblP.setFont(new Font("SansSerif", Font.BOLD, 12));
 		this.add(lblP, "cell 0 1,alignx center,aligny center");
 		
 		this.labelPoints = new JLabel("" + this.joueur.getPoints());
 		this.labelPoints.setFont(new Font("SansSerif", Font.PLAIN, 12));
-		this.labelPoints.setForeground(new Color(230, 230, 230));
+		this.labelPoints.setForeground(LIGHT_FG);
 		this.add(this.labelPoints, "cell 1 1");
 		
 		JLabel lblM = new JLabel("Menhirs");
-		//lblM.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/mehnir_ico.png")));
 		lblM.setToolTipText("Menhirs");
 		lblM.setHorizontalAlignment(SwingConstants.LEFT);
-		lblM.setForeground(new Color(230, 230, 230));
+		lblM.setForeground(LIGHT_FG);
 		lblM.setFont(new Font("SansSerif", Font.BOLD, 12));
 		this.add(lblM, "cell 0 2,alignx center,aligny center");
 		
 		this.labelMenhirs = new JLabel("" + this.joueur.getNombreMenhirs());
-		this.labelMenhirs.setForeground(new Color(230, 230, 230));
+		this.labelMenhirs.setForeground(LIGHT_FG);
 		this.labelMenhirs.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		this.add(this.labelMenhirs, "cell 1 2");
 		
 		JLabel lblG = new JLabel("Graines");
-		//lblG.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/graines_ico.png")));
 		lblG.setToolTipText("Graines (prot\u00E9g\u00E9es)");
 		lblG.setHorizontalAlignment(SwingConstants.LEFT);
-		lblG.setForeground(new Color(230, 230, 230));
+		lblG.setForeground(LIGHT_FG);
 		lblG.setFont(new Font("SansSerif", Font.BOLD, 12));
 		this.add(lblG, "cell 0 3,alignx center,aligny center");
 		
 		this.labelGraines = new JLabel("" + this.joueur.getNombreGraines() + " (" + this.joueur.getNombreGrainesProteges() + ")");
-		this.labelGraines.setForeground(new Color(230, 230, 230));
+		this.labelGraines.setForeground(LIGHT_FG);
 		this.labelGraines.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		this.add(this.labelGraines, "cell 1 3");
 	}

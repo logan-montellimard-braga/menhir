@@ -40,16 +40,13 @@ public class JeuMenhir extends java.util.Observable {
 		this.genererTas();
 		this.manche = null;
 	}
-
-	public void registerObserver(Observer o) {
-		Iterator<CarteIngredient> iti = this.tasCartesIngredients.iterator();
-		while (iti.hasNext()) iti.next().addObserver(o);
-
-		Iterator<CarteAllie> ita = this.tasCartesAllies.iterator();
-		while (ita.hasNext()) ita.next().addObserver(o);
-
-		Iterator<Joueur> itj = this.joueurs.iterator();
-		while (itj.hasNext()) itj.next().addObserver(o);
+	
+	public Tas<CarteIngredient> getTasIng() {
+		return this.tasCartesIngredients;
+	}
+	
+	public Tas<CarteAllie> getTasAllie() {
+		return this.tasCartesAllies;
 	}
 	
 	public Joueur getJoueurPhysique() {

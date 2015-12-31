@@ -2,6 +2,10 @@ package fr.bragabresolin.menhir.Vues.GUI;
 
 import fr.bragabresolin.menhir.Core.JeuMenhir;
 import fr.bragabresolin.menhir.Core.JeuMenhirThread;
+import fr.bragabresolin.menhir.Core.Cartes.CarteAllie;
+import fr.bragabresolin.menhir.Core.Cartes.CarteAllieChien;
+import fr.bragabresolin.menhir.Core.Cartes.CarteAllieTaupe;
+import fr.bragabresolin.menhir.Core.Cartes.CarteIngredient;
 import fr.bragabresolin.menhir.Core.Message.Message;
 import fr.bragabresolin.menhir.Core.Partie.Manche;
 import fr.bragabresolin.menhir.Core.Joueurs.*;
@@ -16,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 
@@ -38,7 +43,9 @@ public class VueMenhir implements Vue, BlackTheme {
 	private JPanel panelJoueurs;
 	private LinkedList<VueJoueur> vuesJoueurs;
 	private JPanel panelCartes;
+	private JPanel panelSuiviEffets;
 	
+	private JLabel lblSuiviEffets;
 	private JLabel lblManche;
 	private JLabel lblSaisonencours;
 	private JLabel lblInformations;
@@ -67,11 +74,13 @@ public class VueMenhir implements Vue, BlackTheme {
 
 	private void initialize() {
 		frame.getContentPane().removeAll();
-		frame.getContentPane().setLayout(new MigLayout("", "0[100%,grow]0", "0[50px,fill]0[40%,grow]0[60%-50px,grow]0"));
+		frame.getContentPane().setLayout(new MigLayout("", "0[100%,grow]0", "0[50px,fill]0[35px,fill]0[40%-20px,grow]0[60%-65px,grow]0"));
 
+		this.mancheActuelle = 0;
+		
 		JPanel panel = new JPanel();
 		panel.setBorder(new MatteBorder(0, 0, 1, 0, BORDER_COLOR));
-		panel.setBackground(new Color(85, 85, 85));
+		panel.setBackground(ACCENT_1);
 		frame.getContentPane().add(panel, "cell 0 0,growx,aligny top");
 		panel.setLayout(new MigLayout("", "20[10%]10[80%]10[10%]20", "[100%]"));
 
@@ -94,12 +103,23 @@ public class VueMenhir implements Vue, BlackTheme {
 		
 		this.panelJoueurs = new JPanel();
 		this.panelJoueurs.setBackground(DARK_BG);
-		frame.getContentPane().add(this.panelJoueurs, "cell 0 1,grow");
+		frame.getContentPane().add(this.panelJoueurs, "cell 0 2,grow");
 		this.panelJoueurs.setLayout(new GridLayout(1, 6, 0, 0));
 		this.remplirPanelJoueurs();
+		
+		this.panelSuiviEffets = new JPanel();
+		this.panelSuiviEffets.setBackground(ACCENT_2);
+		this.panelSuiviEffets.setBorder(new MatteBorder(0, 0, 1, 0, BORDER_COLOR));
+		frame.getContentPane().add(this.panelSuiviEffets, "cell 0 1,grow");
+		this.lblSuiviEffets = new JLabel("En attente d'actions à afficher");
+		this.lblSuiviEffets.setForeground(ACCENT_FG);
+		this.lblSuiviEffets.setFont(DEFAULT_FONT);
+		this.lblSuiviEffets.setHorizontalAlignment(SwingConstants.CENTER);
+		this.lblSuiviEffets.setBorder(new MatteBorder(4, 0, 0, 0, ACCENT_2)); // padding
+		this.panelSuiviEffets.add(this.lblSuiviEffets);
 
 		this.panelCartes = new VueMainJoueur(this.jeu);
-		this.frame.getContentPane().add(this.panelCartes, "cell 0 2,grow");
+		this.frame.getContentPane().add(this.panelCartes, "cell 0 3,grow");
 		
 		this.jeu.addObserver(new Observer() {
 			public void update(Observable o, Object message) {
@@ -110,9 +130,64 @@ public class VueMenhir implements Vue, BlackTheme {
 				case FIN_PARTIE:
 					VueMenhir.this.afficherClassement();
 					break;
+				default:
+					break;
 				}
 			}
 		});
+		
+		Iterator<CarteIngredient> itc = this.jeu.getTasIng().iterator();
+		while (itc.hasNext()) {
+			CarteIngredient carte = itc.next();
+			carte.addObserver(new Observer() {
+				public void update(Observable o, Object message) {
+					if (message instanceof Message) {
+						Message mes = (Message) message;
+						switch (mes.getType()) {
+						case CARTE_EXEC:
+							CarteIngredient c = (CarteIngredient) o;
+							switch (c.getAction()) {
+							case GEANT:
+								VueMenhir.this.lblSuiviEffets.setText(c.getOrigine().getNom() + " récupère " + (Integer) mes.getBody() + " graines.");
+								break;
+							case ENGRAIS:
+								VueMenhir.this.lblSuiviEffets.setText(c.getOrigine().getNom() + " fait pousser " + (Integer) mes.getBody() + " menhirs.");
+								break;
+							case FARFADET:
+								VueMenhir.this.lblSuiviEffets.setText(c.getOrigine().getNom() + " vole " + (Integer) mes.getBody() + " graines à " + c.getCible().getNom() + ".");
+								break;
+							}
+							break;
+						default:
+							break;
+						}
+					}
+				}
+			});
+		}
+		
+		Iterator<CarteAllie> itca = this.jeu.getTasAllie().iterator();
+		while(itca.hasNext()) {
+			CarteAllie carte = itca.next();
+			carte.addObserver(new Observer() {
+				public void update(Observable o, Object message) {
+					if (message instanceof Message) {
+						Message mes = (Message) message;
+						switch (mes.getType()) {
+						case CARTE_EXEC:
+							CarteAllie c = (CarteAllie) o;
+							if (c instanceof CarteAllieChien) {
+								VueMenhir.this.lblSuiviEffets.setText(c.getOrigine().getNom() + " appelle un chien qui protège " + (Integer) mes.getBody() + " graines.");
+							} else if (c instanceof CarteAllieTaupe) {
+								VueMenhir.this.lblSuiviEffets.setText(c.getOrigine().getNom() + " appelle une taupe géante qui détruit " + (Integer) mes.getBody() + " menhirs de " + c.getCible().getNom());
+							}
+						default:
+							break;
+						}
+					}
+				}
+			});
+		}
 		
 		Iterator<Joueur> itj = this.jeu.getJoueurs().iterator();
 		while (itj.hasNext()) {
@@ -124,7 +199,9 @@ public class VueMenhir implements Vue, BlackTheme {
 							Joueur j = (Joueur) o;
 							VueMenhir.this.lblInformations.setText("Tour de " + j.getNom());
 							break;
-						}	
+						default:
+							break;
+						}
 					}
 				}
 			});
@@ -139,7 +216,8 @@ public class VueMenhir implements Vue, BlackTheme {
 		
 		this.lblManche.setText("");
 		this.lblSaisonencours.setText("");
-		this.lblInformations.setText("Partie terminée ! Voici le classement :");
+		this.lblInformations.setText("Partie terminée !");
+		this.lblSuiviEffets.setText("Voici le classement :");
 		
 		this.remplirPanelJoueurs();
 		

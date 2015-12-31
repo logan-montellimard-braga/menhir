@@ -1,6 +1,5 @@
 package fr.bragabresolin.menhir.Core.Cartes;
 
-import java.util.EnumMap;
 import java.util.Observable;
 import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Joueurs.*;

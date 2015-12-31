@@ -15,7 +15,7 @@ public class Menhir {
 
 		Vue vue = null;
 
-		if (modeConsole) vue = InterfaceLigneCommande.getInstance();
+		if (modeConsole) vue = new InterfaceLigneCommande();
 		else vue = new VueMenhir();
 
 		vue.lancer();

@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -31,6 +30,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 
 public class VueCarteAllie extends JPanel implements Observer, BlackTheme {
+	
+	public static final long serialVersionUID = 1l;
 
 	private CarteAllie carte;
 	private JeuMenhir jeu;
@@ -95,19 +96,19 @@ public class VueCarteAllie extends JPanel implements Observer, BlackTheme {
 			}
 		});
 
-		setBorder(new LineBorder(new Color(95, 95, 95)));
-		setBackground(new Color(65, 65, 65));
+		setBorder(new LineBorder(BORDER_COLOR));
+		setBackground(ACCENT_2);
 		setLayout(new MigLayout("", "[100%,grow]", "[30px]10[100%-40px,grow]"));
 		
 		JLabel label = new JLabel(this.carte instanceof CarteAllieTaupe ? "Taupe géante" : "Chien de garde");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setForeground(new Color(230, 230, 230));
+		label.setForeground(LIGHT_FG);
 		label.setFont(new Font("SansSerif", Font.BOLD, 11));
 		add(label, "cell 0 0,alignx center,aligny center");
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
-		panel.setBackground(new Color(65, 65, 65));
+		panel.setBackground(ACCENT_2);
 		add(panel, "cell 0 1,grow");
 		panel.setLayout(new GridLayout(4, 2, 0, 0));
 		
@@ -116,12 +117,12 @@ public class VueCarteAllie extends JPanel implements Observer, BlackTheme {
 			labelSaison.setToolTipText(saison.toString());
 			labelSaison.setHorizontalAlignment(SwingConstants.CENTER);
 			labelSaison.setIcon(new ImageIcon(VueCarteAllie.class.getResource("/images/" + saison.toString().toLowerCase() + "_ico.png")));
-			labelSaison.setForeground(new Color(204, 204, 204));
+			labelSaison.setForeground(ACCENT_FG);
 			panel.add(labelSaison);
 			
 			JLabel labelValeur = new JLabel("" + carte.getMatrice().get(saison));
 			labelValeur.setHorizontalAlignment(SwingConstants.CENTER);
-			labelValeur.setForeground(new Color(204, 204, 204));
+			labelValeur.setForeground(ACCENT_FG);
 			panel.add(labelValeur);
 		}
 	}

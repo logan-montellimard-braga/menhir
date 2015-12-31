@@ -22,6 +22,8 @@ import net.miginfocom.swing.MigLayout;
 
 public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 	
+	public static final long serialVersionUID = 1l;
+	
 	private JPanel panelCartesIng;
 	private LinkedList<VueCarteIngredient> listeCartes;
 	private LinkedList<VueCarteAllie> listeCartesAllie;
@@ -87,6 +89,8 @@ public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 				default:
 					TamponBooleen.getInstance().deposerBool(false);
 				}
+				break;
+			default:
 				break;
 			}
 		}

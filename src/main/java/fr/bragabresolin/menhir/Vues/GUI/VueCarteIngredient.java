@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -32,6 +31,8 @@ import javax.swing.JComboBox;
 
 public class VueCarteIngredient extends JPanel implements Observer, BlackTheme {
 	
+	public static final long serialVersionUID = 1l;
+	
 	private CarteIngredient carte;
 	private JeuMenhir jeu;
 	
@@ -53,8 +54,8 @@ public class VueCarteIngredient extends JPanel implements Observer, BlackTheme {
 		this.jeu = jeu;
 		this.estJouable = false;
 		
-		setBorder(new LineBorder(new Color(95, 95, 95)));
-		setBackground(new Color(65, 65, 65));
+		setBorder(new LineBorder(BORDER_COLOR));
+		setBackground(ACCENT_2);
 		setLayout(new MigLayout("", "[100%,grow]", "[30px]10[100%-40px,grow]"));
 		
 		this.addMouseListener(new MouseAdapter() {
@@ -117,13 +118,13 @@ public class VueCarteIngredient extends JPanel implements Observer, BlackTheme {
 		
 		JLabel label = new JLabel(carte.getNomCarte());
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setForeground(new Color(230, 230, 230));
+		label.setForeground(LIGHT_FG);
 		label.setFont(new Font("SansSerif", Font.BOLD, 11));
 		add(label, "cell 0 0,alignx center,aligny center");
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
-		panel.setBackground(new Color(65, 65, 65));
+		panel.setBackground(ACCENT_2);
 		add(panel, "cell 0 1,grow");
 		panel.setLayout(new GridLayout(5, 4, 0, 0));
 		
@@ -136,7 +137,7 @@ public class VueCarteIngredient extends JPanel implements Observer, BlackTheme {
 			iconeAction.setToolTipText(action.toString());
 			iconeAction.setFont(new Font("SansSerif", Font.BOLD, 11));
 			iconeAction.setHorizontalAlignment(SwingConstants.CENTER);
-			iconeAction.setForeground(new Color(204, 204, 204));
+			iconeAction.setForeground(ACCENT_FG);
 			panel.add(iconeAction);
 		}
 		
@@ -145,7 +146,7 @@ public class VueCarteIngredient extends JPanel implements Observer, BlackTheme {
 			icone.setToolTipText(saison.toString());
 			icone.setHorizontalAlignment(SwingConstants.CENTER);
 			icone.setIcon(new ImageIcon(VueCarteIngredient.class.getResource("/images/" + saison.toString().toLowerCase() + "_ico.png")));
-			icone.setForeground(new Color(204, 204, 204));
+			icone.setForeground(ACCENT_FG);
 			panel.add(icone);
 			
 			for (ActionIngredient ai : ActionIngredient.values()) {
@@ -153,7 +154,7 @@ public class VueCarteIngredient extends JPanel implements Observer, BlackTheme {
 				JLabel labelValeur = new JLabel("" + valeur);
 				labelValeur.setFont(new Font("SansSerif", Font.PLAIN, 11));
 				labelValeur.setHorizontalAlignment(SwingConstants.CENTER);
-				labelValeur.setForeground(new Color(204, 204, 204));
+				labelValeur.setForeground(ACCENT_FG);
 				panel.add(labelValeur);
 			}
 		}

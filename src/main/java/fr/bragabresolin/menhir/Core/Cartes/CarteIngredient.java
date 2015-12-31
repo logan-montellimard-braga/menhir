@@ -3,6 +3,8 @@ package fr.bragabresolin.menhir.Core.Cartes;
 import java.util.EnumMap;
 import fr.bragabresolin.menhir.Core.Saison;
 import fr.bragabresolin.menhir.Core.Joueurs.Joueur;
+import fr.bragabresolin.menhir.Core.Message.Message;
+import fr.bragabresolin.menhir.Core.Message.MessageType;
 
 public class CarteIngredient extends Carte {
 	
@@ -62,13 +64,13 @@ public class CarteIngredient extends Carte {
 		case GEANT:
 			joueurOrigine.augmenterGraines(forceEffet);
 			this.setChanged();
-			this.notifyObservers(joueurOrigine.getNom() + " récupère " + forceEffet + " graines.");
+			this.notifyObservers(new Message(MessageType.CARTE_EXEC, forceEffet));
 			break;
 			
 		case ENGRAIS:
 			int grainesTransformees = joueurOrigine.augmenterMehnirs(forceEffet);
 			this.setChanged();
-			this.notifyObservers(joueurOrigine.getNom() + " fait pousser " + grainesTransformees + " menhirs.");
+			this.notifyObservers(new Message(MessageType.CARTE_EXEC, grainesTransformees));
 			joueurOrigine.diminuerGraines(grainesTransformees);
 			break;
 			
@@ -76,11 +78,10 @@ public class CarteIngredient extends Carte {
 			int grainesVolees = this.cible.subirVolGraines(forceEffet);
 			joueurOrigine.augmenterGraines(grainesVolees);
 			this.setChanged();
-			this.notifyObservers("Le joueur " + this.origine.getNom() + " vole " + grainesVolees + " graines au joueur " + this.cible.getNom() + ".");
+			this.notifyObservers(new Message(MessageType.CARTE_EXEC, grainesVolees));
 			break;
 		}
 		this.dejaJouee = true;
-		
 		this.setChanged();
 		this.notifyObservers();
 	}

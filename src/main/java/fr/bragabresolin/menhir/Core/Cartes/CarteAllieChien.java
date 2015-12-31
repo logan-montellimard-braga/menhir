@@ -1,6 +1,8 @@
 package fr.bragabresolin.menhir.Core.Cartes;
 
 import fr.bragabresolin.menhir.Core.Saison;
+import fr.bragabresolin.menhir.Core.Message.Message;
+import fr.bragabresolin.menhir.Core.Message.MessageType;
 
 public class CarteAllieChien extends CarteAllie {
 
@@ -8,7 +10,7 @@ public class CarteAllieChien extends CarteAllie {
 		int forceEffet = this.matriceForces.get(saisonActuelle);
 		this.origine.setNombreGrainesProteges(forceEffet);
 		this.setChanged();
-		this.notifyObservers(this.origine.getNom() + " appelle un chien protégeant " + forceEffet + " graines.");
+		this.notifyObservers(new Message(MessageType.CARTE_EXEC, forceEffet));
 
 		super.executer(saisonActuelle);
 	}
