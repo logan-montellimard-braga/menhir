@@ -15,11 +15,25 @@ public enum Saison {
 	AUTOMNE("Automne"),
 	HIVER("Hiver");
 
+	/**
+	 * Nom d'affichage de la saison
+	 */
 	private String realName;
+
+	/**
+	 * Constructeur de l'énumération, avec le nom d'affichage de la saison.
+	 *
+	 * @param realName Le nom d'affichage de la saison
+	 */
 	private Saison(String realName) {
 		this.realName = realName;
 	}
 
+	/**
+	 * Retourne le nom d'affichage de la saison.
+	 *
+	 * @return Le nom d'affichage de la saison
+	 */
 	public String toString() {
 		return this.realName;
 	}
