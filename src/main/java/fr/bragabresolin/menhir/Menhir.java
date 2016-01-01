@@ -14,6 +14,15 @@ import fr.bragabresolin.menhir.Vues.GUI.VueMenhir;
  */
 public class Menhir {
 	
+	/**
+	 * Point d'entrée du jeu du Menhir.
+	 *
+	 * Détermine quel type d'interface lancer selon les arguments passés par 
+	 * l'utilisateur. On considère que c'est l'interface graphique qui doit être
+	 * lancée par défaut, sauf indication contraire.
+	 * 
+	 * @param args Tableau des arguments passés à l'application
+	 */
 	public static void main(String[] args) {
 		boolean modeConsole = false;
 		if (args.length != 0) {

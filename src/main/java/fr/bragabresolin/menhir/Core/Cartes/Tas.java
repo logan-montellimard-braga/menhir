@@ -31,28 +31,60 @@ public class Tas<E extends Carte> extends Observable {
 	 */
 	private LinkedList<E> cartes;
 
+	/**
+	 * Constructeur.
+	 *
+	 * Initialise la liste de cartes du tas en tant que liste vide.
+	 */
 	public Tas() {
 		this.cartes = new LinkedList<E>();
 	}
 
+	/**
+	 * Mélange les cartes présentes dans le tas.
+	 */
 	public void melanger() {
 		Collections.shuffle(this.cartes);
 		this.setChanged();
 		this.notifyObservers(new Message(MessageType.TAS_MELANGE, this.cartes));
 	}
 
+	/**
+	 * Renvoit (en supprimant du tas) la carte située sur le dessus.
+	 *
+	 * @return La carte du dessus du tas
+	 */
 	public E donnerCarte() {
 		return this.cartes.poll();
 	}
 
+	/**
+	 * Ajoute une carte sur le haut du tas (début de la liste).
+	 * 
+	 * @param carte La carte à ajouter
+	 */
 	public void ajouterCarte(E carte) {
 		this.cartes.push(carte);
 	}
 
+	/**
+	 * Renvoit un iterateur sur les cartes du tas.
+	 *
+	 * Simple wrapper autour de la collection utilisée internalement.
+	 *
+	 * @return L'iterateur sur la collection de cartes interne
+	 */
 	public Iterator<E> iterator() {
 		return this.cartes.iterator();
 	}
 
+	/**
+	 * Produit une représentation textuelle du tas de cartes.
+	 *
+	 * On affiche le nombre de cartes présentes dans le tas.
+	 *
+	 * @return La chaîne représentant le tas.
+	 */
 	public String toString() {
 		return "Tas de " + this.cartes.size() + (this.cartes.size() > 1 ? " cartes" : " carte");
 	}

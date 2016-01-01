@@ -72,6 +72,18 @@ public class JeuMenhir extends java.util.Observable {
 	 */
 	private Manche manche;
 
+	/**
+	 * Constructeur.
+	 * 
+	 * Crée un JeuMenhir à partir des réglages passés en argument.
+	 * Tous les attributs sont initialisés à leur état de base, mais la partie 
+	 * n'est pas lancée.
+	 * 
+	 * @param nombreJoueurs Le nombre de joueurs virtuels avec qui jouer
+	 * @param nomJoueur Le nom du joueur réel
+	 * @param ageJoueur L'âge du joueur réel
+	 * @param modeAvance Vrai si la partie est en mode avancée, faux si en mode rapide
+	 */
 	public JeuMenhir(int nombreJoueurs, String nomJoueur, int ageJoueur, boolean modeAvance) {
 		this.estPartieAvancee = modeAvance;
 		this.tasCartesAllies = new Tas<CarteAllie>();
@@ -81,14 +93,38 @@ public class JeuMenhir extends java.util.Observable {
 		this.manche = null;
 	}
 	
+	/**
+	 * Retourne le tas de cartes ingrédient utilisé par le jeu.
+	 * 
+	 * @return Le tas de cartes ingrédient du jeu
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 */
 	public Tas<CarteIngredient> getTasIng() {
 		return this.tasCartesIngredients;
 	}
 	
+	/**
+	 * Retourne le tas de cartes allié utilisé par le jeu.
+	 * 
+	 * @return Le tas de cartes allie du jeu
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
+	 */
 	public Tas<CarteAllie> getTasAllie() {
 		return this.tasCartesAllies;
 	}
 	
+	/**
+	 * Retourne le joueur réel/physique du jeu en cours.
+	 * 
+	 * On se base sur le fait qu'il n'y ait qu'un seul joueur réel parmi tous 
+	 * les joueurs du jeu pour retourner le premier joueur physique que l'on 
+	 * trouve.
+	 * 
+	 * @return Le seul joueur physique du jeu
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.JoueurPhysique
+	 */
 	public Joueur getJoueurPhysique() {
 		Iterator<Joueur> it = this.joueurs.iterator();
 		Joueur joueur = null;
@@ -103,7 +139,17 @@ public class JeuMenhir extends java.util.Observable {
 	}
 
 	/**
-	 * Crée les joueurs de la partie.
+	 * Crée les joueurs de la partie à partir des réglages passés en argument.
+	 * 
+	 * Les joueurs virtuels créés se voient attribuer un âge aléatoire entre 12 
+	 * et 85.
+	 * Tous les joueurs, joueur physique compris, sont ensuite triés par âge, 
+	 * puis un nom incrémental standard est assigné aux joueurs virtuels dans 
+	 * l'ordre dans lequel ils ont été triés.
+	 * 
+	 * @param nomJoueur Le nom du joueur physique
+	 * @param ageJoueur L'âge du joueur physique
+	 * @param nombreJoueurs Le nombre de joueurs virtuels avec qui jouer
 	 */
 	private void genererJoueurs(String nomJoueur, int ageJoueur, int nombreJoueurs) {
 		ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
@@ -126,6 +172,17 @@ public class JeuMenhir extends java.util.Observable {
 		this.joueurs = joueurs;
 	}
 	
+	/**
+	 * Démarre le jeu.
+	 *
+	 * On crée les manches suivant le mode de jeu configuré, puis on délègue aux
+	 * Manches la gestion des règles et des tours.
+	 * Une fois toutes les manches jouées, on classe les joueurs selon les 
+	 * règles de classement gérées par la dernière manche active.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Partie.Manche
+	 * @see fr.bragabresolin.menhir.Core.Partie.MancheAvancee
+	 */
 	public void lancerPartie() {
 		if (this.estPartieAvancee) {
 			int nombreManches = this.joueurs.size();
@@ -154,6 +211,16 @@ public class JeuMenhir extends java.util.Observable {
 		this.notifyObservers(new Message(MessageType.FIN_PARTIE));
 	}
 
+	/**
+	 * Créé les tas de cartes pour la partie.
+	 * 
+	 * On délègue la création des cartes, puis on mélange les tas qui ont été 
+	 * remplis.
+	 *
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
+	 */
 	private void genererTas() {
 		this.genererCartesIngredient("cartes/ingredient.txt");
 		this.tasCartesIngredients.melanger();
@@ -165,6 +232,20 @@ public class JeuMenhir extends java.util.Observable {
 		}
 	}
 
+	/**
+	 * Créé les cartes allié et remplit le tas de cartes allié.
+	 *
+	 * On génère les cartes à partir de fichiers ressources sur disque et d'un 
+	 * parseur simple qui lit les données linéairement, puis on les ajoute au 
+	 * tas de cartes allié du jeu.
+	 * 
+	 * @param fichierCartes Le nom du fichier contenant les données des cartes
+	 * @param type La classe de la carte allié à générer (eg CarteAllieTaupe ou CarteAllieChien)
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllieTaupe
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllieChien
+	 */
 	private void genererCartesAllie(String fichierCartes, Class<? extends CarteAllie> type) {
 		String chaineCarte = this.lireRessource(fichierCartes);
 		String[] cartes = chaineCarte.split("\n");
@@ -184,6 +265,18 @@ public class JeuMenhir extends java.util.Observable {
 		}
 	}
 
+	/**
+	 * Créé les cartes ingrédient et remplit le tas de cartes ingrédient.
+	 *
+	 * On génère les cartes à partir de fichiers ressources sur disque et d'un 
+	 * parseur simple qui lit les données linéairement en une dimension pour les 
+	 * convertir en une matrice à deux dimensions pour les forces des cartes,
+	 * puis on les ajoute au tas de cartes ingrédient du jeu.
+	 * 
+	 * @param fichierCartes Le nom du fichier contenant les données des cartes
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 */
 	private void genererCartesIngredient(String fichierCartes) {
 		String chaineCarte = this.lireRessource(fichierCartes);
 		String[] cartes = chaineCarte.split("\n");
@@ -207,6 +300,15 @@ public class JeuMenhir extends java.util.Observable {
 		}
 	}
 
+	/**
+	 * Lit un fichier et renvoit son contenu interprété comme encodé.
+	 * 
+	 * Simple méthode utilitaire pour lire un fichier et renvoyer son contenu en 
+	 * tant que String.
+	 *
+	 * @param fileName Le nom du fichier
+	 * @return Le contenu textuel du fichier
+	 */
 	private String lireRessource(String fileName) {
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream is = classloader.getResourceAsStream(fileName);
@@ -234,10 +336,22 @@ public class JeuMenhir extends java.util.Observable {
 		return sb.toString();
 	}
 
+	/**
+	 * Retourne les joueurs de la partie.
+	 *
+	 * @return La liste des joueurs de la partie.
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 */
 	public ArrayList<Joueur> getJoueurs() {
 		return this.joueurs;
 	}
 	
+	/**
+	 * Retourne la manche actuellement disputée.
+	 *
+	 * @return La manche du jeu en cours.
+	 * @see fr.bragabresolin.menhir.Core.Partie.Manche
+	 */
 	public Manche getMancheEnCours() {
 		return this.manche;
 	}

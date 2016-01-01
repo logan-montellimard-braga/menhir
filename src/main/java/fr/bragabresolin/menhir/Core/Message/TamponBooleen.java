@@ -31,16 +31,36 @@ public class TamponBooleen {
 	 */
 	private static TamponBooleen instance;
 	
+	/**
+	 * Point d'accès à l'instance unique (patron Singleton) du tampon.
+	 *
+	 * @return L'unique instance du TamponBooleen
+	 */
 	public static TamponBooleen getInstance() {
 		if (TamponBooleen.instance == null)
 			TamponBooleen.instance = new TamponBooleen();
 		return TamponBooleen.instance;
 	}
 	
+	/**
+	 * Constructeur privé (patron Singleton).
+	 *
+	 * Crée le TamponBooleen en initialisant l'attribut de données comme étant 
+	 * vide.
+	 */
 	private TamponBooleen() {
 		this.bool = null;
 	}
 	
+	/**
+	 * Renvoit le booléen stocké dans le tampon.
+	 *
+	 * Le thread appelant est mis en attente si nécessaire jusqu'à ce qu'une 
+	 * donnée soit disponible dans le tampon, auquel cas elle est renvoyée et le 
+	 * tampon est nettoyé.
+	 *
+	 * @return Le booléen stocké
+	 */
 	public synchronized Boolean recupererBool() {
 		while (this.bool == null) {
 			try {
@@ -56,6 +76,15 @@ public class TamponBooleen {
 		return boolRetour;
 	}
 	
+	/**
+	 * Stocke un booléen dans le tampon.
+	 *
+	 * Le thread appelant est mis en attente si nécessaire jusqu'à ce que le 
+	 * tampon soit vide, auquel cas les threads en attente du tampon sont 
+	 * notifiés.
+	 *
+	 * @param bool Le booléen à enregistrer
+	 */
 	public synchronized void deposerBool(Boolean bool) {
 		while (this.bool != null) {
 			try {

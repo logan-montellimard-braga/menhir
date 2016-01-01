@@ -33,6 +33,20 @@ public class MancheAvancee extends Manche {
 	 */
 	protected Tas<CarteAllie> tasCartesAllies;
 
+	/**
+	 * Constructeur.
+	 * 
+	 * Appelle de façon transparente le constructeur de la classe mère, puis
+	 * enregistre la référence vers le tas de cartes allié, utilisées lors d'une 
+	 * manche avancée.
+	 * 
+	 * @param tasIngredients Le tas de cartes ingrédient à utiliser
+	 * @param tasAllies Le tas de cartes allié à utiliser
+	 * @param joueurs La liste des joueurs de la manche
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Partie.Manche
+	 */
 	public MancheAvancee(Tas<CarteIngredient> tasIngredients,
 			Tas<CarteAllie> tasAllies, ArrayList<Joueur> joueurs) {
 		super(tasIngredients, joueurs);
@@ -40,6 +54,14 @@ public class MancheAvancee extends Manche {
 		this.estRapide = false;
 	}
 
+	/**
+	 * Fait se disputer la manche.
+	 * 
+	 * Une manche avancée se déroule comme une manche simple, mais les joueurs 
+	 * peuvent choisir de piocher une carte allié ou deux graines en début de 
+	 * manche, et peuvent jouer certaines cartes allié pendant le tour des 
+	 * autres.
+	 */
 	public void jouer() {
 		this.setChanged();
 		this.notifyObservers(new Message(MessageType.DEBUT_MANCHE));
@@ -81,16 +103,44 @@ public class MancheAvancee extends Manche {
 		this.notifyObservers(new Message(MessageType.FIN_MANCHE));
 	}
 
+	/**
+	 * Nettoye l'état de la manche.
+	 *
+	 * Surdéfinition pour décaler l'ordre des joueurs à la fin de la manche.
+	 * On décale l'ordre des joueurs afin de faire en sorte que chaque manche 
+	 * avancée ait un joueur différent au démarrage.
+	 *
+	 * @param destructif Vrai si on doit effacer la carte champ des joueurs, faux sinon
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 */
 	public void nettoyer(boolean destructif) {
 		super.nettoyer(destructif);
 		this.decalerJoueurs();
 	}
 
+	/**
+	 * Décale la liste des joueurs.
+	 *
+	 * On décale les joueurs en mettant le joueur en queue de liste à la tête de 
+	 * la liste.
+	 */
 	protected void decalerJoueurs() {
 		Joueur shiftJoueur = this.joueurs.remove(this.joueurs.size() - 1);
 		this.joueurs.add(0, shiftJoueur);
 	}
 
+	/**
+	 * Remet les cartes fournies dans le tas de cartes ingredient ou de cartes 
+	 * allié selon leur type.
+	 * 
+	 * Surdéfinition de la méthode de la classe mère afin de prendre en compte 
+	 * les cartes allié utilisées dans une manche avancée.
+	 *
+	 * @param cartes La liste des cartes à récupérer
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
+	 */
 	protected void recupererCartes(List<Carte> cartes) {
 		for (Carte carte : cartes) {
 			carte.setDejaJouee(false);

@@ -69,6 +69,13 @@ public class InterfaceLigneCommande implements Vue {
 	 */
 	private Scanner reader;
 
+	/**
+	 * Constructeur.
+	 *
+	 * Initialise l'interface textuelle en ajoutant l'écouteur d'événément de 
+	 * fin de programme et en initialisant les outils nécessaires à la 
+	 * lecture/écriture sur l'entrée/sortie standard.
+	 */
 	public InterfaceLigneCommande() { 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
@@ -81,11 +88,25 @@ public class InterfaceLigneCommande implements Vue {
 		this.reader = new Scanner(System.in);
 	}
 
+	/**
+	 * Démarre l'affichage de la vue.
+	 * 
+	 * On affiche l'en-tête textuelle, puis on lance le jeu.
+	 */
 	public void lancer() {
 		this.afficherHeader();
 		this.demarrerJeu();
 	}
 
+	/**
+	 * Demande à l'utilisateur une chaîne de caractère.
+	 *
+	 * Lit une chaîne de caractères (jusqu'au caractère d'entrée) en affichant
+	 * le message fournit.
+	 * 
+	 * @param prompt Le message à afficher avant la saisie
+	 * @return La chaîne de caractères lue
+	 */
 	public String demanderString(String prompt) {
 		String input = "";
 		this.afficherPrompt(prompt);
@@ -94,6 +115,19 @@ public class InterfaceLigneCommande implements Vue {
 		return input;
 	}
 
+	/**
+	 * Demande à l'utilisateur un entier.
+	 *
+	 * Lit un entier compris entre les bornes min et max (bornes non strictes)
+	 * en affichant le message fournit.
+	 * Tant que l'entier est en dehors des bornes, ou que la lecture n'est pas 
+	 * un entier valide, la saisie est re-demandée.
+	 * 
+	 * @param prompt Le message à afficher avant la saisie
+	 * @param min L'entier minimal que l'utilisateur doit saisir
+	 * @param max L'entier maximal que l'utilisateur doit saisir
+	 * @return L'entier lu
+	 */
 	public int demanderNombre(String prompt, int min, int max) {
 		int nombre = 0;
 		while (nombre < min || nombre > max) {
@@ -108,6 +142,16 @@ public class InterfaceLigneCommande implements Vue {
 		return nombre;
 	}
 
+	/**
+	 * Demande à l'utilisateur une réponse booléenne.
+	 *
+	 * Lit une réponse oui/non en affichant le message fournit.
+	 * Tant que l'entrée n'est pas "oui", "non", "o", "n" ou "y", la saisie est 
+	 * re-demandée.
+	 * 
+	 * @param prompt Le message à afficher avant la saisie
+	 * @return L'équivalent booléen de l'entrée lue
+	 */
 	public boolean demanderBool(String prompt) {
 		String input = "";
 		while (!input.equals("o") && !input.equals("oui")
@@ -121,23 +165,49 @@ public class InterfaceLigneCommande implements Vue {
 		return false;
 	}
 
+	/**
+	 * Affiche un prompt de saisie.
+	 *
+	 * Affiche le message fourni, suivi d'une chaîne de prompt permettant de 
+	 * faire comprendre à l'utilisateur qu'il doit saisir une entrée au clavier.
+	 * 
+	 * @param prompt Le message à afficher avant la saisie
+	 */
 	private void afficherPrompt(String prompt) {
 		System.out.println("");
 		System.out.println(prompt);
 		System.out.print(SIGNE_PROMPT);
 	}
 
+	/**
+	 * Affiche l'en-tête du programme dans la sortie standard.
+	 */
 	public void afficherHeader() {
 		System.out.println("");
 		System.out.println(HEADER);
 	}
 
+	/**
+	 * Affiche le message de façon claire.
+	 *
+	 * Simple wrapper pour ahérer l'affichage de messages importants.
+	 * Une implémentation alternative peut, par exemple, afficher le message 
+	 * dans une boîte ASCII.
+	 * 
+	 * @param message Le message à afficher
+	 */
 	public void infoBox(String message) {
 		System.out.println("");
 		System.out.println(message);
 		System.out.println("");
 	}
 
+	/**
+	 * Affiche les joueurs de la partie dans l'ordre de victoire avec leur 
+	 * position.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 */
 	private void afficherGagnants() {
 		ArrayList<Joueur> joueurs = this.jeu.getJoueurs();
 		ListIterator<Joueur> it = joueurs.listIterator();
@@ -151,6 +221,15 @@ public class InterfaceLigneCommande implements Vue {
 	}
 
 
+	/**
+	 * Démarre le jeu du Menhir.
+	 *
+	 * Initialise le jeu du Menhir en posant les questions de configuration à 
+	 * l'utilisateur, et en enregistrant les écouteurs d'événéments nécessaires 
+	 * aux composants du jeu.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.JeuMenhir
+	 */
 	private void demarrerJeu() {
 		String nomJoueur = this.demanderString("Quel est votre nom ?");
 		int ageJoueur = this.demanderNombre("Quel âge avez-vous ?", 8, 150);
@@ -200,6 +279,16 @@ public class InterfaceLigneCommande implements Vue {
 		this.jeu.lancerPartie();
 	}
 	
+	/**
+	 * Enregistre un écouteur d'événément pour toutes les cartes du jeu.
+	 *
+	 * Enregistre un écouteur d'événement sur les cartes du jeu, qui permet 
+	 * d'afficher dans la console un message personnalisé en fonction de 
+	 * l'action réalisée par la carte lorsqu'elle a été exécutée.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
+	 */
 	private void observerCartes() {
 		Iterator<CarteIngredient> itc = this.jeu.getTasIng().iterator();
 		while (itc.hasNext()) {
@@ -255,6 +344,14 @@ public class InterfaceLigneCommande implements Vue {
 		}
 	}
 	
+	/**
+	 * Enregistre un écouteur d'événément sur la manche en cours.
+	 *
+	 * Enregistre un écouteur d'événement sur la manche en cours afin d'afficher 
+	 * dans la console les informations de changement de saison et de manche.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Partie.Manche
+	 */
 	private void observerManches() {
 		this.jeu.getMancheEnCours().addObserver(new Observer() {
 			public void update(Observable o, Object message) {
@@ -272,6 +369,17 @@ public class InterfaceLigneCommande implements Vue {
 		});
 	}
 	
+	/**
+	 * Enregistre un écouteur d'événément sur le joueur physique de la partie.
+	 *
+	 * Enregistre un écouteur d'événement sur le joueur réel du jeu afin de 
+	 * pouvoir communiquer avec le coeur du jeu lorsqu'une action de 
+	 * l'utilisateur est nécessaire (réponse booléenne, choix de carte, ...).
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.JoueurPhysique
+	 * @see fr.bragabresolin.menhir.Core.Message.TamponCarte
+	 * @see fr.bragabresolin.menhir.Core.Message.TamponBooleen
+	 */
 	private void observerJoueurPhysique() {
 		this.jeu.getJoueurPhysique().addObserver(new Observer() {
 			public void update(Observable o, Object message) {
@@ -312,6 +420,18 @@ public class InterfaceLigneCommande implements Vue {
 		});
 	}
 	
+	/**
+	 * Demande à l'utilisateur de choisir une carte ingrédient.
+	 *
+	 * Les cartes de l'utilisateur lui sont proposées, afin qu'il fasse son 
+	 * choix. Suivant la carte choisie, d'autres informations lui sont 
+	 * demandées.
+	 * 
+	 * @return La carte ingrédient choisie par le joueur
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
+	 */
 	private CarteIngredient demanderCarteIng() {
 		Joueur joueur = this.jeu.getJoueurPhysique();
 		List<Carte> cartes = joueur.getCartes();
@@ -357,6 +477,19 @@ public class InterfaceLigneCommande implements Vue {
 		return carteChoisie;
 	}
 	
+	/**
+	 * Demande à l'utilisateur de choisir une carte allié.
+	 *
+	 * Les cartes de l'utilisateur lui sont proposées, afin qu'il fasse son 
+	 * choix. Suivant la carte choisie, d'autres informations lui sont 
+	 * demandées.
+	 * 
+	 * @return La carte allié choisie par le joueur
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllieTaupe
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllieChien
+	 */
 	private CarteAllie demanderCarteAllie() {
 		Joueur joueur = this.jeu.getJoueurPhysique();
 		

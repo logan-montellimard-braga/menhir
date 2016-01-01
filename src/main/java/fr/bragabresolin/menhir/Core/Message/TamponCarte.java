@@ -44,21 +44,51 @@ public class TamponCarte {
 	 */
 	private static TamponCarte instance;
 	
+	/**
+	 * Point d'accès à l'instance unique (patron Singleton) du tampon.
+	 *
+	 * @return L'unique instance du TamponCarte
+	 */
 	public static TamponCarte getInstance() {
 		if (TamponCarte.instance == null)
 			TamponCarte.instance = new TamponCarte();
 		return TamponCarte.instance;
 	}
 	
+	/**
+	 * Constructeur privé (patron Singleton).
+	 *
+	 * Crée le TamponBooleen en initialisant l'attribut de données comme étant 
+	 * vide.
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+	 */
 	private TamponCarte() {
 		this.carte = null;
 	}
 	
+	/**
+	 * Mutateur pour le mode ignorer du tampon.
+	 *
+	 * Un tampon en mode ignorer ne se synchronise pas et renvoit ses données, 
+	 * même vides.
+	 */
 	public synchronized void setIgnorer(boolean ignorer) {
 		this.ignorer = ignorer;
 		this.notifyAll();
 	}
 	
+	/**
+	 * Renvoit la carte stockée dans le tampon.
+	 *
+	 * Le thread appelant est mis en attente si nécessaire jusqu'à ce qu'une 
+	 * donnée soit disponible dans le tampon, auquel cas elle est renvoyée et le 
+	 * tampon est nettoyé.
+	 * Si le tampon a été mis en mode ignorer, la carte est retournée telle 
+	 * qu'elle (très probablement null).
+	 *
+	 * @return La carte stockée
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+	 */
 	public synchronized Carte recupererCarte() {
 		while (this.carte == null && !this.ignorer) {
 			try {
@@ -75,6 +105,16 @@ public class TamponCarte {
 		return carteAJouer;
 	}
 	
+	/**
+	 * Stocke une carte dans le tampon.
+	 *
+	 * Le thread appelant est mis en attente si nécessaire jusqu'à ce que le 
+	 * tampon soit vide, auquel cas les threads en attente du tampon sont 
+	 * notifiés.
+	 *
+	 * @param carte La carte à enregistrer
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+	 */
 	public synchronized void deposerCarte(Carte carte) {
 		while (this.carte != null) {
 			try {

@@ -32,20 +32,49 @@ public class Message {
 	 */
     private Object body;
 
+	/**
+	 * Constructeur complet.
+	 * 
+	 * Crée un message à partir de son type et de son corps.
+	 *
+	 * @param type Le type du message émis
+	 * @param body Le corps, quelconque, du message émis
+	 * @see fr.bragabresolin.menhir.Core.Message.MessageType
+	 */
     public Message(MessageType type, Object body) {
         this.type = type;
         this.body = body;
     }
 
+	/**
+	 * Constructeur raccourci.
+	 * 
+	 * Crée un message à partir de son type uniquement. Le corps du message est 
+	 * optionnel et automatiquement rempli à null.
+	 *
+	 * @param type Le type du message émis
+	 * @see fr.bragabresolin.menhir.Core.Message.MessageType
+	 */
 	public Message(MessageType type) {
 		this.type = type;
 		this.body = null;
 	}
 
+	/**
+	 * Retourne le type du message.
+	 * 
+	 * @return Le type du message
+	 * @see fr.bragabresolin.menhir.Core.Message.MessageType
+	 */
     public MessageType getType() {
         return type;
     }
 
+	/**
+	 * Retourne le corps du message.
+	 * 
+	 * @return Le corps du message
+	 */
     public Object getBody() {
         return body;
     }
