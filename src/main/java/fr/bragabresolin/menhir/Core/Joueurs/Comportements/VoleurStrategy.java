@@ -26,6 +26,23 @@ public class VoleurStrategy implements ComportementStrategy {
 	 */
 	private static final int SEUIL_GRAINES = 4;
 
+	/**
+	 * Demande à la stratégie voleur de déterminer quelle carte ingrédient jouer,
+	 * selon le contexte passé.
+	 * 
+	 * La stratégie voleur pousse le joueur à obtenir toutes ses graines par le 
+	 * biais des farfadets, en les volant aux autres. Il ne joue jamais le 
+	 * géant. Quand il a atteint un nombre satisfaisant de graines, il tente de 
+	 * jouer l'engrais pour les faire pousser.
+	 * S'il joue le farfadet, il cible toujours le joueur avec le meilleur 
+	 * nombre de graines, et sans chien de garde les protégeant.
+	 *
+	 * @param joueur Le joueur virtuel qui appelle la stratégie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte La liste des joueurs de la partie
+	 * @param cartes Les cartes ingrédient parmi lesquels choisir une carte
+	 * @return La carte choisie
+	 */
 	public CarteIngredient choisirCarteIngredient(Joueur joueur, Saison saisonActuelle,
 			ArrayList<Joueur> contexte, ArrayList<CarteIngredient> cartes) {
 		
@@ -68,6 +85,21 @@ public class VoleurStrategy implements ComportementStrategy {
 		return carteChoisie;
 	}
 
+	/**
+	 * Demande à la stratégie voleur de déterminer quelle carte allié jouer,
+	 * selon le contexte passé.
+	 * 
+	 * La stratégie voleur pousse le joueur à être agressif et jouer ses taupes 
+	 * sur le joueur le plus avancé.
+	 * Si la carte allié en main est un chien, on la joue si elle protège au 
+	 * moins une graine, quitte à louper un meilleur effet plus tard.
+	 *
+	 * @param joueur Le joueur virtuel qui appelle la stratégie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte La liste des joueurs de la partie
+	 * @param cartes Les cartes allié parmi lesquels choisir une carte
+	 * @return La carte choisie
+	 */
 	public CarteAllie choisirCarteAllie(Joueur joueur, Saison saisonActuelle,
 			ArrayList<Joueur> contexte, ArrayList<CarteAllie> cartes) {
 
@@ -95,9 +127,13 @@ public class VoleurStrategy implements ComportementStrategy {
 		return null;
 	}
 
+	/**
+	 * Représentation textuelle de la stratégie.
+	 * On affiche juste le nom folklorique de la stratégie.
+	 * 
+	 * @return Le nom de la stratégie
+	 */
 	public String toString() {
-		// Représentation visuelle : cette stratégie est associée à un joueur
-		// voleur.
 		return "voleur";
 	}
 }

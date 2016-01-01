@@ -50,49 +50,57 @@ public abstract class Carte extends Observable {
 
 	/**
 	 * Réalise l'action de la carte.
-	 * @param saisonActuelle La saison en cours pour l'effet de la carte.
+	 * 
+	 * L'effet des cartes est entièrement dépendant de l'implémentation de 
+	 * celles-ci et doit donc être implémenté séparément dans toutes les classes 
+	 * filles.
+	 * 
+	 * @param saisonActuelle La saison danslaquelle exécuter l'effet de la carte
+	 * @see fr.bragabresolin.menhir.Core.Saison
 	 */
 	public abstract void executer(Saison saisonActuelle);
 
 	/**
-	 * Getter of the property <tt>origine</tt>
-	 * 
-	 * @return Returns the origine.
-	 * 
+	 * Retourne le joueur d'origine de la carte.
+	 *
+	 * @return Le joueur d'origine
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
 	 */
-
 	public Joueur getOrigine() {
 		return origine;
 	}
 
 	/**
-	 * Setter of the property <tt>origine</tt>
+	 * Retourne le joueur d'origine de la carte.
+	 *
+	 * Le joueur d'origine doit toujours être spécifié afin que la carte sache 
+	 * quel joueur l'a lancé lorsqu'elle s'exécute.
 	 * 
-	 * @param origine
-	 *            The origine to set.
-	 * 
+	 * @param origine Le joueur d'origine à enregistrer
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
 	 */
 	public void setOrigine(Joueur origine) {
 		this.origine = origine;
 	}
 
 	/**
-	 * Getter of the property <tt>cible</tt>
-	 * 
-	 * @return Returns the cible.
-	 * 
+	 * Retourne la cible de la carte.
+	 *
+	 * @return La cible.
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
 	 */
-
 	public Joueur getCible() {
 		return cible;
 	}
 
 	/**
-	 * Setter of the property <tt>cible</tt>
+	 * Mutateur de la cible de la carte.
+	 *
+	 * La cible de la carte doit être spécifiée pour exécuter certains effets, 
+	 * selon les types de cartes.
 	 * 
-	 * @param cible
-	 *            The cible to set.
-	 * 
+	 * @param cible La cible à enregistrer
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
 	 */
 	public void setCible(Joueur cible) {
 		this.cible = cible;
@@ -101,27 +109,32 @@ public abstract class Carte extends Observable {
 	}
 
 	/**
-	 * Getter of the property <tt>dejaJouee</tt>
+	 * Retourne le statut de jeu de la carte.
 	 * 
-	 * @return Returns the dejaJouee.
-	 * 
+	 * @return Si la carte a déjà été jouée ou non.
 	 */
-
 	public boolean getDejaJouee() {
 		return dejaJouee;
 	}
 
 	/**
-	 * Setter of the property <tt>dejaJouee</tt>
+	 * Mutateur du statut dejaJouee de la carte.
 	 * 
-	 * @param dejaJouee
-	 *            The dejaJouee to set.
-	 * 
+	 * @param dejaJouee Le statut de jeu de la carte
 	 */
 	public void setDejaJouee(boolean dejaJouee) {
 		this.dejaJouee = dejaJouee;
 	}
 
+	/**
+	 * Produit une représentation en chaîne de caractère de la carte.
+	 *
+	 * La représentation textuelle d'une carte généraliste ne peut pas être très 
+	 * détaillée ; elle comprend uniquement le statut de la carte (déjà jouée ou 
+	 * non).
+	 * 
+	 * @return La représentation textuelle de la carte
+	 */
 	public String toString() {
 		String str = "";
 		if (this.dejaJouee)
@@ -131,6 +144,17 @@ public abstract class Carte extends Observable {
 		return str;
 	}
 
+	/**
+	 * Construit une représentation graphique de boîte autour des données de la 
+	 * carte.
+	 *
+	 * La représentation se sert de la taille des données de chaque ligne afin 
+	 * de produire un affichage en boîte uniforme.
+	 * 
+	 * @param tailleMin La largeur minimale requise pour afficher la carte
+	 * @param carte La représentation textuelle non formatée de la carte
+	 * @return La représentation textuelle formatée de la carte
+	 */
 	public String toString(int tailleMin, String carte) {
 		String[] lignes = carte.split("\n");
 		for (int i = 0; i < lignes.length; i++)

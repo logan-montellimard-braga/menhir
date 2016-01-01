@@ -20,6 +20,22 @@ import fr.bragabresolin.menhir.Core.Cartes.*;
  */
 public class TransformateurStrategy implements ComportementStrategy {
 
+	/**
+	 * Demande à la stratégie impatient de déterminer quelle carte ingrédient
+	 * jouer, selon le contexte passé.
+	 * 
+	 * La stratégie impatient pousse le joueur à jouer l'engrais pour faire 
+	 * pousser ses graines dès qu'il en a, sinon, choisir le géant pour en 
+	 * récupérer.
+	 * Il choisit ensuite la carte avec la meilleure valeur d'action sur le 
+	 * moment.
+	 *
+	 * @param joueur Le joueur virtuel qui appelle la stratégie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte La liste des joueurs de la partie
+	 * @param cartes Les cartes ingrédient parmi lesquels choisir une carte
+	 * @return La carte choisie
+	 */
 	public CarteIngredient choisirCarteIngredient(Joueur joueur, Saison saisonActuelle,
 			ArrayList<Joueur> contexte, ArrayList<CarteIngredient> cartes) {
 
@@ -55,6 +71,20 @@ public class TransformateurStrategy implements ComportementStrategy {
 		return carteChoisie;
 	}
 
+	/**
+	 * Demande à la stratégie impatient de déterminer quelle carte allié jouer,
+	 * selon le contexte passé.
+	 * 
+	 * La stratégie impatient pousse le joueur à être agressif et jouer ses 
+	 * taupes sur le joueur le plus avancé. S'il a un chien et assez de graines 
+	 * pour que la carte ne soit pas gaspillée, il le joue.
+	 *
+	 * @param joueur Le joueur virtuel qui appelle la stratégie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte La liste des joueurs de la partie
+	 * @param cartes Les cartes allié parmi lesquels choisir une carte
+	 * @return La carte choisie
+	 */
 	public CarteAllie choisirCarteAllie(Joueur joueur, Saison saisonActuelle,
 			ArrayList<Joueur> contexte, ArrayList<CarteAllie> cartes) {
 		// Vu que cette stratégie transforme les graines le plus tôt possible
@@ -84,9 +114,13 @@ public class TransformateurStrategy implements ComportementStrategy {
 		return null;
 	}
 
+	/**
+	 * Représentation textuelle de la stratégie.
+	 * On affiche juste le nom folklorique de la stratégie.
+	 * 
+	 * @return Le nom de la stratégie
+	 */
 	public String toString() {
-		// Représentation visuelle : cette stratégie est associée à un joueur
-		// impatient.
 		return "impatient";
 	}
 }

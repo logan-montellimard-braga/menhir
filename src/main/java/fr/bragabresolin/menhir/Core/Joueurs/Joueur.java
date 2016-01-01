@@ -75,7 +75,12 @@ public abstract class Joueur extends Observable {
 	
 	
 	/**
-	 * Crée un joueur. Initialise tous ses champs.
+	 * Constructeur raccourci.
+	 *
+	 * On initialise un joueur avec les données minimales requises et une main 
+	 * de cartes vide.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
 	 */
 	public Joueur() {
 		this.nom = "?";
@@ -87,6 +92,15 @@ public abstract class Joueur extends Observable {
 		this.cartes = new ArrayList<Carte>();
 	}
 
+	/**
+	 * Constructeur complet.
+	 *
+	 * On construit un joueur avec le constructeur raccourci, avec le nom et 
+	 * l'âge fournis.
+	 *
+	 * @param nom Le nom du joueur
+	 * @param age L'âge du joueur
+	 */
 	public Joueur(String nom, int age) {
 		this();
 		this.nom = nom;
@@ -130,6 +144,10 @@ public abstract class Joueur extends Observable {
 	/**
 	 * Augmente les menhirs de la carte champ du joueur.
 	 * 
+	 * On prends en compte le nombre de graines de manière à ne transformer que 
+	 * les graines dont on dispose. Le nombre de menhirs effectivement créés 
+	 * peut donc être différent de l'argument.
+	 * 
 	 * @param n
 	 * @return Le nombre de menhir réellement augmentés.
 	 */
@@ -169,7 +187,10 @@ public abstract class Joueur extends Observable {
 	
 	/**
 	 * Diminue le nombre de graines du joueur lorsque ce dernier subit un vol.
+	 * 
 	 * Prend en compte les graines protégées par un éventuel chien actif.
+	 * Si on subit un vol de graines, la carte chien éventuellement active est 
+	 * annulée, on réduit donc le nombre de graines protégées du joueur à 0.
 	 * 
 	 * @param n Le nombre de graines à voler.
 	 * @return Le nombre de graines effectivement enlevées.
@@ -184,12 +205,34 @@ public abstract class Joueur extends Observable {
 		return effet;
 	}
 
+	/**
+	 * Invitation à effectuer une action autorisée pendant le tour de 
+	 * l'adversaire.
+	 *
+	 * Certaines cartes peuvent être jouées n'importe quand. Cette méthode est 
+	 * appelée pour permettre cette possibilité.
+	 * 
+	 * @param contexte La liste des joueurs de la partie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 */
 	public abstract void jouerDansTourAdverse(ArrayList<Joueur> contexte, Saison saisonActuelle);
 
+	/**
+	 * Sauvegarde les points du joueur, c'est-à-dire transfert les menhirs de sa 
+	 * carte champ vers son compteur de points.
+	 *
+	 * Les points sauvés dans le compteur de points ne peuvent plus être enlevés 
+	 * pendant une manche.
+	 */
 	public void sauverPoints() {
 		this.points += this.nombreMenhirs;
 	}
 
+	/**
+	 * Réinitialise la carte champ du joueur en mettant ses graines (et graine 
+	 * protégées) et menhirs à 0.
+	 */
 	public void reinitialiserChamp() {
 		this.nombreGraines = 0;
 		this.nombreMenhirs = 0;
@@ -199,18 +242,44 @@ public abstract class Joueur extends Observable {
 		this.notifyObservers(new Message(MessageType.JOUEUR_RESET_CHAMP));
 	}
 
+	/**
+	 * Mutateur pour les graines protégées (carte Chien de Garde) du joueur.
+	 *
+	 * @param n Le nombre de graines à protéger
+	 */
 	public void setNombreGrainesProteges(int n) {
 		this.nombreGrainesProteges = n;
 		this.setChanged();
 		this.notifyObservers();
 	}
 
+	/**
+	 * Retourne le nombre de graines actuellement protégées par un chien.
+	 * Cette valeur est à 0 si aucune carte chien n'est active pour ce joueur.
+	 * 
+	 * @return Le nombre de graines protégées du joueur
+	 */
 	public int getNombreGrainesProteges() {
 		return this.nombreGrainesProteges;
 	}
 
+	/**
+	 * Demande au joueur s'il veut piocher une carte allié.
+	 * Utilisé en mode partie complexe, où un joueur peut choisir au début du 
+	 * tour de piocher une carte allié ou récupérer deux graines.
+	 *
+	 * @return Vrai si le joueur veut piocher une carte allié
+	 */
 	public abstract boolean veutPiocherCarteAllie();
 
+	/**
+	 * Fais piocher des cartes au joueur, dans le tas fourni.
+	 *
+	 * @param tas Le tas dans lequel piocher
+	 * @param nombreCartes Le nombre de cartes à piocher dans le tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Tas
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+	 */
 	public void piocherCartes(Tas<? extends Carte> tas, int nombreCartes) {
 		for (int i = 0; i < nombreCartes; i++) {
 			Carte carte = tas.donnerCarte();
@@ -221,6 +290,13 @@ public abstract class Joueur extends Observable {
 		}
 	}
 
+	/**
+	 * Fais rendre le joueur ses cartes.
+	 * Les cartes sont supprimées de la main du joueur pour être rendues.
+	 *
+	 * @return La liste des cartes du joueur
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+	 */
 	public List<Carte> rendreCartes() {
 		List<Carte> copie = new ArrayList<Carte>(this.cartes);
 		Collections.copy(copie, this.cartes);
@@ -232,57 +308,126 @@ public abstract class Joueur extends Observable {
 		return copie;
 	}
 
+	/**
+	 * Fais jouer le joueur selon le contexte fourni.
+	 *
+	 * @param contexte La liste des joueurs de la partie
+	 * @param partieAvancee Si la partie est en mode avancé ou non
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 */
 	public abstract void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle);
 
+	/**
+	 * Demande au joueur de choisir de jouer une carte allié.
+	 *
+	 * Le joueur peut décider de ne pas jouer de carte allié durant son tour, 
+	 * auquel cas null est renvoyé.
+	 *
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte Les joueurs de la partie
+	 * @return La carte allié choisie
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 */
 	protected abstract CarteAllie choisirJouerAllie(Saison saisonActuelle, ArrayList<Joueur> contexte);
 
 	/**
-	 * Getter of the property <tt>age</tt>
+	 * Retourne l'âge du joueur.
 	 * 
-	 * @return Returns the age.
-	 * 
+	 * @return L'âge du joueur
 	 */
-
 	public int getAge() {
 		return age;
 	}
 
+	/**
+	 * Retourne le nombre de points du joueur.
+	 *
+	 * @return Le nombre de points du joueur
+	 */
 	public int getPoints() {
 		return points;
 	}
 
+	/**
+	 * Mutateur pour le nombre de points du joueur.
+	 *
+	 * @param points Le nombre de points du joueur
+	 */
 	public void setPoints(int points) {
 		this.points = points;
 	}
 
+	/**
+	 * Retourne le nombre de graines sur la carte champ du joueur.
+	 *
+	 * @return Le nombre de graines du joueur
+	 */
 	public int getNombreGraines() {
 		return nombreGraines;
 	}
 
+	/**
+	 * Mutateur pour le nombre de graines sur la carte champ du joueur.
+	 *
+	 * @param nombreGraines Le nombre de graines du joueur
+	 */
 	public void setNombreGraines(int nombreGraines) {
 		this.nombreGraines = nombreGraines;
 	}
 
+	/**
+	 * Retourne vrai si le joueur est actuellement protégé par une carte chien 
+	 * de garde qui le protège d'au moins 1 vol de graines.
+	 *
+	 * @return Si le joueur a un chien de garde actif ou non
+	 */
 	public boolean estProtege() {
 		return this.nombreGrainesProteges > 0;
 	}
 
+	/**
+	 * Retourne le nombre de menhirs que le joueur a sur sa carte champs.
+	 *
+	 * @return Le nombre de menhirs du joueur
+	 */
 	public int getNombreMenhirs() {
 		return this.nombreMenhirs;
 	}
 
+	/**
+	 * Retourne le nom du joueur.
+	 *
+	 * @return Le nom du joueur
+	 */
 	public String getNom() {
 		return nom;
 	}
 
+	/**
+	 * Mutateur pour le nom du joueur.
+	 *
+	 * @param nom Le nom du joueur
+	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 	
+	/**
+	 * Retourne la main du joueur.
+	 *
+	 * @return Les cartes du joueur
+	 */
 	public List<Carte> getCartes() {
 		return this.cartes;
 	}
 	
+	/**
+	 * Renvoit vrai si au moins une carte allié non jouée est disponible dans la 
+	 * main du joueur.
+	 *
+	 * @return Si une carte allié est disponible
+	 */
 	public boolean carteAllieDispo() {
 		Iterator<Carte> it = this.cartes.iterator();
 		while (it.hasNext()) {
@@ -294,9 +439,10 @@ public abstract class Joueur extends Observable {
 	}
 
 	/**
-	 * Setter of the property <tt>age</tt>
+	 * Mutateur de l'âge du joueur.
 	 * 
-	 * @param age The age to set.
+	 * @param age L'âge du joueur
+	 * @throws IllegalArgumentException Si l'âge n'est pas autorisé par les règles
 	 */
 	public void setAge(int age) throws IllegalArgumentException {
 		if (age >= 8)
@@ -305,6 +451,14 @@ public abstract class Joueur extends Observable {
 			throw new IllegalArgumentException("Le jeu est disponible à partir de 8 ans.");
 	}
 
+	/**
+	 * Produit une représentation textuelle du joueur.
+	 * 
+	 * Un joueur est représenté en chaîne de caractères en affichant toutes ses 
+	 * informations de partie.
+	 *
+	 * @return La représentation textuelle du joueur
+	 */
 	public String toString() {
 		int nbCartes = 0;
 		for (Carte carte : this.cartes)

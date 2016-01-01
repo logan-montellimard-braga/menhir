@@ -29,14 +29,43 @@ import fr.bragabresolin.menhir.Core.Message.TamponCarte;
  */
 public class JoueurPhysique extends Joueur {
 
+	/**
+	 * Constructeur simplifié.
+	 *
+	 * Simple appel transparent au constructeur parent.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 */
 	public JoueurPhysique() {
 		super();
 	}
 
+	/**
+	 * Constructeur complet.
+	 *
+	 * Simple appel transparent au constructeur parent équivalent
+	 * 
+	 * @param nom Le nom du joueur
+	 * @param age L'âge du joueur
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 */
 	public JoueurPhysique(String nom, int age) {
 		super(nom, age);
 	}
 	
+	/**
+	 * Fais jouer le joueur selon le contexte passé.
+	 *
+	 * Un joueur physique joue en indiquant à ses observateurs qu'il a besoin de 
+	 * cartes ou de données quelconques, puis en tentant de récupérer ces 
+	 * données dans des tampons de communication.
+	 * 
+	 * @param contexte La liste des joueurs de la partie
+	 * @param partieAvancee Si la partie est en mode avancé ou non
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @see fr.bragabresolin.menhir.Core.Message.TamponCarte
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 */
 	public void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle) {
 		this.setChanged();
 		this.notifyObservers(new Message(MessageType.JOUEUR_DEBUT_TOUR));
@@ -57,6 +86,19 @@ public class JoueurPhysique extends Joueur {
 		this.notifyObservers(new Message(MessageType.JOUEUR_FIN_TOUR));
 	}
 
+	/**
+	 * Demande au joueur de choisir de jouer une carte allié.
+	 *
+	 * Un joueur physique choisit s'il veut jouer une carte allié en indiquant à 
+	 * ses observateurs qu'il a besoin d'une carte éventuellement. S'il reçoit 
+	 * null, on considère que le joueur ne veut pas jouer de carte allié.
+	 *
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte Les joueurs de la partie
+	 * @return La carte allié choisie
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 * @see fr.bragabresolin.menhir.Core.Message.TamponCarte
+	 */
 	protected CarteAllie choisirJouerAllie(Saison saisonActuelle, ArrayList<Joueur> contexte) {
 		this.setChanged();
 		this.notifyObservers(new Message(MessageType.JOUEUR_CHOIX_JOUER_ALLIE));
@@ -67,6 +109,16 @@ public class JoueurPhysique extends Joueur {
 		return (CarteAllie) carteAJouer;
 	}
 
+	/**
+	 * Demande au joueur s'il veut piocher une carte allié.
+	 *
+	 * Un joueur physique décide s'il veut piocher une carte allié en indiquant 
+	 * à ses observateurs qu'il a besoin d'une réponse booléenne, puis la 
+	 * récupère dans un tampon de communication.
+	 *
+	 * @return Vrai si le joueur veut piocher une carte allié
+	 * @see fr.bragabresolin.menhir.Core.Message.TamponBooleen
+	 */
 	public boolean veutPiocherCarteAllie() {
 		this.setChanged();
 		this.notifyObservers(new Message(MessageType.JOUEUR_CHOIX_PIOCHER_ALLIE));
@@ -75,9 +127,29 @@ public class JoueurPhysique extends Joueur {
 		return veutPiocherAllie;
 	}
 
+	/**
+	 * Invitation à effectuer une action autorisée pendant le tour de 
+	 * l'adversaire.
+	 *
+	 * Un joueur physique n'a pas d'actions particulières à exercer dans cette 
+	 * méthode car l'interface lui permet de choisir de jouer ce qu'il veut au 
+	 * moment où il veut, en vérifiant qu'il en a bien la possibilité.
+	 * 
+	 * @param contexte La liste des joueurs de la partie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 */
 	public void jouerDansTourAdverse(ArrayList<Joueur> contexte, Saison saisonActuelle) {
+		// Méthode vide
 	}
 
+	/**
+	 * Produit une représentation textuelle du joueur.
+	 *
+	 * Un joueur physique est un joueur dont on affiche le nom.
+	 * 
+	 * @return String La représentation textuelle du joueur physique
+	 */
 	public String toString() {
 		String str = super.toString();
 		return this.nom + " " + str;

@@ -28,8 +28,15 @@ public abstract class CarteAllie extends Carte {
 	protected EnumMap<Saison, Integer> matriceForces;
 	
 	/**
-	 * Réalise l'action de la carte;
-	 * @param saisonActuelle La saison en cours pour l'effet de la carte.
+	 * Réalise l'action de la carte.
+	 * 
+	 * L'effet est entièrement dépendant du type de carte allié, et donc des 
+	 * classes filles qui offriront une surdéfinition de cette méthode.
+	 * Les actions standards à toutes les cartes allié sont de marquer la carte 
+	 * comme déjà jouée, et de notifier les observateurs.
+	 *
+	 * @param saisonActuelle La saison en cours dans laquelle exécuter la carte
+	 * @see fr.bragabresolin.menhir.Core.Saison
 	 */
 	public void executer(Saison saisonActuelle) {
 		this.dejaJouee = true;
@@ -37,14 +44,38 @@ public abstract class CarteAllie extends Carte {
 		this.notifyObservers();
 	}
 
+	/**
+	 * Mutateur de la matrice des forces de la carte.
+	 * 
+	 * La matrice des forces est généralement spécifiée une fois à la génération 
+	 * de la carte, et n'est pas amenée à varier au cours du jeu.
+	 *
+	 * @param m La matrice à une dimension des forces de la carte
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 */
 	public void setMatrice(EnumMap<Saison, Integer> m) {
 		this.matriceForces = m;
 	}
 
+	/**
+	 * Retourne la matrice des forces de la carte.
+	 *
+	 * @return La matrice à une dimension des forces de la carte
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 */
 	public EnumMap<Saison, Integer> getMatrice() {
 		return this.matriceForces;
 	}
 
+	/**
+	 * Produit une représentation en chaîne de caractère de la carte.
+	 *
+	 * La représentation entoure les informations de la carte d'une boîte UTF-8,
+	 * et formate la matrice des forces de la carte en un tableau à 
+	 * une dimension.
+	 * 
+	 * @return La représentation textuelle de la carte
+	 */
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 

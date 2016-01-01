@@ -32,14 +32,24 @@ public class JoueurVirtuel extends Joueur {
 	private ComportementStrategy comportementStrategy = null;
 
 	/**
-	 * Getter of the property <tt>comportementStrategy</tt>
+	 * Retourne la stratégie du joueur.
 	 * 
-	 * @return Returns the comportementStrategy.
+	 * @return La stratégie du joueur
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
 	 */
 	public ComportementStrategy getComportementStrategy() {
 		return comportementStrategy;
 	}
 
+	/**
+	 * Constructeur simplifié.
+	 *
+	 * Appel transparent au constructeur parent, auquel s'ajoute la 
+	 * détermination de la stratégie du joueur.
+	 * On assigne une stratégie de façon aléatoire.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
+	 */
 	public JoueurVirtuel() {
 		super();
 		int n = 1 + (int) (Math.random() * ((3 - 1) + 1));
@@ -56,6 +66,15 @@ public class JoueurVirtuel extends Joueur {
 		}
 	}
 
+	/**
+	 * Constructeur complet.
+	 *
+	 * Simple appel transparent au constructeur simplifié de cette classe, avec 
+	 * spécification du nom et de l'âge.
+	 * 
+	 * @param nom Le nom du joueur
+	 * @param age L'âge du joueur
+	 */
 	public JoueurVirtuel(String nom, int age) {
 		this();
 		this.nom = nom;
@@ -63,16 +82,31 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	/**
-	 * Setter of the property <tt>comportementStrategy</tt>
+	 * Mutateur de la stratégie du joueur.
+	 *
+	 * Permet de changer de stratégie en cours de jeu.
 	 * 
-	 * @param comportementStrategy
-	 *            The comportementStrategy to set.
-	 * 
+	 * @param comportementStrategy La stratégie à adopter
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
 	 */
 	public void setComportementStrategy(ComportementStrategy comportementStrategy) {
 		this.comportementStrategy = comportementStrategy;
 	}
 
+	/**
+	 * Fais jouer le joueur selon le contexte passé.
+	 *
+	 * Un joueur virtuel délègue entièrement le choix de sa carte ingrédient à 
+	 * sa stratégie.
+	 * Le joueur attends sans rien faire pendant un temps variable aléatoire 
+	 * afin de simuler le temps de réflexion d'un vrai joueur.
+	 * 
+	 * @param contexte La liste des joueurs de la partie
+	 * @param partieAvancee Si la partie est en mode avancé ou non
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
+	 */
 	public void jouer(ArrayList<Joueur> contexte, boolean partieAvancee, Saison saisonActuelle) {
 		this.setChanged();
 		this.notifyObservers(new Message(MessageType.JOUEUR_DEBUT_TOUR));
@@ -100,6 +134,18 @@ public class JoueurVirtuel extends Joueur {
 		this.notifyObservers(new Message(MessageType.JOUEUR_FIN_TOUR));
 	}
 
+	/**
+	 * Demande au joueur de choisir de jouer une carte allié.
+	 *
+	 * Un joueur virtuel délègue entièrement le choix de jouer sa carte allié à 
+	 * sa stratégie.
+	 *
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte Les joueurs de la partie
+	 * @return La carte allié choisie
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Comportements.ComportementStrategy
+	 */
 	protected CarteAllie choisirJouerAllie(Saison saisonActuelle, ArrayList<Joueur> contexte) {
 		ArrayList<CarteAllie> cartesAllie = new ArrayList<CarteAllie>();
 		for (Carte carte : this.cartes)
@@ -111,6 +157,14 @@ public class JoueurVirtuel extends Joueur {
 		return this.comportementStrategy.choisirCarteAllie(this, saisonActuelle, contexte, cartesAllie);
 	}
 
+	/**
+	 * Demande au joueur s'il veut piocher une carte allié.
+	 *
+	 * Un joueur virtuel peut décider, selon sa stratégie ou d'autres facteurs, 
+	 * de piocher ou non une carte allié.
+	 *
+	 * @return Vrai si le joueur veut piocher une carte allié
+	 */
 	public boolean veutPiocherCarteAllie() {
 		// Pour l'instant, le choix de piocher 1 carte allié ou 2 graines est 
 		// aléatoire.
@@ -120,11 +174,26 @@ public class JoueurVirtuel extends Joueur {
 		return (Math.random() > 0.5);
 	}
 
+	/**
+	 * Invitation à effectuer une action autorisée pendant le tour de 
+	 * l'adversaire.
+	 *
+	 * @param contexte La liste des joueurs de la partie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 */
 	public void jouerDansTourAdverse(ArrayList<Joueur> contexte, Saison saisonActuelle) {
+		// Méthode vide
 		// Pour l'instant, les joueurs virtuels ne jouent jamais leur taupe
 		// pendant le tour des autres.
 	}
 
+	/**
+	 * Produit une représentation textuelle du joueur.
+	 *
+	 * Un joueur virtuel est un joueur dont on affiche le nom et le 
+	 * comportement.
+	 */
 	public String toString() {
 		String str = super.toString();
 		return this.nom + " Joueur Virtuel <" + this.comportementStrategy.toString() +"> " + str;

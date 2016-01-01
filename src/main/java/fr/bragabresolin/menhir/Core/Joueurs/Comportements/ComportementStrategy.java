@@ -21,9 +21,34 @@ import fr.bragabresolin.menhir.Core.Cartes.CarteAllie;
  */
 public interface ComportementStrategy {
 
+	/**
+	 * Demande à la stratégie de déterminer quelle carte allié jouer, selon le 
+	 * contexte passé.
+	 * 
+	 * Renvoit null si la stratégie décide de ne pas jouer de carte allié pour 
+	 * le moment.
+	 *
+	 * @param joueur Le joueur virtuel qui appelle la stratégie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte La liste des joueurs de la partie
+	 * @param cartes Les cartes allié parmi lesquels choisir une carte
+	 * @return La carte choisie
+	 */
 	public abstract CarteAllie choisirCarteAllie(Joueur joueur, Saison saisonActuelle, ArrayList<Joueur> contexte,
 			ArrayList<CarteAllie> cartes);
 
+	/**
+	 * Demande à la stratégie de déterminer quelle carte ingrédient jouer, selon le 
+	 * contexte passé.
+	 * 
+	 * Renvoit forcément une carte ingrédient.
+	 *
+	 * @param joueur Le joueur virtuel qui appelle la stratégie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte La liste des joueurs de la partie
+	 * @param cartes Les cartes ingrédient parmi lesquels choisir une carte
+	 * @return La carte choisie
+	 */
 	public abstract CarteIngredient choisirCarteIngredient(Joueur joueur, Saison saisonActuelle,
 			ArrayList<Joueur> contexte, ArrayList<CarteIngredient> cartes);
 

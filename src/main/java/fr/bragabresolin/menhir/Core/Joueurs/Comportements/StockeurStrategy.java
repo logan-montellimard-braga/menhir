@@ -32,6 +32,20 @@ public class StockeurStrategy implements ComportementStrategy {
 	 */
 	private static final int SEUIL_MENHIRS = 5;
 
+	/**
+	 * Demande à la stratégie économe de déterminer quelle carte ingrédient jouer,
+	 * selon le contexte passé.
+	 * 
+	 * La stratégie économe pousse le joueur à accumuler ses graines pour les 
+	 * faire pousser au dernier moment, avec la carte la plus avantageuse. La 
+	 * stratégie ne vole (effet Farfadet) jamais de graines.
+	 *
+	 * @param joueur Le joueur virtuel qui appelle la stratégie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte La liste des joueurs de la partie
+	 * @param cartes Les cartes ingrédient parmi lesquels choisir une carte
+	 * @return La carte choisie
+	 */
 	public CarteIngredient choisirCarteIngredient(Joueur joueur, Saison saisonActuelle,
 			ArrayList<Joueur> contexte, ArrayList<CarteIngredient> cartes) {
 
@@ -61,6 +75,22 @@ public class StockeurStrategy implements ComportementStrategy {
 		return carteChoisie;
 	}
 
+	/**
+	 * Demande à la stratégie de déterminer quelle carte allié jouer, selon le 
+	 * contexte passé.
+	 * 
+	 * La stratégie économe pousse à protéger les graines (carte chien) 
+	 * uniquement si on en a un nombre intéressant à protéger. Elle devient un 
+	 * peu agressive en cas de carte taupe si elle juge que la partie est assez 
+	 * avancée, en ciblant le joueur le plus avancé, s'il a assez de menhirs 
+	 * pour que la carte ne soit pas gâchée.
+	 *
+	 * @param joueur Le joueur virtuel qui appelle la stratégie
+	 * @param saisonActuelle La saison dans laquelle exécuter les actions
+	 * @param contexte La liste des joueurs de la partie
+	 * @param cartes Les cartes allié parmi lesquels choisir une carte
+	 * @return La carte choisie
+	 */
 	public CarteAllie choisirCarteAllie(Joueur joueur, Saison saisonActuelle,
 			ArrayList<Joueur> contexte, ArrayList<CarteAllie> cartes) {
 		// On protège toujours ses graines tant que possible
@@ -98,9 +128,13 @@ public class StockeurStrategy implements ComportementStrategy {
 		return null;
 	}
 
+	/**
+	 * Représentation textuelle de la stratégie.
+	 * On affiche juste le nom folklorique de la stratégie.
+	 * 
+	 * @return Le nom de la stratégie
+	 */
 	public String toString() {
-		// Représentation visuelle : cette stratégie est associée à un joueur
-		// économe.
 		return "économe";
 	}
 }

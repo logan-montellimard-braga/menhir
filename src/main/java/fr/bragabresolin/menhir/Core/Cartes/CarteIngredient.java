@@ -59,30 +59,38 @@ public class CarteIngredient extends Carte {
 	}
 
 	/**
-	 * Getter of the property <tt>nomCarte</tt>
+	 * Retourne le nom de cette carte.
 	 * 
-	 * @return Returns the nomCarte.
-	 * 
+	 * @return Le nom de la carte
 	 */
 	public String getNomCarte() {
 		return nomCarte;
 	}
 
 	/**
-	 * Setter of the property <tt>nomCarte</tt>
+	 * Mutateur pour le nom de cette carte.
 	 * 
-	 * @param nomCarte
-	 *            The nomCarte to set.
-	 * 
+	 * @param nomCarte Le nom de la carte
 	 */
 	public void setNomCarte(String nomCarte) {
 		this.nomCarte = nomCarte;
 	}
 	
 	/**
-	 * Réalise l'action de la carte selon son attribut action.
-	 * @param saisonActuelle La saison en cours pour l'effet de la carte.
-	 * @see ActionIngredient
+	 * Exécute l'effet de la carte.
+	 *
+	 * L'effet de la carte dépend conjointement de l'action choisie et de la 
+	 * saison en cours ; la force de l'effet est alors obtenue par croisement de
+	 * ces variables dans la matrice des forces de la carte.
+	 * On fait attention à stocker, lorsque nécessaire, les nombres effectifs 
+	 * des effets produits pour les communiquer aux observateurs, car ces 
+	 * nombres peuvent être différents de la force de l'effet.
+	 * Une fois la carte jouée, elle est marquée comme telle avec son attribut 
+	 * dejaJouee et ne pourra plus être proposée avant d'être réinitialisée.
+	 * 
+	 * @param saisonActuelle La saison en cours dans laquelle exécuter la carte
+	 * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
+	 * @see fr.bragabresolin.menhir.Core.Saison
 	 * 
 	 */
 	public void executer(Saison saisonActuelle) {
@@ -115,36 +123,62 @@ public class CarteIngredient extends Carte {
 		this.notifyObservers();
 	}
 
+	/**
+	 * Mutateur de la matrice des forces de la carte.
+	 * 
+	 * La matrice des forces est généralement spécifiée une fois à la génération 
+	 * de la carte, et n'est pas amenée à varier au cours du jeu.
+	 *
+	 * @param matrice La matrice à deux dimensions des forces de la carte
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
+	 */
 	public void setMatrice(EnumMap<Saison, EnumMap<ActionIngredient, Integer>> matrice) {
 		this.matriceForces = matrice;
 	}
 
+	/**
+	 * Retourne la matrice des forces de la carte.
+	 *
+	 * @return La matrice à deux dimensions des forces de la carte
+	 * @see fr.bragabresolin.menhir.Core.Saison
+	 * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
+	 */
 	public EnumMap<Saison, EnumMap<ActionIngredient, Integer>> getMatrice() {
 		return this.matriceForces;
 	}
 
 	/**
-	 * Getter of the property <tt>action</tt>
+	 * Retourne l'action de la carte.
 	 * 
-	 * @return Returns the action.
-	 * 
+	 * @return L'action de la carte
+	 * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
 	 */
-
 	public ActionIngredient getAction() {
 		return action;
 	}
 
 	/**
-	 * Setter of the property <tt>action</tt>
+	 * Mutateur de l'action (facette) de la carte.
 	 * 
-	 * @param action
-	 *            The action to set.
+	 * Spécifier l'action de la carte est nécessaire avant de l'exécuter, car 
+	 * une carte s'exécute forcément dans le contexte d'une facette.
 	 * 
+	 * @param action L'action à enregistrer
+	 * @see fr.bragabresolin.menhir.Core.Cartes.ActionIngredient
 	 */
 	public void setAction(ActionIngredient action) {
 		this.action = action;
 	}
 
+	/**
+	 * Produit une représentation en chaîne de caractère de la carte.
+	 *
+	 * La représentation entoure les informations de la carte d'une boîte UTF-8,
+	 * et formate en tableau la matrice des forces de la carte.
+	 * 
+	 * @return La représentation textuelle de la carte
+	 */
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 
