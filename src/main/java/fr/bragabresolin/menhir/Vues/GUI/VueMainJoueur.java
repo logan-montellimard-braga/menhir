@@ -82,6 +82,12 @@ public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 	 */
 	private JeuMenhir jeu;
 	
+	/**
+	 * Construit la vue de la main du joueur à partir du jeu.
+	 * On commence avec un panel vide.
+	 *
+	 * @param jeu Le jeu en cours
+	 */
 	public VueMainJoueur(JeuMenhir jeu) {
 		this.jeu = jeu;
 		this.jeu.getJoueurPhysique().addObserver(this);
@@ -94,6 +100,17 @@ public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 		this.construirePanel();
 	}
 	
+	/**
+	 * Met à jour l'affichage de la main du joueur.
+	 * 
+	 * On ajoute/supprime les cartes au fur et à mesure que le joueur 
+	 * pioche/rend des cartes. On réagit aux demandes de données du joueur et de
+	 * début/fin de tour, afin de rendre jouables les cartes du panel 
+	 * correspondant au besoin du moment.
+	 * 
+	 * @param o L'objet observé (le joueur)
+	 * @param message Le message envoyé
+	 */
 	public void update(Observable o, Object message) {
 		if (message instanceof Message) {
 			Message mes = (Message) message;
@@ -128,7 +145,7 @@ public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 					TamponCarte.getInstance().setIgnorer(true);
 					break;
 				}
-				// Absence de break volontaire
+				// Absence de break volontaire, on cascade
 			case JOUEUR_FIN_TOUR:
 				it = this.listeCartes.iterator();
 				while (it.hasNext()) it.next().setEstJouable(false);
@@ -149,6 +166,9 @@ public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 		}
 	}
 	
+	/**
+	 * Construit le squelette fixe du panel contenant la main du joueur.
+	 */
 	private void construirePanel() {
 		this.panelCartesIng = new JPanel();
 		this.panelCartesIng.setBackground(DARK_BG);
@@ -156,6 +176,15 @@ public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 		this.panelCartesIng.setLayout(new GridLayout(1, 4, 0, 0));
 	}
 	
+	/**
+	 * Ajoute la carte fournie au panel de la main, sa position étant déterminée 
+	 * par le type de la carte.
+	 *
+	 * @param carte La carte à ajouter à la main
+	 * @see fr.bragabresolin.menhir.Core.Cartes.Carte
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteAllie
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 */
 	private void ajouterCarte(Carte carte) {
 		JPanel vueCarte = null;
 		if (carte instanceof CarteIngredient) {
@@ -169,6 +198,9 @@ public class VueMainJoueur extends JPanel implements Observer, BlackTheme {
 		}
 	}
 	
+	/**
+	 * Réinitialise le panel en supprimant toutes les vues de cartes.
+	 */
 	private void supprimerCartes() {
 		this.removeAll();
 		this.listeCartes.clear();

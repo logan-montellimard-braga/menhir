@@ -135,6 +135,11 @@ public class VueMenhir implements Vue, BlackTheme {
 	private int mancheActuelle;
 
 
+	/**
+	 * Constructeur de la vue principale du jeu.
+	 * 
+	 * On règle uniquement la fenêtre (taille, icône, thème, etc...).
+	 */
 	public VueMenhir() {
 		this.mancheActuelle = 0;
 		
@@ -154,6 +159,23 @@ public class VueMenhir implements Vue, BlackTheme {
 		UIManager.put("OptionPane.messageForeground",LIGHT_FG);
     }
 
+	/**
+	 * Initialise globalement la vue.
+	 * Les panels sont réinitialisés puis créés.
+	 *
+	 * Les joueurs et les cartes se voient attacher des écouteurs d'événement 
+	 * supplémentaires afin de disposer d'informations à afficher dans les 
+	 * barres de statut de l'interface.
+	 * 
+	 * Cette méthode réinitialise l'état de la vue à chaque appel ; elle peut 
+	 * donc être utilisée pour lancer une nouvelle partie après une partie.
+	 * 
+	 * @see fr.bragabresolin.menhir.Vues.GUI.VueCarteAllie
+	 * @see fr.bragabresolin.menhir.Vues.GUI.VueCarteIngredient
+	 * @see fr.bragabresolin.menhir.Vues.GUI.VueJoueur
+	 * @see fr.bragabresolin.menhir.Vues.GUI.VueMainJoueur
+	 * @see fr.bragabresolin.menhir.Vues.GUI.BlackTheme
+	 */
 	private void initialize() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().setLayout(new MigLayout("", "0[100%,grow]0", "0[50px,fill]0[35px,fill]0[40%-20px,grow]0[60%-65px,grow]0"));
@@ -203,6 +225,8 @@ public class VueMenhir implements Vue, BlackTheme {
 		this.panelCartes = new VueMainJoueur(this.jeu);
 		this.frame.getContentPane().add(this.panelCartes, "cell 0 3,grow");
 		
+		// On surveille le jeu afin de savoir quand démarrer/finir l'affichage 
+		// selon le début/fin de partie.
 		this.jeu.addObserver(new Observer() {
 			public void update(Observable o, Object message) {
 				switch (((Message) message).getType()) {
@@ -218,6 +242,8 @@ public class VueMenhir implements Vue, BlackTheme {
 			}
 		});
 		
+		// On surveille les cartes ingrédient pour savoir quand elles sont 
+		// exécutées afin d'afficher leur effet dans le panneau d'informations
 		Iterator<CarteIngredient> itc = this.jeu.getTasIng().iterator();
 		while (itc.hasNext()) {
 			CarteIngredient carte = itc.next();
@@ -248,6 +274,8 @@ public class VueMenhir implements Vue, BlackTheme {
 			});
 		}
 		
+		// On surveille les cartes allié afin de savoir quand elles sont 
+		// exécutées pour afficher leur effet dans le panneau d'informations
 		Iterator<CarteAllie> itca = this.jeu.getTasAllie().iterator();
 		while(itca.hasNext()) {
 			CarteAllie carte = itca.next();
@@ -271,6 +299,8 @@ public class VueMenhir implements Vue, BlackTheme {
 			});
 		}
 		
+		// On surveille les joueurs afin de mettre à jour le panneau 
+		// d'informations lorsqu'un joueur doit jouer
 		Iterator<Joueur> itj = this.jeu.getJoueurs().iterator();
 		while (itj.hasNext()) {
 			itj.next().addObserver(new Observer() {
@@ -292,6 +322,14 @@ public class VueMenhir implements Vue, BlackTheme {
 		this.frame.pack();
 	}
 	
+	/**
+	 * Affiche le classement des joueurs en fin de partie.
+	 * 
+	 * Cette méthode supprime les informations inutiles en fin de partie, et 
+	 * affiche les joueurs dans l'ordre de fin de partie fourni par le jeu.
+	 * Un bouton permettant de Rejouer est inséré. Il permet, au clic, de 
+	 * relancer une nouvelle partie avec de nouveaux réglages.
+	 */
 	private void afficherClassement() {
 		this.panelCartes.removeAll();
 		this.panelCartes.setLayout(new BorderLayout());
@@ -316,6 +354,12 @@ public class VueMenhir implements Vue, BlackTheme {
 		this.frame.pack();
 	}
 	
+	/**
+	 * Initialise l'affichage de la barre d'informations (haut de la fenêtre).
+	 * 
+	 * Cette méthode est appelée lorsque la partie a été initialisée et démarrée
+	 * car on a besoin de récupérer les informations de la manche.
+	 */
 	private void initTopPanel() {
 		lblSaisonencours.setText(this.jeu.getMancheEnCours().getSaisonEnCours().toString());
 		this.jeu.getMancheEnCours().addObserver(new Observer() {
@@ -337,6 +381,16 @@ public class VueMenhir implements Vue, BlackTheme {
 		});
 	}
 	
+	/**
+	 * Remplit le panel des joueurs avec les joueurs de la partie.
+	 * 
+	 * Cette méthode est appelée une fois que le jeu a terminé d'initialiser les 
+	 * joueurs. On ajoute successivement, dans l'ordre fourni par le jeu, les 
+	 * joueurs au panel.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.Joueurs.Joueur
+	 * @see fr.bragabresolin.menhir.Core.Vues.GUI.VueJoueur
+	 */
 	private void remplirPanelJoueurs() {
 		Iterator<VueJoueur> itv = this.vuesJoueurs.iterator();
 		while (itv.hasNext()) {
@@ -355,6 +409,10 @@ public class VueMenhir implements Vue, BlackTheme {
 		}
 	}
 	
+	/**
+	 * Demande à l'utilisateur de confirmer le démarrage du jeu.
+	 * Choisir "Annuler" ferme le jeu.
+	 */
 	private void confirmerDemarrage() {
 		String texte = "Bienvenue dans le Jeu du Menhir !" + "\n" +
 					   "La partie va démarrer !";
@@ -364,6 +422,14 @@ public class VueMenhir implements Vue, BlackTheme {
 		}
 	}
 	
+	/**
+	 * Demande à l'utilisateur son nom.
+	 * 
+	 * Tant que le résultat saisi est vide, la question est re-posée. Choisir 
+	 * "Annuler" ferme le jeu.
+	 * 
+	 * @return La chaîne lue
+	 */
 	private String demanderNom() {
 		String nomJoueur = null;
 		while (nomJoueur == null || (nomJoueur != null && nomJoueur.equals(""))) {
@@ -380,12 +446,27 @@ public class VueMenhir implements Vue, BlackTheme {
 		return nomJoueur;
 	}
 	
+	/**
+	 * Demande à l'utilisateur s'il veut jouer en partie avancée ou simple.
+	 * 
+	 * @return Vrai si l'utilisateur veut jouer en mode avancé
+	 */
 	private boolean demanderModePartie() {
 		String texte = "Voulez-vous jouer en partie avancée ?";
 		int result = JOptionPane.showConfirmDialog(this.frame, texte, "Choix du mode de jeu - Menhir", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
 		return result == 0;
 	}
 	
+	/**
+	 * Demande à l'utilisateur son âge.
+	 * 
+	 * Tant que le résultat est incorrect, la question est re-posée. Choisir 
+	 * "Annuler" ferme le jeu.
+	 * Si l'âge donné est en dehors des bornes autorisées par les règles, le jeu 
+	 * se ferme avec une fenêtre d'erreur.
+	 * 
+	 * @return L'entier lu de l'âge
+	 */
 	private int demanderAge() {
 		int age = 0;
 		while (age < 1) {
@@ -411,6 +492,15 @@ public class VueMenhir implements Vue, BlackTheme {
 		return age;
 	}
 	
+	/**
+	 * Demande à l'utilisateur le nombre de joueurs virtuels avec qui il veut 
+	 * jouer.
+	 * 
+	 * Tant que le résultat est incorrect, la question est re-posée. Choisir 
+	 * "Annuler" ferme le jeu.
+	 * 
+	 * @return L'entier lu
+	 */
 	private int demanderNombreJoueurs() {
 		int nombreJoueurs = 0;
 		while (nombreJoueurs < 1 || nombreJoueurs > 5) {
@@ -432,6 +522,14 @@ public class VueMenhir implements Vue, BlackTheme {
 		return nombreJoueurs;
 	}
 	
+	/**
+	 * Démarre le jeu en posant toutes les questions de configuration à 
+	 * l'utilisateur pour initialiser l'interface graphique et la partie.
+	 * 
+	 * On lance le jeu du Menhir dans un thread séparé.
+	 * 
+	 * @see fr.bragabresolin.menhir.Core.JeuMenhirThread
+	 */
 	private void demarrerJeu() {
 		String nomJoueur = this.demanderNom();
 		int ageJoueur = this.demanderAge();
@@ -442,6 +540,13 @@ public class VueMenhir implements Vue, BlackTheme {
 		this.jeu.lancerPartie();
 	}
 	
+	/**
+	 * Affiche le splashscreen (écran de garde) du jeu du Menhir.
+	 * 
+	 * On enlève tout contenu déjà présent dans la fenêtre, afin d'afficher 
+	 * uniquement l'image de garde du jeu, au centre de la fenêtre.
+	 * La taille précédente n'est pas changée.
+	 */
 	private void afficherSplashScreen() {
 		frame.getContentPane().removeAll();
 		JLabel splash = new JLabel("");
@@ -449,6 +554,11 @@ public class VueMenhir implements Vue, BlackTheme {
 		frame.getContentPane().add(splash, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Lance et affiche l'interface graphique du jeu.
+	 * 
+	 * On affiche le splashscreen, puis on démarre.
+	 */
 	public void lancer() {
 		this.afficherSplashScreen();
 		this.frame.setVisible(true);

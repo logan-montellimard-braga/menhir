@@ -81,16 +81,43 @@ public class VueCarteIngredient extends JPanel implements Observer, BlackTheme {
 	 */
 	private boolean estJouable;
 	
+	/**
+	 * Mutateur pour la possibilité que la carte soit cliquée (et jouée) ou non.
+	 * 
+	 * @param estJouable Si la carte doit être jouable ou non
+	 */
 	public void setEstJouable(boolean estJouable) {
 		this.estJouable = estJouable;
 	}
 
+	/**
+	 * Met à jour l'affichage de la carte.
+	 * Si la carte suivie a été jouée, elle devient invisible.
+	 * 
+	 * @param o L'objet observé (la carte)
+	 * @param message Le message envoyé
+	 */
 	public void update(Observable o, Object message) {
 		if (this.carte.getDejaJouee()) {
 			this.setVisible(false);
 		}
 	}
 
+	/**
+	 * Constructeur.
+	 * On construit la vue de la carte en affichant sa matrice des forces à deux 
+	 * dimensions et son nom, ainsi qu'en y attachant des écouteurs d'événement
+	 * clic. Un clic sur la carte signifie que le joueur veut jouer cette carte,
+	 * auquel cas, si la carte est jouable (par exemple si c'est au tour du
+	 * joueur), les informations nécessaires à son exécution sont demandées, et
+	 * elle est déposée dans le tampon de communication adapté.
+	 *
+	 * @param carte La carte à observer
+	 * @param jeu Le jeu dans lequel elle s'inscrit
+	 * @see fr.bragabresolin.menhir.Core.JeuMenhir
+	 * @see fr.bragabresolin.menhir.Core.Cartes.CarteIngredient
+	 * @see fr.bragabresolin.menhir.Core.Message.TamponCarte
+	 */
 	public VueCarteIngredient(CarteIngredient carte, JeuMenhir jeu) {
 		carte.addObserver(this);
 		this.carte = carte;

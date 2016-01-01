@@ -62,6 +62,14 @@ public class VueJoueur extends JPanel implements Observer, BlackTheme {
 	 */
 	private JLabel labelMenhirs;
 	
+	/**
+	 * Met à jour l'affichage du joueur.
+	 * On met à jour toutes ses statistiques.
+	 * On met en valeur le nom du joueur si c'est son tour de jouer.
+	 * 
+	 * @param o L'objet observé (le joueur)
+	 * @param message Le message envoyé
+	 */
 	public void update (Observable o, Object message) {
 		this.labelNom.setText(this.joueur.getNom() + " (" + this.joueur.getAge() + " ans)");
 		this.labelPoints.setText("" + this.joueur.getPoints());
@@ -83,6 +91,13 @@ public class VueJoueur extends JPanel implements Observer, BlackTheme {
 		}
 	}
 
+	/**
+	 * Constructeur de la vue du joueur.
+	 * Une vue du joueur est composée de toutes les informations courantes sur 
+	 * le joueur, qui sont initialisées avec le premier état du joueur donné.
+	 *
+	 * @param joueur Le joueur à observer
+	 */
 	public VueJoueur(Joueur joueur) {
 		this.joueur = joueur;
 		this.joueur.addObserver(this);
@@ -137,6 +152,13 @@ public class VueJoueur extends JPanel implements Observer, BlackTheme {
 		this.add(this.labelGraines, "cell 1 3");
 	}
 	
+	/**
+	 * Nettoye la vue du joueur en déconnectant l'observateur.
+	 * 
+	 * Cette méthode est nécessaire afin de ne pas se retrouver avec plusieurs 
+	 * observateurs sur le même joueur lors de la création de nouvelles vues de 
+	 * joueurs (par exemple lors de changement de manche).
+	 */
 	public void nettoyer() {
 		this.joueur.deleteObserver(this);
 	}
