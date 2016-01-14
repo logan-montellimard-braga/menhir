@@ -318,7 +318,7 @@ public class JeuMenhir extends java.util.Observable {
 
 		String line;
 		try {
-			br = new BufferedReader(new InputStreamReader(is));
+			br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			while ((line = br.readLine()) != null)
 				sb.append(line + "\n");
 		} catch (IOException e) {
